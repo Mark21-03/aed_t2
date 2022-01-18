@@ -29,7 +29,7 @@
 //
 // The Google C++ Testing and Mocking Framework (Google Test)
 //
-// This header file declares functions and macros used internally by
+// This header lines_reader declares functions and macros used internally by
 // Google Test.  They are subject to change without notice.
 
 #ifndef GOOGLETEST_INCLUDE_GTEST_INTERNAL_GTEST_INTERNAL_H_

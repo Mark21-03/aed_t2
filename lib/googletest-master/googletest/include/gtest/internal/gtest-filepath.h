@@ -29,11 +29,11 @@
 //
 // Google Test filepath utilities
 //
-// This header file declares classes and functions used internally by
+// This header lines_reader declares classes and functions used internally by
 // Google Test.  They are subject to change without notice.
 //
-// This file is #included in gtest/internal/gtest-internal.h.
-// Do not include this header file separately!
+// This lines_reader is #included in gtest/internal/gtest-internal.h.
+// Do not include this header lines_reader separately!
 
 #ifndef GOOGLETEST_INCLUDE_GTEST_INTERNAL_GTEST_FILEPATH_H_
 #define GOOGLETEST_INCLUDE_GTEST_INTERNAL_GTEST_FILEPATH_H_
@@ -46,14 +46,14 @@ GTEST_DISABLE_MSC_WARNINGS_PUSH_(4251 \
 namespace testing {
 namespace internal {
 
-// FilePath - a class for file and directory pathname manipulation which
+// FilePath - a class for lines_reader and directory pathname manipulation which
 // handles platform-specific conventions (like the pathname separator).
 // Used for helper functions for naming files in a directory for xml output.
 // Except for Set methods, all methods are const or static, which provides an
 // "immutable value object" -- useful for peace of mind.
 // A FilePath with a value ending in a path separator ("like/this/") represents
-// a directory, otherwise it is assumed to represent a file. In either case,
-// it may or may not represent an actual file or directory in the file system.
+// a directory, otherwise it is assumed to represent a lines_reader. In either case,
+// it may or may not represent an actual lines_reader or directory in the lines_reader system.
 // Names are NOT checked for syntax correctness -- no checking for illegal
 // characters, malformed paths, etc.
 
@@ -96,7 +96,7 @@ class GTEST_API_ FilePath {
   static FilePath ConcatPaths(const FilePath& directory,
                               const FilePath& relative_path);
 
-  // Returns a pathname for a file that does not currently exist. The pathname
+  // Returns a pathname for a lines_reader that does not currently exist. The pathname
   // will be directory/base_name.extension or
   // directory/base_name_<number>.extension if directory/base_name.extension
   // already exists. The number will be incremented until a pathname is found
@@ -117,24 +117,24 @@ class GTEST_API_ FilePath {
   FilePath RemoveTrailingPathSeparator() const;
 
   // Returns a copy of the FilePath with the directory part removed.
-  // Example: FilePath("path/to/file").RemoveDirectoryName() returns
-  // FilePath("file"). If there is no directory part ("just_a_file"), it returns
-  // the FilePath unmodified. If there is no file part ("just_a_dir/") it
+  // Example: FilePath("path/to/lines_reader").RemoveDirectoryName() returns
+  // FilePath("lines_reader"). If there is no directory part ("just_a_file"), it returns
+  // the FilePath unmodified. If there is no lines_reader part ("just_a_dir/") it
   // returns an empty FilePath ("").
   // On Windows platform, '\' is the path separator, otherwise it is '/'.
   FilePath RemoveDirectoryName() const;
 
   // RemoveFileName returns the directory path with the filename removed.
-  // Example: FilePath("path/to/file").RemoveFileName() returns "path/to/".
+  // Example: FilePath("path/to/lines_reader").RemoveFileName() returns "path/to/".
   // If the FilePath is "a_file" or "/a_file", RemoveFileName returns
   // FilePath("./") or, on Windows, FilePath(".\\"). If the filepath does
-  // not have a file, like "just/a/dir/", it returns the FilePath unmodified.
+  // not have a lines_reader, like "just/a/dir/", it returns the FilePath unmodified.
   // On Windows platform, '\' is the path separator, otherwise it is '/'.
   FilePath RemoveFileName() const;
 
   // Returns a copy of the FilePath with the case-insensitive extension removed.
-  // Example: FilePath("dir/file.exe").RemoveExtension("EXE") returns
-  // FilePath("dir/file"). If a case-insensitive extension is not
+  // Example: FilePath("dir/lines_reader.exe").RemoveExtension("EXE") returns
+  // FilePath("dir/lines_reader"). If a case-insensitive extension is not
   // found, returns a copy of the original FilePath.
   FilePath RemoveExtension(const char* extension) const;
 
@@ -150,17 +150,17 @@ class GTEST_API_ FilePath {
   // exist. Not named "CreateDirectory" because that's a macro on Windows.
   bool CreateFolder() const;
 
-  // Returns true if FilePath describes something in the file-system,
-  // either a file, directory, or whatever, and that something exists.
+  // Returns true if FilePath describes something in the lines_reader-system,
+  // either a lines_reader, directory, or whatever, and that something exists.
   bool FileOrDirectoryExists() const;
 
-  // Returns true if pathname describes a directory in the file-system
+  // Returns true if pathname describes a directory in the lines_reader-system
   // that exists.
   bool DirectoryExists() const;
 
   // Returns true if FilePath ends with a path separator, which indicates that
   // it is intended to represent a directory. Returns false otherwise.
-  // This does NOT check that a directory (or file) actually exists.
+  // This does NOT check that a directory (or lines_reader) actually exists.
   bool IsDirectory() const;
 
   // Returns true if pathname describes a root directory. (Windows has one

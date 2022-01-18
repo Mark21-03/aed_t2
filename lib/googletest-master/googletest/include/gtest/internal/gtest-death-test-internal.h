@@ -29,7 +29,7 @@
 //
 // The Google C++ Testing and Mocking Framework (Google Test)
 //
-// This header file defines internal utilities needed for implementing
+// This header lines_reader defines internal utilities needed for implementing
 // death tests.  They are subject to change without notice.
 
 #ifndef GOOGLETEST_INCLUDE_GTEST_INTERNAL_GTEST_DEATH_TEST_INTERNAL_H_

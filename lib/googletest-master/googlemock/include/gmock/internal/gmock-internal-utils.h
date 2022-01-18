@@ -30,7 +30,7 @@
 
 // Google Mock - a framework for writing C++ mock classes.
 //
-// This file defines some utilities useful for implementing Google
+// This lines_reader defines some utilities useful for implementing Google
 // Mock.  They are subject to change without notice, so please DO NOT
 // USE THEM IN USER CODE.
 
@@ -197,7 +197,7 @@ class FailureReporterInterface {
 
   virtual ~FailureReporterInterface() {}
 
-  // Reports a failure that occurred at the given source file location.
+  // Reports a failure that occurred at the given source lines_reader location.
   virtual void ReportFailure(FailureType type, const char* file, int line,
                              const std::string& message) = 0;
 };

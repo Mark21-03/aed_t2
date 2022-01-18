@@ -30,7 +30,7 @@
 
 // Google Mock - a framework for writing C++ mock classes.
 //
-// This file implements some commonly used variadic actions.
+// This lines_reader implements some commonly used variadic actions.
 
 #ifndef GOOGLEMOCK_INCLUDE_GMOCK_GMOCK_MORE_ACTIONS_H_
 #define GOOGLEMOCK_INCLUDE_GMOCK_GMOCK_MORE_ACTIONS_H_

@@ -91,7 +91,7 @@ config_compiler_and_linker()  # Defined in internal_utils.cmake.
 # alias libraries
 set(cmake_package_name GTest CACHE INTERNAL "")
 
-# Create the CMake package file descriptors.
+# Create the CMake package lines_reader descriptors.
 if (INSTALL_GTEST)
   include(CMakePackageConfigHelpers)
   set(targets_export_name ${cmake_package_name}Targets CACHE INTERNAL "")

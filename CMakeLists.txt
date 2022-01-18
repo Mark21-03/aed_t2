@@ -3,7 +3,7 @@ project(aed_t2)
 
 set(CMAKE_CXX_STANDARD 11)
 
-set(CREATE_EXE TRUE)  #creates a exe folder for the execution file in cmake-buid-release
+set(CREATE_EXE TRUE)  #creates a exe folder for the execution lines_reader in cmake-buid-release
 
 
 if (CMAKE_BUILD_TYPE MATCHES Debug)
@@ -13,7 +13,7 @@ if (CMAKE_BUILD_TYPE MATCHES Debug)
 
     add_executable(aed_t2 mainTest.cpp Tests/tests.cpp
 
-            src/file.cpp include/file.h
+            src/lines_reader.cpp include/lines_reader.h
             )
 
     target_link_libraries(aed_t2 gtest gtest_main)
@@ -26,7 +26,7 @@ if (CMAKE_BUILD_TYPE MATCHES Release)
 
     add_executable(aed_t2 main.cpp
 
-            src/file.cpp include/file.h
+            src/lines_reader.cpp include/lines_reader.h
             )
     message("Release mode")
 

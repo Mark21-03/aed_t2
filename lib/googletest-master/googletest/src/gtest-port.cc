@@ -1016,9 +1016,9 @@ void RE::Init(const char* regex) {
 
 #endif  // GTEST_USES_POSIX_RE
 
-const char kUnknownFile[] = "unknown file";
+const char kUnknownFile[] = "unknown lines_reader";
 
-// Formats a source file path and a line number as they would appear
+// Formats a source lines_reader path and a line number as they would appear
 // in an error message from the compiler used to compile this code.
 GTEST_API_ ::std::string FormatFileLocation(const char* file, int line) {
   const std::string file_name(file == nullptr ? kUnknownFile : file);
@@ -1033,11 +1033,11 @@ GTEST_API_ ::std::string FormatFileLocation(const char* file, int line) {
 #endif  // _MSC_VER
 }
 
-// Formats a file location for compiler-independent XML output.
+// Formats a lines_reader location for compiler-independent XML output.
 // Although this function is not platform dependent, we put it next to
 // FormatFileLocation in order to contrast the two functions.
 // Note that FormatCompilerIndependentFileLocation() does NOT append colon
-// to the file location it produces, unlike FormatFileLocation().
+// to the lines_reader location it produces, unlike FormatFileLocation().
 GTEST_API_ ::std::string FormatCompilerIndependentFileLocation(
     const char* file, int line) {
   const std::string file_name(file == nullptr ? kUnknownFile : file);
@@ -1076,7 +1076,7 @@ GTEST_DISABLE_MSC_DEPRECATED_PUSH_()
 // Object that captures an output stream (stdout/stderr).
 class CapturedStream {
  public:
-  // The ctor redirects the stream to a temporary file.
+  // The ctor redirects the stream to a temporary lines_reader.
   explicit CapturedStream(int fd) : fd_(fd), uncaptured_fd_(dup(fd)) {
 # if GTEST_OS_WINDOWS
     char temp_dir_path[MAX_PATH + 1] = { '\0' };  // NOLINT
@@ -1085,17 +1085,17 @@ class CapturedStream {
     ::GetTempPathA(sizeof(temp_dir_path), temp_dir_path);
     const UINT success = ::GetTempFileNameA(temp_dir_path,
                                             "gtest_redir",
-                                            0,  // Generate unique file name.
+                                            0,  // Generate unique lines_reader name.
                                             temp_file_path);
     GTEST_CHECK_(success != 0)
-        << "Unable to create a temporary file in " << temp_dir_path;
+        << "Unable to create a temporary lines_reader in " << temp_dir_path;
     const int captured_fd = creat(temp_file_path, _S_IREAD | _S_IWRITE);
-    GTEST_CHECK_(captured_fd != -1) << "Unable to open temporary file "
+    GTEST_CHECK_(captured_fd != -1) << "Unable to open temporary lines_reader "
                                     << temp_file_path;
     filename_ = temp_file_path;
 # else
     // There's no guarantee that a test has write access to the current
-    // directory, so we create the temporary file in a temporary directory.
+    // directory, so we create the temporary lines_reader in a temporary directory.
     std::string name_template;
 
 #  if GTEST_OS_LINUX_ANDROID
@@ -1146,7 +1146,7 @@ class CapturedStream {
     const int captured_fd = ::mkstemp(const_cast<char*>(name_template.data()));
     if (captured_fd == -1) {
       GTEST_LOG_(WARNING)
-          << "Failed to create tmp file " << name_template
+          << "Failed to create tmp lines_reader " << name_template
           << " for test; does the test have access to the /tmp directory?";
     }
     filename_ = std::move(name_template);
@@ -1171,7 +1171,7 @@ class CapturedStream {
 
     FILE* const file = posix::FOpen(filename_.c_str(), "r");
     if (file == nullptr) {
-      GTEST_LOG_(FATAL) << "Failed to open tmp file " << filename_
+      GTEST_LOG_(FATAL) << "Failed to open tmp lines_reader " << filename_
                         << " for capturing stream.";
     }
     const std::string content = ReadEntireFile(file);
@@ -1182,7 +1182,7 @@ class CapturedStream {
  private:
   const int fd_;  // A stream to capture.
   int uncaptured_fd_;
-  // Name of the temporary file holding the stderr output.
+  // Name of the temporary lines_reader holding the stderr output.
   ::std::string filename_;
 
   GTEST_DISALLOW_COPY_AND_ASSIGN_(CapturedStream);
@@ -1253,8 +1253,8 @@ std::string ReadEntireFile(FILE* file) {
 
   fseek(file, 0, SEEK_SET);
 
-  // Keeps reading the file until we cannot read further or the
-  // pre-determined file size is reached.
+  // Keeps reading the lines_reader until we cannot read further or the
+  // pre-determined lines_reader size is reached.
   do {
     bytes_last_read = fread(buffer+bytes_read, 1, file_size-bytes_read, file);
     bytes_read += bytes_last_read;

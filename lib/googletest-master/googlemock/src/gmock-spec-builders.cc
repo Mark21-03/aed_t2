@@ -30,7 +30,7 @@
 
 // Google Mock - a framework for writing C++ mock classes.
 //
-// This file implements the spec builder syntax (ON_CALL and
+// This lines_reader implements the spec builder syntax (ON_CALL and
 // EXPECT_CALL).
 
 #include "gmock/gmock-spec-builders.h"
@@ -68,7 +68,7 @@ namespace internal {
 // mockers, and all expectations.
 GTEST_API_ GTEST_DEFINE_STATIC_MUTEX_(g_gmock_mutex);
 
-// Logs a message including file and line number information.
+// Logs a message including lines_reader and line number information.
 GTEST_API_ void LogWithLocation(testing::internal::LogSeverity severity,
                                 const char* file, int line,
                                 const std::string& message) {
@@ -540,7 +540,7 @@ bool UntypedFunctionMockerBase::VerifyAndClearExpectationsLocked()
       ::std::stringstream ss;
       ss  << "Actual function call count doesn't match "
           << untyped_expectation->source_text() << "...\n";
-      // No need to show the source file location of the expectation
+      // No need to show the source lines_reader location of the expectation
       // in the description, as the Expect() call that follows already
       // takes care of it.
       untyped_expectation->MaybeDescribeExtraMatcherTo(&ss);
@@ -589,7 +589,7 @@ struct MockObjectState {
   MockObjectState()
       : first_used_file(nullptr), first_used_line(-1), leakable(false) {}
 
-  // Where in the source file an ON_CALL or EXPECT_CALL is first
+  // Where in the source lines_reader an ON_CALL or EXPECT_CALL is first
   // invoked on this mock object.
   const char* first_used_file;
   int first_used_line;

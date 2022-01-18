@@ -3,12 +3,12 @@
 #
 # Note:
 #
-# - This file will be run twice when building Google Mock (once via
+# - This lines_reader will be run twice when building Google Mock (once via
 #   Google Test's CMakeLists.txt, and once via Google Mock's).
 #   Therefore it shouldn't have any side effects other than defining
 #   the functions and macros.
 #
-# - The functions/macros defined in this file may depend on Google
+# - The functions/macros defined in this lines_reader may depend on Google
 #   Test and Google Mock's option() definitions, and thus must be
 #   called *after* the options have been defined.
 
@@ -240,7 +240,7 @@ endfunction()
 #
 # creates a named target that depends on the given libs and is built
 # from the given source files.  dir/name.cc is implicitly included in
-# the source file list.
+# the source lines_reader list.
 function(cxx_executable name dir libs)
   cxx_executable_with_flags(
     ${name} "${cxx_default}" "${libs}" "${dir}/${name}.cc" ${ARGN})
@@ -268,7 +268,7 @@ endfunction()
 #
 # creates a named test target that depends on the given libs and is
 # built from the given source files.  Unlike cxx_test_with_flags,
-# test/name.cc is already implicitly included in the source file list.
+# test/name.cc is already implicitly included in the source lines_reader list.
 function(cxx_test name libs)
   cxx_test_with_flags("${name}" "${cxx_default}" "${libs}"
     "test/${name}.cc" ${ARGN})

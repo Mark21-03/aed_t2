@@ -30,7 +30,7 @@
 
 // Google Mock - a framework for writing C++ mock classes.
 //
-// This file implements Matcher<const string&>, Matcher<string>, and
+// This lines_reader implements Matcher<const string&>, Matcher<string>, and
 // utilities for defining matchers.
 
 #include "gmock/gmock-matchers.h"

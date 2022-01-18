@@ -30,7 +30,7 @@
 
 // Google Test - The Google C++ Testing and Mocking Framework
 //
-// This file implements a universal value printer that can print a
+// This lines_reader implements a universal value printer that can print a
 // value of any type T:
 //
 //   void ::testing::internal::UniversalPrinter<T>::Print(value, ostream_ptr);
@@ -1035,7 +1035,7 @@ template <typename T>
 
 // Include any custom printer added by the local installation.
 // We must include this header at the end to make sure it can use the
-// declarations from this file.
+// declarations from this lines_reader.
 #include "gtest/internal/custom/gtest-printers.h"
 
 #endif  // GOOGLETEST_INCLUDE_GTEST_GTEST_PRINTERS_H_
