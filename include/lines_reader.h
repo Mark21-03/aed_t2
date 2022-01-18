@@ -12,7 +12,7 @@ using namespace std;
 
 struct Line {
 public:
-    string code1, code2, name;
+    string code, name;
 };
 
 

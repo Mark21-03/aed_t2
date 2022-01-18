@@ -1,7 +1,7 @@
 #include "../include/lines_reader.h"
 
 ostream &operator<<(ostream &os, const Line &l) {
-    os << l.code1 << " " << l.code2 << " " << l.name << " ";
+    os << l.code << " " << l.name << " ";
     return os;
 }
 
@@ -9,14 +9,11 @@ ostream &operator<<(ostream &os, const Line &l) {
 istream &operator>>(istream &is, Line &l) {
 
     // 106,ZF - VALADARES (ESTAÇÃO)-FRANCELOS
-    string code1, code2, name, line;
-    getline(is, code1, ',');
-    getline(is, code2, '-');
+    string code, name, line;
+    getline(is, code, ',');
     getline(is, name);
 
-    l.code1 = code1;
-    l.code2 = code2;
-    l.name = name;
+    l = {code, name};
 
     return is;
 }
