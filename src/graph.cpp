@@ -10,3 +10,10 @@ void Graph::addEdge(int src, int dest, int weight) {
     if (!hasDir) nodes[dest].adj.push_back({src, weight});
 }
 
+int Graph::dijkstra_distance(int a, int b) {
+    return 0;
+}
+
+list<int> Graph::dijkstra_path(int a, int b) {
+    return {};
+}
