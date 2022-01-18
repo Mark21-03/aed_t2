@@ -3,7 +3,7 @@ project(aed_t2)
 
 set(CMAKE_CXX_STANDARD 11)
 
-set(CREATE_EXE TRUE)  #creates a exe folder for the execution lines_reader in cmake-buid-release
+set(CREATE_EXE TRUE)
 
 
 if (CMAKE_BUILD_TYPE MATCHES Debug)
@@ -15,7 +15,7 @@ if (CMAKE_BUILD_TYPE MATCHES Debug)
 
             src/lines_reader.cpp include/lines_reader.h
             src/graph.cpp include/graph.h
-            src/distanceCalc.cpp include/distanceCalc.h)
+            src/distanceCalc.cpp include/distanceCalc.h src/menu.cpp include/menu.h)
 
     target_link_libraries(aed_t2 gtest gtest_main)
     message("Debug mode")
@@ -29,7 +29,8 @@ if (CMAKE_BUILD_TYPE MATCHES Release)
 
             src/lines_reader.cpp include/lines_reader.h
             src/graph.cpp include/graph.h
-            src/distanceCalc.cpp include/distanceCalc.h)
+            src/distanceCalc.cpp include/distanceCalc.h src/menu.cpp include/menu.h)
+
     message("Release mode")
 
 endif ()
