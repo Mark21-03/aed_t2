@@ -13,9 +13,8 @@ if (CMAKE_BUILD_TYPE MATCHES Debug)
 
     add_executable(aed_t2 mainTest.cpp Tests/tests.cpp
 
-            src/lines_reader.cpp include/lines_reader.h
             src/graph.cpp include/graph.h
-            src/distanceCalc.cpp include/distanceCalc.h src/menu.cpp include/menu.h include/minHeap.h)
+            src/distanceCalc.cpp include/distanceCalc.h src/menu.cpp include/menu.h include/minHeap.h src/files_reader.cpp include/files_reader.h)
 
     target_link_libraries(aed_t2 gtest gtest_main)
     message("Debug mode")
@@ -27,9 +26,8 @@ if (CMAKE_BUILD_TYPE MATCHES Release)
 
     add_executable(aed_t2 main.cpp
 
-            src/lines_reader.cpp include/lines_reader.h
             src/graph.cpp include/graph.h
-            src/distanceCalc.cpp include/distanceCalc.h src/menu.cpp include/menu.h include/minHeap.h)
+            src/distanceCalc.cpp include/distanceCalc.h src/menu.cpp include/menu.h include/minHeap.h src/files_reader.cpp include/files_reader.h)
 
     message("Release mode")
 
