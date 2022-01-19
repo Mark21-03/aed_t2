@@ -144,7 +144,6 @@ void Menu::subMenu(const string &menuTitle, vector<void (Menu::*)()> funcs) {
                     this->x = funcs[4];
                     ((*this).*(this->x))();
                     break;
-
                 case '6':
                     goto END_MENU;
                 default:
