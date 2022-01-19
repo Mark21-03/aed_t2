@@ -29,11 +29,11 @@
 //
 // The Google C++ Testing and Mocking Framework (Google Test)
 //
-// This header lines_reader declares the String class and functions used internally by
+// This header file declares the String class and functions used internally by
 // Google Test.  They are subject to change without notice. They should not used
 // by code external to Google Test.
 //
-// This header lines_reader is #included by gtest-internal.h.
+// This header file is #included by gtest-internal.h.
 // It should not be #included by other files.
 
 #ifndef GOOGLETEST_INCLUDE_GTEST_INTERNAL_GTEST_STRING_H_

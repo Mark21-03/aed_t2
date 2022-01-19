@@ -30,10 +30,10 @@
 //
 // The Google C++ Testing and Mocking Framework (Google Test)
 //
-// This header lines_reader defines the Message class.
+// This header file defines the Message class.
 //
 // IMPORTANT NOTE: Due to limitation of the C++ language, we have to
-// leave some internal implementation details in this header lines_reader.
+// leave some internal implementation details in this header file.
 // They are clearly marked by comments like this:
 //
 //   // INTERNAL IMPLEMENTATION - DO NOT USE IN A USER PROGRAM.

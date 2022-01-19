@@ -29,7 +29,7 @@
 
 // Google Mock - a framework for writing C++ mock classes.
 //
-// This lines_reader implements MOCK_METHOD.
+// This file implements MOCK_METHOD.
 
 #ifndef GOOGLEMOCK_INCLUDE_GMOCK_INTERNAL_GMOCK_FUNCTION_MOCKER_H_  // NOLINT
 #define GOOGLEMOCK_INCLUDE_GMOCK_INTERNAL_GMOCK_FUNCTION_MOCKER_H_  // NOLINT
@@ -98,7 +98,7 @@ constexpr bool ValidateSpec(const char (&spec)[N]) {
 }  // namespace internal
 
 // The style guide prohibits "using" statements in a namespace scope
-// inside a header lines_reader.  However, the FunctionMocker class template
+// inside a header file.  However, the FunctionMocker class template
 // is meant to be defined in the ::testing namespace.  The following
 // line is just a trick for working around a bug in MSVC 8.0, which
 // cannot handle it if we define FunctionMocker in ::testing.

@@ -30,7 +30,7 @@
 //
 // The Google C++ Testing and Mocking Framework (Google Test)
 //
-// This header lines_reader defines the public API for death tests.  It is
+// This header file defines the public API for death tests.  It is
 // #included by gtest.h so a user doesn't need to include this
 // directly.
 
