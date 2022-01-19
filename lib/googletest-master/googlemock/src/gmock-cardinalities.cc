@@ -30,7 +30,7 @@
 
 // Google Mock - a framework for writing C++ mock classes.
 //
-// This lines_reader implements cardinalities.
+// This file implements cardinalities.
 
 #include "gmock/gmock-cardinalities.h"
 

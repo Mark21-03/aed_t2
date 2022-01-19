@@ -85,7 +85,7 @@ TEST_P(FooTest, HasBlahBlah) {
 //                               by the N generators.
 //
 // For more details, see comments at the definitions of these functions below
-// in this lines_reader.
+// in this file.
 //
 // The following statement will instantiate tests from the FooTest test suite
 // each with parameter values "meeny", "miny", and "moe".

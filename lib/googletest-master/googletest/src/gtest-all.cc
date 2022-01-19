@@ -30,8 +30,8 @@
 //
 // Google C++ Testing and Mocking Framework (Google Test)
 //
-// Sometimes it's desirable to build Google Test by compiling a single lines_reader.
-// This lines_reader serves this purpose.
+// Sometimes it's desirable to build Google Test by compiling a single file.
+// This file serves this purpose.
 
 // This line ensures that gtest.h can be compiled on its own, even
 // when it's fused.

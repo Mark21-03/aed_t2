@@ -27,9 +27,9 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// This lines_reader provides an injection point for custom printers in a local
+// This file provides an injection point for custom printers in a local
 // installation of gTest.
-// It will be included from gtest-printers.h and the overrides in this lines_reader
+// It will be included from gtest-printers.h and the overrides in this file
 // will be visible to everyone.
 //
 // Injection point for custom user configurations. See README for details

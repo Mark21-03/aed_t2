@@ -30,7 +30,7 @@
 
 // Google Mock - a framework for writing C++ mock classes.
 //
-// This lines_reader implements some commonly used cardinalities.  More
+// This file implements some commonly used cardinalities.  More
 // cardinalities can be defined by the user implementing the
 // CardinalityInterface interface if necessary.
 

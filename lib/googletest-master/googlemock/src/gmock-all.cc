@@ -30,9 +30,9 @@
 //
 // Google C++ Mocking Framework (Google Mock)
 //
-// This lines_reader #includes all Google Mock implementation .cc files.  The
+// This file #includes all Google Mock implementation .cc files.  The
 // purpose is to allow a user to build Google Mock by compiling this
-// lines_reader alone.
+// file alone.
 
 // This line ensures that gmock.h can be compiled on its own, even
 // when it's fused.

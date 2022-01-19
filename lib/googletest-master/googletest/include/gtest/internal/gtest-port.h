@@ -34,7 +34,7 @@
 // end with _ are part of Google Test's public API and can be used by
 // code outside Google Test.
 //
-// This lines_reader is fundamental to Google Test.  All other Google Test source
+// This file is fundamental to Google Test.  All other Google Test source
 // files are expected to #include this.  Therefore, it cannot #include
 // any other Google Test header.
 
@@ -937,11 +937,11 @@ class GTEST_API_ RE {
 
 #endif  // GTEST_USES_PCRE
 
-// Formats a source lines_reader path and a line number as they would appear
+// Formats a source file path and a line number as they would appear
 // in an error message from the compiler used to compile this code.
 GTEST_API_ ::std::string FormatFileLocation(const char* file, int line);
 
-// Formats a lines_reader location for compiler-independent XML output.
+// Formats a file location for compiler-independent XML output.
 // Although this function is not platform dependent, we put it next to
 // FormatFileLocation in order to contrast the two functions.
 GTEST_API_ ::std::string FormatCompilerIndependentFileLocation(const char* file,
@@ -1140,10 +1140,10 @@ GTEST_API_ void CaptureStderr();
 GTEST_API_ std::string GetCapturedStderr();
 
 #endif  // GTEST_HAS_STREAM_REDIRECTION
-// Returns the size (in bytes) of a lines_reader.
+// Returns the size (in bytes) of a file.
 GTEST_API_ size_t GetFileSize(FILE* file);
 
-// Reads the entire content of a lines_reader as a string.
+// Reads the entire content of a file as a string.
 GTEST_API_ std::string ReadEntireFile(FILE* file);
 
 // All command line arguments.
@@ -1231,7 +1231,7 @@ GTEST_API_ void SleepMilliseconds(int n);
 class GTEST_API_ AutoHandle {
  public:
   // Assume that Win32 HANDLE type is equivalent to void*. Doing so allows us to
-  // avoid including <windows.h> in this header lines_reader. Including <windows.h> is
+  // avoid including <windows.h> in this header file. Including <windows.h> is
   // undesirable because it defines a lot of symbols and macros that tend to
   // conflict with client code. This assumption is verified by
   // WindowsTypesTest.HANDLEIsVoidStar.
@@ -2004,11 +2004,11 @@ inline char* StrDup(const char* src) { return _strdup(src); }
 # endif  // __BORLANDC__
 
 # if GTEST_OS_WINDOWS_MOBILE
-inline int FileNo(FILE* lines_reader) { return reinterpret_cast<int>(_fileno(lines_reader)); }
+inline int FileNo(FILE* file) { return reinterpret_cast<int>(_fileno(file)); }
 // Stat(), RmDir(), and IsDir() are not needed on Windows CE at this
 // time and thus not defined there.
 # else
-inline int FileNo(FILE* lines_reader) { return _fileno(lines_reader); }
+inline int FileNo(FILE* file) { return _fileno(file); }
 inline int Stat(const char* path, StatStruct* buf) { return _stat(path, buf); }
 inline int RmDir(const char* dir) { return _rmdir(dir); }
 inline bool IsDir(const StatStruct& st) {
@@ -2019,7 +2019,7 @@ inline bool IsDir(const StatStruct& st) {
 #elif GTEST_OS_ESP8266
 typedef struct stat StatStruct;
 
-inline int FileNo(FILE* lines_reader) { return fileno(lines_reader); }
+inline int FileNo(FILE* file) { return fileno(file); }
 inline int DoIsATTY(int fd) { return isatty(fd); }
 inline int Stat(const char* path, StatStruct* buf) {
   // stat function not implemented on ESP8266
@@ -2050,7 +2050,7 @@ inline bool IsDir(const StatStruct& st) { return S_ISDIR(st.st_mode); }
 
 inline int IsATTY(int fd) {
   // DoIsATTY might change errno (for example ENOTTY in case you redirect stdout
-  // to a lines_reader on Linux), which is unexpected, so save the previous value, and
+  // to a file on Linux), which is unexpected, so save the previous value, and
   // restore it after the call.
   int savedErrno = errno;
   int isAttyValue = DoIsATTY(fd);

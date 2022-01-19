@@ -30,7 +30,7 @@
 
 // Google Mock - a framework for writing C++ mock classes.
 //
-// This lines_reader defines some utilities useful for implementing Google
+// This file defines some utilities useful for implementing Google
 // Mock.  They are subject to change without notice, so please DO NOT
 // USE THEM IN USER CODE.
 

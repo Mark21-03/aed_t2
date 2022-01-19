@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.19)
 project(aed_t2)
 
 set(CMAKE_CXX_STANDARD 11)
