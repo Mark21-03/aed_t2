@@ -23,8 +23,12 @@ istream &operator>>(istream &is, Location &l) {
     double latitude, longitude;
     char sep;
 
-    is >> latitude >> sep >> longitude;
-    l = {latitude, longitude};
+    is >> latitude >> sep;
+
+    if(sep == ','){
+        is>> longitude;
+        l = {latitude, longitude};
+    }
 
     return is;
 }

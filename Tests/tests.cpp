@@ -11,10 +11,8 @@ TEST(Test_lines_reader, Test_lines_reader) {
 
     vector<Line> lines = LinesReader("../dataset/lines.csv");
 
-
     for (const Line &l: lines)
         cout << l << endl;
-
 
 }
 
@@ -34,7 +32,6 @@ TEST(Test_stops_reader, Test_stops_reader) {
 
     cout.precision(10);
     cout << endl << stops[0].location << endl;
-
 
 }
 

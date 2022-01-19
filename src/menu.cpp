@@ -1,6 +1,5 @@
 #include "../include/menu.h"
 
-
 string trimStr(istream &ios, string str) {
     str.erase(0, str.find_first_not_of(' '));
     str.erase(str.find_last_not_of(' ') + 1);
@@ -16,146 +15,250 @@ bool emptyStream(istream &ios) {
     return false;
 }
 
-bool Menu::menuOperationConfirm() {
+bool Menu::menuConfirmationPrompt() {
     char confirm;
 
-    std::cout << "\nConfirm? (Y/N): ";
-    std::cin >> confirm;
+    cout << "\nConfirm? (Y/N): ";
+    cin >> confirm;
 
     if (confirm == 'Y' || confirm == 'y')
         return true;
-    else
-        std::cout << "Canceled. Press any key to continue... ";
+    else {
+        cout << "Canceled. Press any key to continue...";
+        cin.clear();
+        cin.ignore(10000, '\n');
+        getchar();
+    }
+
 
     return false;
 }
 
 
-void Menu::mainMenu() {
+Menu::STATE Menu::criteriaMenu() {
     char userInput;
     string inputError;
 
     while (true) {
-        int ignoreVar = system(CLEAR);
+        system(CLEAR);
 
         if (!inputError.empty())
             cout << inputError;
         inputError = "";
 
-
-        cout << "=================" << endl;
-        cout << "    MAIN MENU     " << endl;
-        cout << "=================" << endl;
-        cout << "  1)  Create" << endl;
-        cout << "  2)  Read" << endl;
-        cout << "  3)  Update" << endl;
-        cout << "  4)  Delete" << endl;
-        cout << "  5)  Others" << endl;
+        cout << "========================" << endl;
+        cout << "    Minimum Criteria   " << endl;
+        cout << "========================" << endl;
+        cout << "  1)  Stops " << endl;
+        cout << "  2)  Distance" << endl;
+        cout << "  3)  Zones" << endl;
+        cout << "  4)  Line Changes" << endl;
+        cout << "  5)  Go back  " << endl;
         cout << "  0)  Exit" << endl;
-        cout << "================" << endl;
+        cout << "========================" << endl;
         cout << " > ";
-
 
         if ((cin >> userInput)) {
             if (!emptyStream(cin)) {
-                cout << "Invalid Input!";
+                cout << "Invalid Input!\n";
                 continue;
             }
 
             switch (userInput) {
                 case '0':
-                    exit(0);
+                    return close;
                 case '1':
-                    subMenu("     MENU 1", createFuncs);
-                    break;
+                    minStops();
+                    return result;
                 case '2':
-                    subMenu("     MENU 2", readFuncs);
-                    break;
+                    minDistance();
+                    return result;
                 case '3':
-                    subMenu("     MENU 3", updateFuncs);
-                    break;
+                    minZones();
+                    return result;
                 case '4':
-                    subMenu("     MENU 4", deleteFuncs);
-                    break;
+                    minSwaps();
+                    return result;
+                case '5':
+                    return location;
                 default:
-                    cout << "Invalid Input!";
+                    cout << "Invalid Input!\n";
                     break;
             }
             continue;
 
         } else {
-            cout << "Invalid Input!";
+            cout << "Invalid Input!\n";
             continue;
         }
     }
 }
 
-
-void Menu::subMenu(const string &menuTitle, vector<void (Menu::*)()> funcs) {
+Menu::STATE Menu::locationMenu() {
     char userInput;
     string inputError;
 
     while (true) {
-        int ignoreVar = system(CLEAR);
+        system(CLEAR);
 
         if (!inputError.empty())
             cout << inputError;
         inputError = "";
 
-        cout << "=================" << endl;
-        cout << menuTitle << endl;
-        cout << "=================" << endl;
-        cout << "  1)  ..." << endl;
-        cout << "  2)  ..." << endl;
-        cout << "  3)  ..." << endl;
-        cout << "  4)  ..." << endl;
-        cout << "  5)  ..." << endl;
-        cout << "  6)  Go Back" << endl;
-        cout << "  0)  Exit" << endl;
-        cout << "================" << endl;
+
+        cout << "===========================" << endl;
+        cout << "        Location  " << endl;
+        cout << "===========================" << endl;
+        cout << "    1)  Stops " << endl;
+        cout << "    2)  Coordinates" << endl;
+        cout << "    3)  Set Foot Distance" << endl;
+        cout << "    0)  Exit" << endl;
+        cout << "===========================" << endl;
         cout << " > ";
 
         if ((cin >> userInput)) {
-            if (!emptyStream(std::cin)) {
-                cout << "Invalid Input!";
+            if (!emptyStream(cin)) {
+                cout << "Invalid Input!\n";
+                cin.clear();
+                cin.ignore(10000, '\n');
                 continue;
             }
 
             switch (userInput) {
                 case '0':
-                    exit(0);
+                    return close;
                 case '1':
-                    this->x = funcs[0];
-                    ((*this).*(this->x))();
-                    break;
+                    locationStops();
+                    return menuConfirmationPrompt() ? criteria : location;
                 case '2':
-                    this->x = funcs[1];
-                    ((*this).*(this->x))();
-                    break;
+                    locationCords();
+                    return menuConfirmationPrompt() ? criteria : location;
                 case '3':
-                    this->x = funcs[2];
-                    ((*this).*(this->x))();
-                    break;
-                case '4':
-                    this->x = funcs[3];
-                    ((*this).*(this->x))();
-                    break;
-                case '5':
-                    this->x = funcs[4];
-                    ((*this).*(this->x))();
-                    break;
-                case '6':
-                    goto END_MENU;
+                    askFootDistance();
+                    return location;
                 default:
-                    cout << "Invalid Input!";
+                    cout << "Invalid Input!\n";
+                    cin.clear();
+                    cin.ignore(10000, '\n');
+                    getchar();
                     break;
             }
             continue;
+
         } else {
-            cout << "Invalid Input!";
+            cout << "Invalid Input!\n";
+            cin.clear();
+            cin.ignore(10000, '\n');
+            getchar();
             continue;
         }
-        END_MENU:
-        break;
     }
 }
+
+
+void Menu::minStops() {
+    cout << "To implement minStops..." << endl;
+    getchar();
+}
+
+void Menu::minDistance() {
+    cout << "To implement minDistance..." << endl;
+    getchar();
+}
+
+void Menu::minZones() {
+    cout << "To implement minZones..." << endl;
+    getchar();
+}
+
+void Menu::minSwaps() {
+    cout << "To implement minSwaps..." << endl;
+    getchar();
+}
+
+void Menu::locationStops() {
+
+    //TODO test if they exist
+    cout << "\nStarting stop code: ";
+    cin >> codeStart;
+    cout << "\nDestination stop code: ";
+    cin >> codeEnd;
+
+}
+
+void Menu::locationCords() {
+
+    //TODO test if given inputs are valid
+    cout << "\nStarting coordinates (latitude, longitude): ";
+    cin >> localStart;
+    cout << "\nDestination coordinates (latitude, longitude): ";
+    cin >> localEnd;
+}
+
+
+void Menu::askFootDistance() {
+
+
+    cout << "\nPlease provide the distance (in meters) you are\n"
+            "willing to travel on foot to reach your destination\n"
+            "(Current is " << footDistance << "m)\n";
+    cout << "\n > ";
+
+    int n;
+    if (cin >> n) {
+        footDistance = n;
+        cout << "\nFoot distance was set to " << footDistance << " m\n";
+    } else {
+        cout << "Invalid input!\n";
+    }
+
+    cin.clear();
+    cin.ignore(10000, '\n');
+    getchar();
+
+}
+
+Menu::STATE Menu::resultMenu() {
+    cout << "\n\nShow results...\n\n";
+    getchar();
+
+    char confirm;
+
+    cout << "\nDo you want to try using other criteria (Y/N)? ";
+    cin >> confirm;
+
+    if (confirm == 'Y' || confirm == 'y')
+        return criteria;
+
+    return location;
+}
+
+
+void Menu::start() {
+
+    STATE state = location;
+
+    while (true) {
+
+        system(CLEAR);
+
+        switch (state) {
+
+            case location:
+                state = locationMenu();
+                break;
+            case criteria:
+                state = criteriaMenu();
+                break;
+            case result:
+                state = resultMenu();
+                break;
+            case close:
+                return;
+        }
+    }
+
+}
+
+
+

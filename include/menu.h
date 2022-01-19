@@ -5,6 +5,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include "files_reader.h"
 
 #ifdef _WIN32
 #define CLEAR "cls"
@@ -16,31 +17,47 @@ using namespace std;
 
 
 class Menu {
+private:
 
-    static bool menuOperationConfirm();
+    Location localStart, localEnd;
+    string codeStart, codeEnd;
+    int footDistance = 200;
 
-    const vector<void (Menu::*)()> createFuncs = {&Menu::f1};
-
-    const vector<void (Menu::*)()> readFuncs = {&Menu::f1};
-
-    const vector<void (Menu::*)()> updateFuncs = {&Menu::f1};
-
-    const vector<void (Menu::*)()> deleteFuncs = {&Menu::f1};
-
-    void f1(){
-        cout<<"To implement..."<<endl;
-        getchar();
-    }
+    static bool menuConfirmationPrompt();
 
 public:
-    void (Menu::*x)(){};
-    void mainMenu();
-    void subMenu(const string &menuTitle, vector<void (Menu::*)()> funcs);
+
+    enum STATE {
+        location, criteria, result, close
+    };
+
+    STATE locationMenu();
+
+    static STATE criteriaMenu();
+
+    static STATE resultMenu();
+
+    void start();
+
+    static void minStops();
+
+    static void minDistance();
+
+    static void minZones();
+
+    static void minSwaps();
+
+    void locationStops();
+
+    void locationCords();
+
+    void askFootDistance();
 
 
 };
 
 string trimStr(istream &ios, string str);
+
 bool emptyStream(istream &ios);
 
 #endif
