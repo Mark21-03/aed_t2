@@ -24,7 +24,7 @@ class Graph {
         int dist;
         int pred;
         bool visited;
-        string name;
+        string stopName;
     };
 
     int n;              // Graph size (vertices are numbered from 1 to n)
@@ -38,6 +38,8 @@ public:
 
     // Add edge from source to destination with a certain weight
     void addEdge(int src, int dest, int weight = 1);
+
+    Node& getNode(int index);
 
     int dijkstra_distance(int a, int b);
 

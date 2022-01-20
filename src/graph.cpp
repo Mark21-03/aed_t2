@@ -83,3 +83,7 @@ list<int> Graph::dijkstra_path(int a, int b) {
 
     return path;
 }
+
+Graph::Node &Graph::getNode(int index) {
+    return nodes[index];
+}

@@ -5,25 +5,27 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <list>
 #include <sstream>
 
 using namespace std;
 
 
 struct Location {
-public:
     double latitude, longitude;
 };
 
 struct Stop {
-public:
     string code, name, zone;
     Location location;
 };
 
 struct Line {
-public:
     string code, name;
+};
+
+struct LineStops {
+    list<string> stops;
 };
 
 
@@ -43,6 +45,8 @@ istream &operator>>(istream &is, Stop &l);
 
 
 istream &operator>>(istream &is, Line &l);
+
+istream &operator>>(istream &is, LineStops &l);
 
 
 vector<Stop> StopsReader(const string &path);

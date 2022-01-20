@@ -66,6 +66,22 @@ istream &operator>>(istream &is, Line &l) {
     return is;
 }
 
+istream &operator>>(istream &is, LineStops &l) {
+
+    int n;
+
+    is >> n;
+
+    string s;
+
+    for (int i = 0; i < n; ++i) {
+        is >> s;
+        l.stops.push_back(s);
+    }
+
+    return is;
+}
+
 
 vector<Stop> StopsReader(const string &path) {
 
@@ -109,4 +125,3 @@ vector<Line> LinesReader(const string &path) {
 
     return rows;
 }
-
