@@ -9,7 +9,6 @@
 #define INF 999999
 
 
-
 using namespace std;
 
 class Graph {
@@ -32,22 +31,28 @@ class Graph {
     vector<Node> nodes; // The list of nodes being represented
 
 public:
-#define INF 999999
-    Graph() = default;
-    // Constructor: nr nodes and direction (default: undirected)
-    Graph(int nodes, bool dir = false);
 
-    // Add edge from source to destination with a certain weight
+    Graph() = default;
+
+    explicit Graph(int nodes, bool dir = false);
+
     void addEdge(int src, int dest, string lineName, int weight = 1);
 
-    Node& getNode(int index);
+    Node &getNode(int index);
 
-    void addNode(int index ,string & node);
+    void addNode(int index, string &node);
 
     int dijkstra_distance(int a, int b);
 
     list<int> dijkstra_path(int a, int b);
 
+    void bfsDist(int v);
+
+    int distance(int a, int b);
+
+    int dfs(int v);
+
+    void bfs(int v);
 };
 
 

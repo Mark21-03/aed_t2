@@ -89,6 +89,75 @@ Graph::Node &Graph::getNode(int index) {
     return nodes[index];
 }
 
-void Graph::addNode(int index , string &node) {
+void Graph::addNode(int index, string &node) {
     nodes[index].stopName = node;
+}
+
+
+//distancia entre dois nós (sem pesos)
+int Graph::distance(int a, int b) {
+    if (a == b) return 0;
+    for (int i = 1; i <= n; i++)
+        nodes[i].dist = -1;
+    bfsDist(a);
+    return nodes[b].dist;
+}
+
+
+// Depth-First Search
+int Graph::dfs(int v) {
+    cout << v << " "; // show node order
+    int count = 1;
+    nodes[v].visited = true;
+    for (auto e: nodes[v].adj) {
+        int w = e.dest;
+        if (!nodes[w].visited) {
+            count += dfs(w);
+        }
+    }
+    return count;
+}
+
+// Depth-First Search
+void Graph::bfs(int v) {
+    for (int v = 1; v <= n; v++) nodes[v].visited = false;
+    queue<int> q; // queue of unvisited nodes
+    q.push(v);
+    nodes[v].visited = true;
+    while (!q.empty()) { // while there are still unvisited nodes
+        int u = q.front();
+        q.pop();
+        cout << u << " "; // show node order
+        for (auto e: nodes[u].adj) {
+            int w = e.dest;
+            if (!nodes[w].visited) {
+                q.push(w);
+                nodes[w].visited = true;
+            }
+        }
+    }
+}
+
+
+void Graph::bfsDist(int v) {
+    nodes[v].dist = 0;
+    for (int v = 1; v <= n; v++) nodes[v].visited = false;
+    queue<int> q; // queue of unvisited nodes
+    q.push(v);
+    nodes[v].visited = true;
+
+    while (!q.empty()) { // while there are still unvisited nodes
+        int u = q.front();
+        q.pop();
+        cout << u << " "; // show node order
+        for (auto e: nodes[u].adj) {
+            int w = e.dest;
+            if (!nodes[w].visited) {
+                q.push(w);
+                nodes[w].visited = true;
+                nodes[w].dist = nodes[u].dist + 1;
+            }
+        }
+    }
+
 }

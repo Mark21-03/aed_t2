@@ -25,8 +25,8 @@ istream &operator>>(istream &is, Location &l) {
 
     is >> latitude >> sep;
 
-    if(sep == ','){
-        is>> longitude;
+    if (sep == ',') {
+        is >> longitude;
         l = {latitude, longitude};
     }
 
