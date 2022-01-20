@@ -1,13 +1,14 @@
 #include "../include/graph.h"
 #include "../include/minHeap.h"
+#include "../include/files_reader.h"
 
 // Constructor: nr nodes and direction (default: undirected)
 Graph::Graph(int num, bool dir) : n(num), hasDir(dir), nodes(num + 1) {}
 
 // Add edge from source to destination with a certain weight
-void Graph::addEdge(int src, int dest, string lineName, int weight) {
+void Graph::addEdge(int src, int dest, Line line, int weight) {
     if (src < 1 || src > n || dest < 1 || dest > n) return;
-    nodes[src].adj.push_back({dest, weight, lineName});
+    nodes[src].adj.push_back({dest, weight, line});
 
     if (!hasDir) nodes[dest].adj.push_back({src, weight});
 }
@@ -94,10 +95,35 @@ Graph::Node &Graph::getNode(int index) {
     return nodes[index];
 }
 
-void Graph::addNode(int index, string &node) {
-    nodes[index].stop.name = node;
+void Graph::addNode(int index, Stop &stop) {
+    nodes[index].stop = stop;
 }
 
+
+list<int> Graph::bfs_path(int a, int b, vector<Line> &lines) {
+
+    bfsDist(a);
+    list<int> path = {b};
+    int parent = b;
+    int son;
+
+    if (nodes[b].pred == -1)
+        return {};
+
+    while (parent != a) {
+        son = parent;
+        parent = nodes[parent].pred;
+        path.push_front(parent);
+
+        for (Edge e: nodes[parent].adj){
+            if (e.dest == son) {
+                lines.insert(lines.begin(), e.line);
+                break;
+            }}
+    }
+
+    return path;
+}
 
 //distancia entre dois nós (sem pesos)
 int Graph::bfsDistance(int a, int b) {
@@ -108,45 +134,13 @@ int Graph::bfsDistance(int a, int b) {
     return nodes[b].dist;
 }
 
-
-// Depth-First Search
-int Graph::dfs(int v) {
-    cout << v << " "; // show node order
-    int count = 1;
-    nodes[v].visited = true;
-    for (auto e: nodes[v].adj) {
-        int w = e.dest;
-        if (!nodes[w].visited) {
-            count += dfs(w);
-        }
-    }
-    return count;
-}
-
-// Depth-First Search
-void Graph::bfs(int v) {
-    for (int v = 1; v <= n; v++) nodes[v].visited = false;
-    queue<int> q; // queue of unvisited nodes
-    q.push(v);
-    nodes[v].visited = true;
-    while (!q.empty()) { // while there are still unvisited nodes
-        int u = q.front();
-        q.pop();
-        //cout << u << " "; // show node order
-        for (auto e: nodes[u].adj) {
-            int w = e.dest;
-            if (!nodes[w].visited) {
-                q.push(w);
-                nodes[w].visited = true;
-            }
-        }
-    }
-}
-
-
+// V será o no de origem e calcula a distancia deste a todos os nós
 void Graph::bfsDist(int v) {
     nodes[v].dist = 0;
-    for (int v = 1; v <= n; v++) nodes[v].visited = false;
+    for (int v = 1; v <= n; v++){
+        nodes[v].visited = false;
+        nodes[v].pred = -1;
+    }
     queue<int> q; // queue of unvisited nodes
     q.push(v);
     nodes[v].visited = true;
@@ -161,8 +155,31 @@ void Graph::bfsDist(int v) {
                 q.push(w);
                 nodes[w].visited = true;
                 nodes[w].dist = nodes[u].dist + 1;
+                nodes[w].pred = u;
             }
         }
     }
 
+}
+
+
+// Depth-First Search
+void Graph::bfsPrint(int v) {
+    for (int v = 1; v <= n; v++) nodes[v].visited = false;
+    queue<int> q; // queue of unvisited nodes
+    q.push(v);
+    nodes[v].visited = true;
+    while (!q.empty()) { // while there are still unvisited nodes
+        int u = q.front();
+        q.pop();
+        cout << nodes[u].stop << endl; // show node order
+        for (auto e: nodes[u].adj) {
+            int w = e.dest;
+            //cout<<e.line<<endl;
+            if (!nodes[w].visited) {
+                q.push(w);
+                nodes[w].visited = true;
+            }
+        }
+    }
 }

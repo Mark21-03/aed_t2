@@ -22,30 +22,37 @@ list<string> GraphBuilder::availableLines(const string &code) {
 void GraphBuilder::addNodes() {
     int i = 1;
     for (auto d: StopsReader("../dataset/stops.csv")) {
-        graph.addNode(i, d.code);
-        stopToIndex.insert(pair<string, int>(d.code, i++));
+        graph.addNode(i, d);
+        stopToIndex.insert(pair<string, int>(d.code, i));
+        indexToStop.insert(pair<int,string>(i++, d.code));
     }
 
 }
 
 void GraphBuilder::addEdges() {
-    for (const auto &l: LinesReader("../dataset/lines.csv")) {
+    vector<Line> lines = LinesReader("../dataset/lines.csv");
+
+    for (const auto &l: lines) {
         auto aL = availableLines(l.code);
+
         while (!aL.empty()) {
+
             auto first = aL.front();
             aL.pop_front();
             LineStops list;
             ifstream f(first);
             f >> list;
+
             if (list.stops.empty())
                 continue;
+
             auto it = ++list.stops.begin();
-            for (auto s = list.stops.begin();
-                 s != list.stops.end(); s++) { // the circular stuff should be treated differently TODO
+            for (auto s = list.stops.begin(); s != list.stops.end(); s++) {
+                // the circular stuff should be treated differently TODO
                 if (it != list.stops.end()) {
                     auto b = stopToIndex[*s];
                     auto end = stopToIndex[*it];
-                    graph.addEdge(b, end, first, nodeGeoDistance(b, end));
+                    graph.addEdge(b, end, l, nodeGeoDistance(b, end));
                 } else
                     break;
                 it++;

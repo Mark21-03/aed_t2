@@ -19,6 +19,7 @@ private:
 public:
     Graph graph;
     map<string, int> stopToIndex;
+    map<int, string> indexToStop;
 
     Graph buildGraph() {
         graph = Graph(2487 + 2, true);
@@ -33,8 +34,6 @@ public:
 
     static bool file_exists(const string &name);
 };
-
-
 
 
 #endif //AED_T2_GRAPHBUILDER_H

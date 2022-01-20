@@ -49,11 +49,53 @@ TEST(Test_bfs, Test_bfs) {
     GraphBuilder model = GraphBuilder();
     Graph graph = model.buildGraph();
 
-    string origin = "TLHR2";
-    string destiny = "FEUP2";
+    string origin = "ESED1"; // TODO ele nao encontra o caminho CQ10   PSL2 nem  COLS PAL3
+    string destiny = "IPO5"; //TODO o circular  PAL3  PRG1 nao funciona mas ao contrario sim (esta a considerar a rotacao ao contrario)
 
-    cout << graph.bfsDistance(model.stopToIndex[origin], model.stopToIndex[destiny]) << endl;
+    int originIndex = model.stopToIndex[origin];
+    int destinyIndex = model.stopToIndex[destiny];
+
+    vector<Line> lines;
+
+
+    list<int> path = graph.bfs_path(originIndex, destinyIndex, lines);
+
+    cout << "Number of stops: " << path.size() << endl;
+
+    cout << endl;
+
+    int i = 0;
+
+
+    if (path.size() != lines.size()) {
+        cout  << "SOMETHING WENT WRONG:\n";
+
+        cout << "Path size : " << path.size()<< " => ";
+        for(auto i:path) cout<<model.indexToStop[i]<<" ; ";
+        cout<<endl;
+        cout << "Line size : " << lines.size() << " => ";
+        for(auto i:lines) cout<<i<<" ; ";
+        cout<<endl<<endl;
+    }
+
+
+    for (auto it = path.begin(); it != path.end(); it++) {
+
+        cout << model.indexToStop[*it] << " ;  " << lines[i] << endl;
+
+        i++;
+    }
 
 }
+
+TEST(Test_bfsPrint, Test_bfsPrint) {
+    GraphBuilder model = GraphBuilder();
+    Graph graph = model.buildGraph();
+
+
+    //graph.bfsPrint(1);
+
+}
+
 
 

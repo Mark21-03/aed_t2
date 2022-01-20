@@ -16,7 +16,7 @@ class Graph {
     struct Edge {
         int dest;   // Destination node
         int weight; // An integer weight
-        string line;
+        Line line;
     };
 
     struct Node {
@@ -37,11 +37,11 @@ public:
 
     explicit Graph(int nodes, bool dir = false);
 
-    void addEdge(int src, int dest, string lineName, int weight = 1);
+    void addEdge(int src, int dest, Line line, int weight = 1);
 
     Node &getNode(int index);
 
-    void addNode(int index, string &node);
+    void addNode(int index, Stop &stop);
 
     int dijkstra_distance(int a, int b);
 
@@ -51,11 +51,11 @@ public:
 
     int bfsDistance(int a, int b);
 
-    int dfs(int v);
-
-    void bfs(int v);
+    void bfsPrint(int v);
 
     int dijkstra(int a);
+
+    list<int> bfs_path(int a, int b, vector<Line> &lines);
 };
 
 
