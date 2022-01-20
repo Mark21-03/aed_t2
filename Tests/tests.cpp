@@ -43,3 +43,4 @@ TEST(Test_model, Test_model_constructor) {
     ASSERT_EQ(model.stopToIndex["ZOID2"], 2487);
 
 }
+

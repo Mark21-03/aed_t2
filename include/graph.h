@@ -16,7 +16,7 @@ class Graph {
     struct Edge {
         int dest;   // Destination node
         int weight; // An integer weight
-        string line; //
+        string line;
     };
 
     struct Node {
@@ -38,7 +38,7 @@ public:
     Graph(int nodes, bool dir = false);
 
     // Add edge from source to destination with a certain weight
-    void addEdge(int src, int dest, int weight = 1);
+    void addEdge(int src, int dest, string lineName, int weight = 1);
 
     Node& getNode(int index);
 

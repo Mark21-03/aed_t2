@@ -18,7 +18,7 @@ class Model {
     static list<string> availableLines(string code) {
         list<string> l;
 
-        string basicPath = "../line/line_";
+        string basicPath = "../dataset/line/line_";
         string format = ".csv";
         if (file_exists(basicPath+code+"_"+"0" + format))
             l.push_back(basicPath+code+"_"+"0"+ format);
@@ -48,12 +48,14 @@ public:
                 LineStops list;
                 ifstream f(first);
                 f >> list;
+                if (list.stops.empty())
+                    continue;
                 auto it = list.stops.begin()++;
                 for (auto s = list.stops.begin(); s != list.stops.end(); s++) { // the circular stuff should be treated differently TODO
                     if (it != list.stops.end()) {
                         auto b = stopToIndex[*s];
                         auto end = stopToIndex[*it];
-                        stops.addEdge(b, end, INT_MAX);
+                        stops.addEdge(b, end,first, INT_MAX);
                     } else
                         break;
                     it++;
