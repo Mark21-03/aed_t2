@@ -33,13 +33,13 @@ public:
 
     STATE locationMenu();
 
-    static STATE criteriaMenu();
+    STATE criteriaMenu();
 
     static STATE resultMenu();
 
     void start();
 
-    static void minStops();
+    void minStops();
 
     static void minDistance();
 
