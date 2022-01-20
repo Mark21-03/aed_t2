@@ -33,6 +33,7 @@ class Graph {
 
 public:
 #define INF 999999
+    Graph() = default;
     // Constructor: nr nodes and direction (default: undirected)
     Graph(int nodes, bool dir = false);
 
