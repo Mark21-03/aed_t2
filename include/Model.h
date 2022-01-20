@@ -50,7 +50,7 @@ public:
                 f >> list;
                 if (list.stops.empty())
                     continue;
-                auto it = list.stops.begin()++;
+                auto it = ++list.stops.begin();
                 for (auto s = list.stops.begin(); s != list.stops.end(); s++) { // the circular stuff should be treated differently TODO
                     if (it != list.stops.end()) {
                         auto b = stopToIndex[*s];
