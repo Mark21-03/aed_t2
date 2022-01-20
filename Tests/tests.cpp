@@ -3,6 +3,7 @@
 #include "../include/distanceCalc.h"
 #include "../include/menu.h"
 #include "../include/files_reader.h"
+#include "../include/Model.h"
 
 using testing::Eq;
 
@@ -35,3 +36,10 @@ TEST(Test_stops_reader, Test_stops_reader) {
 
 }
 
+TEST(Test_model, Test_model_constructor) {
+    Model model = Model();
+
+    ASSERT_EQ(model.stopToIndex["1AL2"], 1);
+    ASSERT_EQ(model.stopToIndex["ZOID2"], 2487);
+
+}

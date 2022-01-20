@@ -87,3 +87,7 @@ list<int> Graph::dijkstra_path(int a, int b) {
 Graph::Node &Graph::getNode(int index) {
     return nodes[index];
 }
+
+void Graph::addNode(int index , string &node) {
+    nodes[index].stopName = node;
+}

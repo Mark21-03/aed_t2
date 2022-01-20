@@ -42,6 +42,8 @@ public:
 
     Node& getNode(int index);
 
+    void addNode(int index ,string & node);
+
     int dijkstra_distance(int a, int b);
 
     list<int> dijkstra_path(int a, int b);
