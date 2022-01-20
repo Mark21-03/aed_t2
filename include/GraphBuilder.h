@@ -31,15 +31,15 @@ class GraphBuilder {
 
 
 public:
-    Graph stops;
+    Graph graph;
     map<string, int> stopToIndex;
 
-    void buildGraph() {
-        stops = Graph(2487 + 2, true);
+    Graph buildGraph() {
+        graph = Graph(2487 + 2, true);
 
         int i = 1;
         for (auto d: StopsReader("../dataset/stops.csv")) {
-            stops.addNode(i, d.code);
+            graph.addNode(i, d.code);
             stopToIndex.insert(pair<string, int>(d.code, i++));
         }
 
@@ -59,13 +59,14 @@ public:
                     if (it != list.stops.end()) {
                         auto b = stopToIndex[*s];
                         auto end = stopToIndex[*it];
-                        stops.addEdge(b, end, first, INT_MAX);
+                        graph.addEdge(b, end, first, INT_MAX);
                     } else
                         break;
                     it++;
                 }
             }
         }
+        return graph;
     }
 
 };

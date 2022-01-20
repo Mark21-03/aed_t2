@@ -199,7 +199,7 @@ void Menu::locationCords() {
 void Menu::askFootDistance() {
 
 
-    cout << "\nPlease provide the distance (in meters) you are\n"
+    cout << "\nPlease provide the bfsDistance (in meters) you are\n"
             "willing to travel on foot to reach your destination\n"
             "(Current is " << footDistance << "m)\n";
     cout << "\n > ";
@@ -207,7 +207,7 @@ void Menu::askFootDistance() {
     int n;
     if (cin >> n) {
         footDistance = n;
-        cout << "\nFoot distance was set to " << footDistance << " m\n";
+        cout << "\nFoot bfsDistance was set to " << footDistance << " m\n";
     } else {
         cout << "Invalid input!\n";
     }

@@ -95,7 +95,7 @@ void Graph::addNode(int index, string &node) {
 
 
 //distancia entre dois nós (sem pesos)
-int Graph::distance(int a, int b) {
+int Graph::bfsDistance(int a, int b) {
     if (a == b) return 0;
     for (int i = 1; i <= n; i++)
         nodes[i].dist = -1;
@@ -127,7 +127,7 @@ void Graph::bfs(int v) {
     while (!q.empty()) { // while there are still unvisited nodes
         int u = q.front();
         q.pop();
-        cout << u << " "; // show node order
+        //cout << u << " "; // show node order
         for (auto e: nodes[u].adj) {
             int w = e.dest;
             if (!nodes[w].visited) {
@@ -149,7 +149,7 @@ void Graph::bfsDist(int v) {
     while (!q.empty()) { // while there are still unvisited nodes
         int u = q.front();
         q.pop();
-        cout << u << " "; // show node order
+        //cout << u << " "; // show node order
         for (auto e: nodes[u].adj) {
             int w = e.dest;
             if (!nodes[w].visited) {

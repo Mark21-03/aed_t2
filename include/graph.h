@@ -48,7 +48,7 @@ public:
 
     void bfsDist(int v);
 
-    int distance(int a, int b);
+    int bfsDistance(int a, int b);
 
     int dfs(int v);
 
