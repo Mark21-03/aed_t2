@@ -13,7 +13,7 @@ void Graph::addEdge(int src, int dest, string lineName, int weight) {
 }
 
 
-int Graph::dijkstra_distance(int a, int b) {
+int Graph::dijkstra(int a) {
 
     //inicializar os nodes
     for (int i = 1; i <= n; i++) {
@@ -62,6 +62,11 @@ int Graph::dijkstra_distance(int a, int b) {
         }
     }
 
+}
+
+
+int Graph::dijkstra_distance(int a, int b) {
+    dijkstra(a);
     if (nodes[b].dist != INF)
         return nodes[b].dist;
     return -1;
@@ -70,7 +75,7 @@ int Graph::dijkstra_distance(int a, int b) {
 
 list<int> Graph::dijkstra_path(int a, int b) {
 
-    dijkstra_distance(a, b);
+    dijkstra(a);
     list<int> path = {b};
     int parent = b;
 
@@ -90,7 +95,7 @@ Graph::Node &Graph::getNode(int index) {
 }
 
 void Graph::addNode(int index, string &node) {
-    nodes[index].stopName = node;
+    nodes[index].stop.name = node;
 }
 
 

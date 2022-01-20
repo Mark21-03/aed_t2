@@ -5,6 +5,7 @@
 #include <list>
 #include <iostream>
 #include <queue>
+#include "structs.h"
 
 #define INF 999999
 
@@ -23,7 +24,7 @@ class Graph {
         int dist;
         int pred;
         bool visited;
-        string stopName;
+        Stop stop;
     };
 
     int n;              // Graph size (vertices are numbered from 1 to n)
@@ -53,6 +54,8 @@ public:
     int dfs(int v);
 
     void bfs(int v);
+
+    int dijkstra(int a);
 };
 
 
