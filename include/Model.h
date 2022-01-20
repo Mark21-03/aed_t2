@@ -16,32 +16,30 @@ class Model {
     map<string, int> stopToIndex;
 
     Model() {
-
         stops = Graph(2487 + 2, true);
 
         int i = 1;
         for (auto d : StopsReader("../dataset/stops.csv")) {
             stopToIndex.insert(pair<string, int>(d.code, i++));
+        }
 
-
-            for (auto l : LinesReader("../dataset/lines.csv")) {
-                auto aL = availableLines(l.code);
-                while (!aL.empty()) {
-                    auto first = aL.front();
-                    aL.pop_front();
-                    LineStops list;
-                    ifstream f(first);
-                    f >> list;
-                    auto it = list.stops.begin()++;
-                    for (auto s = list.stops.begin(); s != list.stops.end(); s++) {
-                        if (it != list.stops.end()) {
-                            auto b = stopToIndex[*s];
-                            auto end = stopToIndex[*it];
-                            stops.addEdge(b, end, INT_MAX);
-                        } else
-                            break;
-                        it++;
-                    }
+        for (auto l : LinesReader("../dataset/lines.csv")) {
+            auto aL = availableLines(l.code);
+            while (!aL.empty()) {
+                auto first = aL.front();
+                aL.pop_front();
+                LineStops list;
+                ifstream f(first);
+                f >> list;
+                auto it = list.stops.begin()++;
+                for (auto s = list.stops.begin(); s != list.stops.end(); s++) {
+                    if (it != list.stops.end()) {
+                        auto b = stopToIndex[*s];
+                        auto end = stopToIndex[*it];
+                        stops.addEdge(b, end, INT_MAX);
+                    } else
+                        break;
+                    it++;
                 }
             }
         }
