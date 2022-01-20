@@ -56,6 +56,10 @@ public:
     int dijkstra(int a);
 
     list<int> bfs_path(int a, int b, vector<Line> &lines);
+
+    Edge getEdge(int src, int dest);
+
+    void findLinePath(Line &currentLine, int son, int parent, vector<Line> &lines);
 };
 
 

@@ -49,8 +49,9 @@ TEST(Test_bfs, Test_bfs) {
     GraphBuilder model = GraphBuilder();
     Graph graph = model.buildGraph();
 
-    string origin = "ESED1"; // TODO ele nao encontra o caminho CQ10   PSL2 nem  COLS PAL3
-    string destiny = "IPO5"; //TODO o circular  PAL3  PRG1 nao funciona mas ao contrario sim (esta a considerar a rotacao ao contrario)
+    //A melhor combinacao para testar é PSL2 CQ10  e o inverso CQ10 PSL1 porque atravessa o porto por comleto (muito longe)
+    string origin = "PSL2";
+    string destiny = "CQ10";
 
     int originIndex = model.stopToIndex[origin];
     int destinyIndex = model.stopToIndex[destiny];
@@ -68,24 +69,24 @@ TEST(Test_bfs, Test_bfs) {
 
 
     if (path.size() != lines.size()) {
-        cout  << "SOMETHING WENT WRONG:\n";
-
-        cout << "Path size : " << path.size()<< " => ";
-        for(auto i:path) cout<<model.indexToStop[i]<<" ; ";
-        cout<<endl;
+        cout << "Path size : " << path.size() << " => ";
+        for (auto i: path) cout << model.indexToStop[i] << " ; ";
+        cout << endl;
         cout << "Line size : " << lines.size() << " => ";
-        for(auto i:lines) cout<<i<<" ; ";
-        cout<<endl<<endl;
+        for (auto i: lines) cout << i.code << " ; ";
+        cout << endl << endl;
     }
 
 
     for (auto it = path.begin(); it != path.end(); it++) {
 
-        cout << model.indexToStop[*it] << " ;  " << lines[i] << endl;
+
+        cout << setw(8) << model.indexToStop[*it] << "\t";
+        if (i == lines.size()) break;
+        cout << lines[i].name << endl;
 
         i++;
     }
-
 }
 
 TEST(Test_bfsPrint, Test_bfsPrint) {

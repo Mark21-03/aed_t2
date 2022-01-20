@@ -13,6 +13,15 @@ void Graph::addEdge(int src, int dest, Line line, int weight) {
     if (!hasDir) nodes[dest].adj.push_back({src, weight});
 }
 
+Graph::Edge Graph::getEdge(int src, int dest) {
+
+    for (Edge e: nodes[src].adj)
+        if (e.dest == dest)
+            return e;
+
+    return {};
+}
+
 
 int Graph::dijkstra(int a) {
 
@@ -101,11 +110,11 @@ void Graph::addNode(int index, Stop &stop) {
 
 
 list<int> Graph::bfs_path(int a, int b, vector<Line> &lines) {
-
+    Line currentLine;
     bfsDist(a);
     list<int> path = {b};
     int parent = b;
-    int son;
+    int son = parent;
 
     if (nodes[b].pred == -1)
         return {};
@@ -113,13 +122,13 @@ list<int> Graph::bfs_path(int a, int b, vector<Line> &lines) {
     while (parent != a) {
         son = parent;
         parent = nodes[parent].pred;
+
+        if (path.size() == 1)
+            currentLine = getEdge(parent, son).line;
+
         path.push_front(parent);
 
-        for (Edge e: nodes[parent].adj){
-            if (e.dest == son) {
-                lines.insert(lines.begin(), e.line);
-                break;
-            }}
+        findLinePath(currentLine, son, parent, lines);
     }
 
     return path;
@@ -137,7 +146,7 @@ int Graph::bfsDistance(int a, int b) {
 // V será o no de origem e calcula a distancia deste a todos os nós
 void Graph::bfsDist(int v) {
     nodes[v].dist = 0;
-    for (int v = 1; v <= n; v++){
+    for (int v = 1; v <= n; v++) {
         nodes[v].visited = false;
         nodes[v].pred = -1;
     }
@@ -172,14 +181,31 @@ void Graph::bfsPrint(int v) {
     while (!q.empty()) { // while there are still unvisited nodes
         int u = q.front();
         q.pop();
-        cout << nodes[u].stop << endl; // show node order
+        cout << nodes[u].stop << endl; // show nodes
         for (auto e: nodes[u].adj) {
             int w = e.dest;
-            //cout<<e.line<<endl;
+            //cout<<e.line<<endl; //show edges
             if (!nodes[w].visited) {
                 q.push(w);
                 nodes[w].visited = true;
             }
         }
     }
+}
+
+void Graph::findLinePath(Line &currentLine, int son, int parent, vector<Line> &lines) {
+    Line newLineCandidate = {"NULL", "NULL"};
+
+    for (Edge e: nodes[parent].adj) {
+        if (e.dest == son) {
+            if (e.line.code == currentLine.code) {
+                lines.insert(lines.begin(), currentLine);
+                return;
+            } else {
+                newLineCandidate = e.line;
+            }
+        }
+    }
+    currentLine = newLineCandidate;
+    lines.insert(lines.begin(), currentLine);
 }
