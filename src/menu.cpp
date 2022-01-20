@@ -1,4 +1,6 @@
+#include <iomanip>
 #include "../include/menu.h"
+#include "../include/GraphBuilder.h"
 
 string trimStr(istream &ios, string str) {
     str.erase(0, str.find_first_not_of(' '));
@@ -157,7 +159,29 @@ Menu::STATE Menu::locationMenu() {
 
 
 void Menu::minStops() {
-    cout << "To implement minStops..." << endl;
+    GraphBuilder model = GraphBuilder();
+    Graph graph = model.buildGraph();
+
+    //A melhor combinacao para testar é PSL2 CQ10  e o inverso CQ10 PSL1 porque atravessa o porto por comleto (muito longe)
+    string origin = codeStart;
+    string destiny = codeEnd;
+
+    int originIndex = model.stopToIndex[origin];
+    int destinyIndex = model.stopToIndex[destiny];
+
+    vector<Line> lines;
+
+    list<int> path = graph.bfs_path(originIndex, destinyIndex, lines);
+    cout << "\nNumber of stops: " << path.size() << endl << endl;
+
+    int i = 0;
+    for (auto it = path.begin(); it != path.end(); it++) {
+        cout << setw(8) << model.indexToStop[*it] << "\t";
+        if (i == lines.size()) break;
+        cout << lines[i].name << endl;
+
+        i++;
+    }
     getchar();
 }
 
@@ -199,7 +223,7 @@ void Menu::locationCords() {
 void Menu::askFootDistance() {
 
 
-    cout << "\nPlease provide the distance (in meters) you are\n"
+    cout << "\nPlease provide the bfsDistance (in meters) you are\n"
             "willing to travel on foot to reach your destination\n"
             "(Current is " << footDistance << "m)\n";
     cout << "\n > ";
@@ -207,7 +231,7 @@ void Menu::askFootDistance() {
     int n;
     if (cin >> n) {
         footDistance = n;
-        cout << "\nFoot distance was set to " << footDistance << " m\n";
+        cout << "\nFoot bfsDistance was set to " << footDistance << " m\n";
     } else {
         cout << "Invalid input!\n";
     }

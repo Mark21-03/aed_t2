@@ -383,7 +383,7 @@ class FloatingPoint {
   }
 
   // Given two numbers in the sign-and-magnitude representation,
-  // returns the distance between them as an unsigned number.
+  // returns the bfsDistance between them as an unsigned number.
   static Bits DistanceBetweenSignAndMagnitudeNumbers(const Bits &sam1,
                                                      const Bits &sam2) {
     const Bits biased1 = SignAndMagnitudeToBiased(sam1);

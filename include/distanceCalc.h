@@ -5,10 +5,14 @@
 
 #include <math.h>
 
+#include "structs.h"
 
 using namespace std;
 
-static double distanceCalc(double lat1, double lon1, double lat2, double lon2) {
+static double distanceCalc(Location l1, Location l2) {
+
+    double lat1 = l1.latitude, lon1 = l1.longitude;
+    double lat2 = l2.latitude, lon2 = l2.longitude;
 
     double dLat = (lat2 - lat1) * M_PI / 180.0;
     double dLon = (lon2 - lon1) * M_PI / 180.0;

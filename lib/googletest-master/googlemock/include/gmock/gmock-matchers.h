@@ -2328,7 +2328,7 @@ class SizeIsMatcher {
   const SizeMatcher size_matcher_;
 };
 
-// Implements a matcher that checks the begin()..end() distance of an STL-style
+// Implements a matcher that checks the begin()..end() bfsDistance of an STL-style
 // container.
 template <typename DistanceMatcher>
 class BeginEndDistanceIsMatcher {
@@ -2353,11 +2353,11 @@ class BeginEndDistanceIsMatcher {
         : distance_matcher_(MatcherCast<DistanceType>(distance_matcher)) {}
 
     void DescribeTo(::std::ostream* os) const override {
-      *os << "distance between begin() and end() ";
+      *os << "bfsDistance between begin() and end() ";
       distance_matcher_.DescribeTo(os);
     }
     void DescribeNegationTo(::std::ostream* os) const override {
-      *os << "distance between begin() and end() ";
+      *os << "bfsDistance between begin() and end() ";
       distance_matcher_.DescribeNegationTo(os);
     }
 
@@ -2369,7 +2369,7 @@ class BeginEndDistanceIsMatcher {
       StringMatchResultListener distance_listener;
       const bool result =
           distance_matcher_.MatchAndExplain(distance, &distance_listener);
-      *listener << "whose distance between begin() and end() " << distance
+      *listener << "whose bfsDistance between begin() and end() " << distance
                 << (result ? " matches" : " doesn't match");
       PrintIfNotEmpty(distance_listener.str(), listener->stream());
       return result;
@@ -4663,7 +4663,7 @@ SizeIs(const SizeMatcher& size_matcher) {
   return internal::SizeIsMatcher<SizeMatcher>(size_matcher);
 }
 
-// Returns a matcher that matches the distance between the container's begin()
+// Returns a matcher that matches the bfsDistance between the container's begin()
 // iterator and its end() iterator, i.e. the size of the container. This matcher
 // can be used instead of SizeIs with containers such as std::forward_list which
 // do not implement size(). The container must provide const_iterator (with

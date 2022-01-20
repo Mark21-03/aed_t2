@@ -5,9 +5,9 @@
 #include <list>
 #include <iostream>
 #include <queue>
+#include "structs.h"
 
 #define INF 999999
-
 
 
 using namespace std;
@@ -16,7 +16,7 @@ class Graph {
     struct Edge {
         int dest;   // Destination node
         int weight; // An integer weight
-        string line;
+        Line line;
     };
 
     struct Node {
@@ -24,7 +24,7 @@ class Graph {
         int dist;
         int pred;
         bool visited;
-        string stopName;
+        Stop stop;
     };
 
     int n;              // Graph size (vertices are numbered from 1 to n)
@@ -32,22 +32,34 @@ class Graph {
     vector<Node> nodes; // The list of nodes being represented
 
 public:
-#define INF 999999
+
     Graph() = default;
-    // Constructor: nr nodes and direction (default: undirected)
-    Graph(int nodes, bool dir = false);
 
-    // Add edge from source to destination with a certain weight
-    void addEdge(int src, int dest, string lineName, int weight = 1);
+    explicit Graph(int nodes, bool dir = false);
 
-    Node& getNode(int index);
+    void addEdge(int src, int dest, Line line, int weight = 1);
 
-    void addNode(int index ,string & node);
+    Node &getNode(int index);
+
+    void addNode(int index, Stop &stop);
 
     int dijkstra_distance(int a, int b);
 
     list<int> dijkstra_path(int a, int b);
 
+    void bfsDist(int v);
+
+    int bfsDistance(int a, int b);
+
+    void bfsPrint(int v);
+
+    int dijkstra(int a);
+
+    list<int> bfs_path(int a, int b, vector<Line> &lines);
+
+    Edge getEdge(int src, int dest);
+
+    void findLinePath(Line &currentLine, int son, int parent, vector<Line> &lines);
 };
 
 
