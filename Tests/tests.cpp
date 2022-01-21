@@ -58,7 +58,6 @@ TEST(Test_bfs, Test_bfs) {
 
     vector<Line> lines;
 
-
     list<int> path = graph.bfs_path(originIndex, destinyIndex, lines);
 
     cout << "Number of stops: " << path.size() << endl;
@@ -97,6 +96,33 @@ TEST(Test_bfsPrint, Test_bfsPrint) {
     //graph.bfsPrint(1);
 
 }
+
+TEST(Test_dijkstra, Test_dijkstra) {
+    GraphBuilder model = GraphBuilder();
+    Graph graph = model.buildGraph();
+
+    string origin = "PSL2";
+    string destiny = "CQ10";
+
+    int originIndex = model.stopToIndex[origin];
+    int destinyIndex = model.stopToIndex[destiny];
+
+    vector<Line> lines;
+
+    list<int> path = graph.dijkstra_path(originIndex, destinyIndex, lines);
+
+    int i = 0;
+    for (auto it = path.begin(); it != path.end(); it++) {
+        cout << setw(8) << model.indexToStop[*it] << "\t";
+        if (i == lines.size()) break;
+        cout << lines[i].name << endl;
+
+        i++;
+    }
+
+}
+
+
 
 
 

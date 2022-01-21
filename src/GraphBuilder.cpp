@@ -52,7 +52,7 @@ void GraphBuilder::addEdges() {
                 if (it != list.stops.end()) {
                     auto b = stopToIndex[*s];
                     auto end = stopToIndex[*it];
-                    graph.addEdge(b, end, l, nodeGeoDistance(b, end));
+                    graph.addEdge(b, end, l, {nodeGeoDistance(b, end),0,0});
                 } else
                     break;
                 it++;

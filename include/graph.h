@@ -15,7 +15,7 @@ using namespace std;
 class Graph {
     struct Edge {
         int dest;   // Destination node
-        int weight; // An integer weight
+        WeightCriteria weight; // An integer weight
         Line line;
     };
 
@@ -37,7 +37,7 @@ public:
 
     explicit Graph(int nodes, bool dir = false);
 
-    void addEdge(int src, int dest, Line line, int weight = 1);
+    void addEdge(int src, int dest, Line line, WeightCriteria weight = {0, 0, 0});
 
     Node &getNode(int index);
 
@@ -45,7 +45,7 @@ public:
 
     int dijkstra_distance(int a, int b);
 
-    list<int> dijkstra_path(int a, int b);
+    list<int> dijkstra_path(int a, int b, vector<Line> &lines);
 
     void bfsDist(int v);
 
@@ -54,6 +54,7 @@ public:
     void bfsPrint(int v);
 
     int dijkstra(int a);
+
 
     list<int> bfs_path(int a, int b, vector<Line> &lines);
 

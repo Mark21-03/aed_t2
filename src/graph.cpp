@@ -6,7 +6,7 @@
 Graph::Graph(int num, bool dir) : n(num), hasDir(dir), nodes(num + 1) {}
 
 // Add edge from source to destination with a certain weight
-void Graph::addEdge(int src, int dest, Line line, int weight) {
+void Graph::addEdge(int src, int dest, Line line, WeightCriteria weight) {
     if (src < 1 || src > n || dest < 1 || dest > n) return;
     nodes[src].adj.push_back({dest, weight, line});
 
@@ -22,7 +22,7 @@ Graph::Edge Graph::getEdge(int src, int dest) {
     return {};
 }
 
-
+//distance criteria
 int Graph::dijkstra(int a) {
 
     //inicializar os nodes
@@ -56,7 +56,8 @@ int Graph::dijkstra(int a) {
 
             int v = nodes[it->dest].dist; // distancia do no de destino
 
-            int cost = it->weight + nodes[u].dist; // custo se considerarmos o no de partida da edge mais o peso da edge
+            //TODO funcao comparadora para os 3 valores da struct weight (cada uma das opcoes do menu)
+            int cost = it->weight.distance + nodes[u].dist; // custo se considerarmos o no de partida da edge mais o peso da edge
 
             //relaxa a aresta se encontrou um caminho melhor
             if (v > cost && !nodes[it->dest].visited) {
@@ -75,6 +76,7 @@ int Graph::dijkstra(int a) {
 }
 
 
+
 int Graph::dijkstra_distance(int a, int b) {
     dijkstra(a);
     if (nodes[b].dist != INF)
@@ -83,18 +85,26 @@ int Graph::dijkstra_distance(int a, int b) {
 }
 
 
-list<int> Graph::dijkstra_path(int a, int b) {
-
+list<int> Graph::dijkstra_path(int a, int b, vector<Line> &lines) {
+    Line currentLine;
     dijkstra(a);
     list<int> path = {b};
     int parent = b;
+    int son = parent;
 
     if (nodes[b].pred == -1)
         return {};
 
     while (parent != a) {
+        son = parent;
         parent = nodes[parent].pred;
+
+        if (path.size() == 1)
+            currentLine = getEdge(parent, son).line;
+
         path.push_front(parent);
+
+        findLinePath(currentLine, son, parent, lines);
     }
 
     return path;
