@@ -71,16 +71,16 @@ Menu::STATE Menu::criteriaMenu() {
                     return close;
                 case '1':
                     minStops();
-                    return result;
+                    return criteria;
                 case '2':
                     minDistance();
-                    return result;
+                    return criteria;
                 case '3':
                     minZones();
-                    return result;
+                    return criteria;
                 case '4':
                     minSwaps();
-                    return result;
+                    return criteria;
                 case '5':
                     return location;
                 default:
@@ -242,22 +242,6 @@ void Menu::askFootDistance() {
 
 }
 
-Menu::STATE Menu::resultMenu() {
-    cout << "\n\nShow results...\n\n";
-    getchar();
-
-    char confirm;
-
-    cout << "\nDo you want to try using other criteria (Y/N)? ";
-    cin >> confirm;
-
-    if (confirm == 'Y' || confirm == 'y')
-        return criteria;
-
-    return location;
-}
-
-
 void Menu::start() {
 
     STATE state = location;
@@ -273,9 +257,6 @@ void Menu::start() {
                 break;
             case criteria:
                 state = criteriaMenu();
-                break;
-            case result:
-                state = resultMenu();
                 break;
             case close:
                 return;
