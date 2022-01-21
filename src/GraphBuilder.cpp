@@ -24,7 +24,7 @@ void GraphBuilder::addNodes() {
     for (auto d: StopsReader("../dataset/stops.csv")) {
         graph.addNode(i, d);
         stopToIndex.insert(pair<string, int>(d.code, i));
-        indexToStop.insert(pair<int,string>(i++, d.code));
+        indexToStop.insert(pair<int, string>(i++, d.code));
     }
 
 }
@@ -52,7 +52,10 @@ void GraphBuilder::addEdges() {
                 if (it != list.stops.end()) {
                     auto b = stopToIndex[*s];
                     auto end = stopToIndex[*it];
-                    graph.addEdge(b, end, l, {nodeGeoDistance(b, end),0,0});
+
+                    int zoneDif = graph.getNode(b).stop.zone == graph.getNode(end).stop.zone ? 0 : 1;
+
+                    graph.addEdge(b, end, l, {nodeGeoDistance(b, end), zoneDif, 0});
                 } else
                     break;
                 it++;

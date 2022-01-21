@@ -45,7 +45,7 @@ public:
 
     int dijkstra_distance(int a, int b);
 
-    list<int> dijkstra_path(int a, int b, vector<Line> &lines);
+    list<int> dijkstra_path(int a, int b, vector<Line> &lines, int swicther);
 
     void bfsDist(int v);
 
@@ -53,8 +53,8 @@ public:
 
     void bfsPrint(int v);
 
-    int dijkstra(int a);
-
+    int dijkstra_distance(int a);
+    int dijkstra_zones(int a);
 
     list<int> bfs_path(int a, int b, vector<Line> &lines);
 

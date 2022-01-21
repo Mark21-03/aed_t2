@@ -97,7 +97,7 @@ TEST(Test_bfsPrint, Test_bfsPrint) {
 
 }
 
-TEST(Test_dijkstra, Test_dijkstra) {
+TEST(Test_dijkstra, Test_dijkstra_zones) {
     GraphBuilder model = GraphBuilder();
     Graph graph = model.buildGraph();
 
@@ -109,14 +109,40 @@ TEST(Test_dijkstra, Test_dijkstra) {
 
     vector<Line> lines;
 
-    list<int> path = graph.dijkstra_path(originIndex, destinyIndex, lines);
+    list<int> path = graph.dijkstra_path(originIndex, destinyIndex, lines, 1);
 
     int i = 0;
     for (auto it = path.begin(); it != path.end(); it++) {
         cout << setw(8) << model.indexToStop[*it] << "\t";
         if (i == lines.size()) break;
-        cout << lines[i].name << endl;
+        cout <<setw(20)<< lines[i].name << "\t" << graph.getNode(*it).stop.zone << endl;
 
+
+        i++;
+    }
+
+}
+
+TEST(Test_dijkstra, Test_dijkstra_distance) {
+    GraphBuilder model = GraphBuilder();
+    Graph graph = model.buildGraph();
+
+    string origin = "PSL2";
+    string destiny = "CQ10";
+
+    int originIndex = model.stopToIndex[origin];
+    int destinyIndex = model.stopToIndex[destiny];
+
+    vector<Line> lines;
+
+    list<int> path = graph.dijkstra_path(originIndex, destinyIndex, lines, 2);
+
+    cout<<endl<<endl;
+    int i = 0;
+    for (auto it = path.begin(); it != path.end(); it++) {
+        cout << setw(8) << model.indexToStop[*it] << "\t";
+        if (i == lines.size()) break;
+        cout <<setw(20)<< lines[i].name << endl;
         i++;
     }
 
