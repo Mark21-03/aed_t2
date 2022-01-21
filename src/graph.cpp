@@ -1,6 +1,7 @@
 #include "../include/graph.h"
 #include "../include/minHeap.h"
 #include "../include/files_reader.h"
+#include "../include/distanceCalc.h"
 
 // Constructor: nr nodes and direction (default: undirected)
 Graph::Graph(int num, bool dir) : n(num), hasDir(dir), nodes(num + 1) {}
@@ -21,6 +22,37 @@ Graph::Edge Graph::getEdge(int src, int dest) {
 
     return {};
 }
+
+
+vector<int> Graph::nodesInReach(Location pos, int radius) {
+
+    vector<int> v;
+    for (int i = 1; i <= n; i++)
+        if (distanceCalc(nodes[i].stop.location, pos) <= radius)
+            v.push_back(i);
+    return v;
+}
+
+
+void Graph::addGeoStartEndNode(Location start, Location end, int radius) {
+
+    Stop stop = {};
+    addNode(2488, stop);
+    addNode(2489, stop);
+
+    vector<int> nodesStart = nodesInReach(start, radius);
+    vector<int> nodesEnd = nodesInReach(end, radius);
+
+    //adicionar as edges para caminhar a pé da origem e até destino
+
+    for (auto i: nodesStart)
+        addEdge(2488, i, {"__FOOT__", "__FOOT__"});
+
+    for (auto i: nodesEnd)
+        addEdge(i, 2489, {"__FOOT__", "__FOOT__"});
+
+}
+
 
 //distance criteria
 int Graph::dijkstra_distance(int a) {

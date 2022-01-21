@@ -175,6 +175,54 @@ TEST(Test_dijkstra, Test_dijkstra_swap) {
 }
 
 
+TEST(Test_bfs, Test_bfs_walk) {
+    GraphBuilder model = GraphBuilder();
+    Graph graph = model.buildGraph();
+
+    string origin = "FRC";
+    string destiny = "ALXH1";
+
+    int originIndex = model.stopToIndex[origin];
+    int destinyIndex = model.stopToIndex[destiny];
+
+    Location start = {41.15195430099009, -8.50037991170946}; //passal
+    Location end = {41.18169909813813, -8.600008832034906}; //sjoao
+
+    int radius = 500;
+
+    graph.addGeoStartEndNode(start,end,radius);
+
+    vector<Line> lines;
+
+    list<int> path = graph.bfs_path(2488, 2489, lines);
+
+    cout << "Number of stops: " << path.size() << endl;
+
+    cout << endl;
+
+    int i = 0;
+
+
+    if (path.size() != lines.size()) {
+        cout << "Path size : " << path.size() << " => ";
+        for (auto i: path) cout << model.indexToStop[i] << " ; ";
+        cout << endl;
+        cout << "Line size : " << lines.size() << " => ";
+        for (auto i: lines) cout << i.code << " ; ";
+        cout << endl << endl;
+    }
+
+
+    for (auto it = path.begin(); it != path.end(); it++) {
+
+        cout << setw(8) << model.indexToStop[*it] << "\t";
+        if (i == lines.size()) break;
+        cout << lines[i].name << endl;
+
+        i++;
+    }
+}
+
 
 
 

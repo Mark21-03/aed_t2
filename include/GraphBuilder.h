@@ -33,6 +33,7 @@ public:
     static list<string> availableLines(const string &code);
 
     static bool file_exists(const string &name);
+
 };
 
 
