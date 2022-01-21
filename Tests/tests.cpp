@@ -49,15 +49,14 @@ TEST(Test_bfs, Test_bfs) {
     GraphBuilder model = GraphBuilder();
     Graph graph = model.buildGraph();
 
-    //A melhor combinacao para testar é PSL2 CQ10  e o inverso CQ10 PSL1 porque atravessa o porto por comleto (muito longe)
-    string origin = "PSL2";
-    string destiny = "CQ10";
+    //A melhor combinacao para testar é FRC ALXH1  ou CQ10 PSL1 porque atravessa o porto por comleto (muito longe)
+    string origin = "FRC";
+    string destiny = "ALXH1";
 
     int originIndex = model.stopToIndex[origin];
     int destinyIndex = model.stopToIndex[destiny];
 
     vector<Line> lines;
-
 
     list<int> path = graph.bfs_path(originIndex, destinyIndex, lines);
 
@@ -80,7 +79,6 @@ TEST(Test_bfs, Test_bfs) {
 
     for (auto it = path.begin(); it != path.end(); it++) {
 
-
         cout << setw(8) << model.indexToStop[*it] << "\t";
         if (i == lines.size()) break;
         cout << lines[i].name << endl;
@@ -97,6 +95,86 @@ TEST(Test_bfsPrint, Test_bfsPrint) {
     //graph.bfsPrint(1);
 
 }
+
+TEST(Test_dijkstra, Test_dijkstra_zones) {
+    GraphBuilder model = GraphBuilder();
+    Graph graph = model.buildGraph();
+
+    string origin = "FRC";
+    string destiny = "ALXH1";
+
+    int originIndex = model.stopToIndex[origin];
+    int destinyIndex = model.stopToIndex[destiny];
+
+    vector<Line> lines;
+
+    list<int> path = graph.dijkstra_path(originIndex, destinyIndex, lines, 1);
+
+    cout << "\nNumber of stops: " << path.size() << endl;
+    int i = 0;
+    for (auto it = path.begin(); it != path.end(); it++) {
+        cout << setw(8) << model.indexToStop[*it] << "\t";
+        if (i == lines.size()) break;
+        cout <<setw(20)<< lines[i].name << "\t" << graph.getNode(*it).stop.zone << endl;
+
+
+        i++;
+    }
+
+}
+
+TEST(Test_dijkstra, Test_dijkstra_distance) {
+    GraphBuilder model = GraphBuilder();
+    Graph graph = model.buildGraph();
+
+    string origin = "FRC";
+    string destiny = "ALXH1";
+
+    int originIndex = model.stopToIndex[origin];
+    int destinyIndex = model.stopToIndex[destiny];
+
+    vector<Line> lines;
+
+    list<int> path = graph.dijkstra_path(originIndex, destinyIndex, lines, 2);
+
+    cout << "\nNumber of stops: " << path.size() << endl;
+    int i = 0;
+    for (auto it = path.begin(); it != path.end(); it++) {
+        cout << setw(8) << model.indexToStop[*it] << "\t";
+        if (i == lines.size()) break;
+        cout <<setw(20)<< lines[i].name << endl;
+        i++;
+    }
+
+}
+
+
+TEST(Test_dijkstra, Test_dijkstra_swap) {
+    GraphBuilder model = GraphBuilder();
+    Graph graph = model.buildGraph();
+
+    string origin = "STBX2";
+    string destiny = "VLC2";
+
+    int originIndex = model.stopToIndex[origin];
+    int destinyIndex = model.stopToIndex[destiny];
+
+    vector<Line> lines;
+
+    list<int> path = graph.dijkstra_path(originIndex, destinyIndex, lines, 3);
+
+    cout << "\nNumber of stops: " << path.size() << endl;
+    int i = 0;
+    for (auto it = path.begin(); it != path.end(); it++) {
+        cout << setw(8) << model.indexToStop[*it] << "\t";
+        if (i == lines.size()) break;
+        cout <<setw(20)<< lines[i].name << endl;
+        i++;
+    }
+
+}
+
+
 
 
 

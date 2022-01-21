@@ -24,6 +24,10 @@ struct LineStops {
     list<string> stops;
 };
 
+struct WeightCriteria{
+    int distance, zones, changes;
+};
+
 
 
 #endif //AED_T2_STRUCTS_H
