@@ -28,14 +28,12 @@ private:
 public:
 
     enum STATE {
-        location, criteria, result, close
+        location, criteria, close
     };
 
     STATE locationMenu();
 
     STATE criteriaMenu();
-
-    static STATE resultMenu();
 
     void start();
 
