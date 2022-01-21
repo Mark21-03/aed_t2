@@ -6,6 +6,7 @@
 #include <iostream>
 #include <queue>
 #include "structs.h"
+#include "minHeap.h"
 
 #define INF 999999
 
@@ -53,11 +54,53 @@ public:
 
     void bfsPrint(int v);
 
-    int dijkstra_distance(int a);
+    void dijkstra_distance(int a);
 
-    int dijkstra_zones(int a);
+    void dijkstra_zones(int a);
 
-    int dijkstra_lineSwaps(int a);
+    void dijkstra_lineSwaps(int a);
+
+    template<typename Functor>
+    void dijkstra(int a, Functor& functor) {
+        for (int i = 1; i <= n; i++) {
+            nodes[i].dist = INF;
+            nodes[i].visited = false;
+            nodes[i].pred = -1;
+        }
+
+        nodes[a].dist = 0;
+        nodes[a].pred = -1;
+
+        MinHeap<int, int> heap(n, -1);
+
+        for (int i = 1; i <= n; i++)
+            heap.insert(i, nodes[i].dist);
+
+        while (heap.getSize() > 0) {
+
+            int u = heap.removeMin();
+
+            nodes[u].visited = true;
+
+            for (auto it = nodes[u].adj.begin(); it != nodes[u].adj.end(); it++) {
+
+                int v = nodes[it->dest].dist;
+
+                int cost = functor(u , it->dest) + nodes[u].dist;
+
+                if (v > cost && !nodes[it->dest].visited) {
+
+                    nodes[it->dest].dist = cost;
+
+                    v = cost;
+
+                    nodes[it->dest].pred = u;
+
+                    heap.decreaseKey(it->dest, v);
+                }
+            }
+        }
+    }
 
     list<int> bfs_path(int a, int b, vector<Line> &lines);
 

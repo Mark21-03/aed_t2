@@ -1,6 +1,7 @@
 #include "../include/graph.h"
 #include "../include/minHeap.h"
 #include "../include/files_reader.h"
+#include "../include/distanceCalc.h"
 
 // Constructor: nr nodes and direction (default: undirected)
 Graph::Graph(int num, bool dir) : n(num), hasDir(dir), nodes(num + 1) {}
@@ -23,61 +24,20 @@ Graph::Edge Graph::getEdge(int src, int dest) {
 }
 
 //distance criteria
-int Graph::dijkstra_distance(int a) {
+void Graph::dijkstra_distance(int a) {
 
-    //inicializar os nodes
-    for (int i = 1; i <= n; i++) {
-        nodes[i].dist = INF;
-        nodes[i].visited = false;
-        nodes[i].pred = -1;
-    }
+    auto lambda = [this] (int x, int y) {
+        Location l1 = nodes[x].stop.location;
+        Location l2 = nodes[y].stop.location;
 
-    //nó inicial não tem pai e tem distancia 0 a ele proprio
-    nodes[a].dist = 0;
-    nodes[a].pred = -1;
+        return distanceCalc(l1, l2); };
 
-    //criamos a heap e acrescentamos o nó de partida
-    MinHeap<int, int> heap(n, -1);
-
-
-    for (int i = 1; i <= n; i++)
-        heap.insert(i, nodes[i].dist);
-
-    //executar algoritmo enquanto existirem nodes por ver
-    while (heap.getSize() > 0) {
-
-        int u = heap.removeMin(); //nó com mais prioridade a ser removido (aquele com min dist)
-
-        //se o node não foi visitado, vista-lo e verificar as suas edges
-        nodes[u].visited = true;
-
-        //verificar ha arestas para relaxar
-        for (auto it = nodes[u].adj.begin(); it != nodes[u].adj.end(); it++) {
-
-            int v = nodes[it->dest].dist; // distancia do no de destino
-
-            //TODO funcao comparadora para os 3 valores da struct weight (cada uma das opcoes do menu)
-            int cost = it->weight.distance +
-                       nodes[u].dist; // custo se considerarmos o no de partida da edge mais o peso da edge
-
-            //relaxa a aresta se encontrou um caminho melhor
-            if (v > cost && !nodes[it->dest].visited) {
-
-                nodes[it->dest].dist = cost;
-
-                v = cost; // atualiza para o novo custo minimo
-
-                nodes[it->dest].pred = u; // define o novo pai para esse no de destino
-
-                heap.decreaseKey(it->dest, v); //atualiza a prioridade (distancia) na heap
-            }
-        }
-    }
+    dijkstra(a, lambda);
 
 }
 
 //min zones criteria
-int Graph::dijkstra_zones(int a) {
+void Graph::dijkstra_zones(int a) {
 
     //inicializar os nodes
     for (int i = 1; i <= n; i++) {
@@ -130,7 +90,7 @@ int Graph::dijkstra_zones(int a) {
 }
 
 //min line changes criteria
-int Graph::dijkstra_lineSwaps(int a) {
+void Graph::dijkstra_lineSwaps(int a) {
 
     Line currentLine;
 
