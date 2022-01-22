@@ -6,6 +6,7 @@
 #include <vector>
 #include <string>
 #include "files_reader.h"
+#include "graph.h"
 
 #ifdef _WIN32
 #define CLEAR "cls"
@@ -13,23 +14,31 @@
 #define CLEAR "clear"
 #endif
 
+
+#define geoStartNode 2488
+#define geoEndNode 2489
+
 using namespace std;
 
 
 class Menu {
+
 private:
 
     Location localStart, localEnd;
     string codeStart, codeEnd;
-    int footDistance = 200;
+    int footDistance = 500;
+    bool useMLines = true;
 
-    static bool menuConfirmationPrompt();
-
-public:
 
     enum STATE {
         location, criteria, close
     };
+
+    static bool menuConfirmationPrompt();
+
+
+public:
 
     STATE locationMenu();
 
@@ -37,21 +46,27 @@ public:
 
     void start();
 
-    void minStops();
+    static list<int> minStops(Graph &graph, vector<pair<Line, bool>> &lines, int originIndex, int destinyIndex);
 
-    void minDistance();
+    static list<int> minDistance(Graph &graph, vector<pair<Line, bool>> &lines, int originIndex, int destinyIndex);
 
-    void minZones();
+    static list<int> minZones(Graph &graph, vector<pair<Line, bool>> &lines, int originIndex, int destinyIndex);
 
-    void minSwaps();
+    static list<int> minSwaps(Graph &graph, vector<pair<Line, bool>> &lines, int originIndex, int destinyIndex);
 
     void locationStops();
 
     void locationCords();
 
+    void settingsMenu();
+
+    void resetMenuVars();
+
+    void showGeneratedPath(int pathCriteria);
+
     void askFootDistance();
 
-
+    void askUseMLines();
 };
 
 string trimStr(istream &ios, string str);
