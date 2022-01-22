@@ -70,16 +70,16 @@ Menu::STATE Menu::criteriaMenu() {
                 case '0':
                     return close;
                 case '1':
-                    minStops();
+                    showGeneratedPath(1);
                     return criteria;
                 case '2':
-                    minDistance();
+                    showGeneratedPath(2);
                     return criteria;
                 case '3':
-                    minZones();
+                    showGeneratedPath(3);
                     return criteria;
                 case '4':
-                    minSwaps();
+                    showGeneratedPath(4);
                     return criteria;
                 case '5':
                     return location;
@@ -97,6 +97,9 @@ Menu::STATE Menu::criteriaMenu() {
 }
 
 Menu::STATE Menu::locationMenu() {
+
+    resetMenuVars();
+
     char userInput;
     string inputError;
 
@@ -113,7 +116,7 @@ Menu::STATE Menu::locationMenu() {
         cout << "===========================" << endl;
         cout << "    1)  Stops " << endl;
         cout << "    2)  Coordinates" << endl;
-        cout << "    3)  Set Foot Distance" << endl;
+        cout << "    3)  Settings " << endl;
         cout << "    0)  Exit" << endl;
         cout << "===========================" << endl;
         cout << " > ";
@@ -130,13 +133,13 @@ Menu::STATE Menu::locationMenu() {
                 case '0':
                     return close;
                 case '1':
-                    locationStops();
+                    askLocationStops();
                     return menuConfirmationPrompt() ? criteria : location;
                 case '2':
-                    locationCords();
+                    askLocationCords();
                     return menuConfirmationPrompt() ? criteria : location;
                 case '3':
-                    askFootDistance();
+                    settingsMenu();
                     return location;
                 default:
                     cout << "Invalid Input!\n";
@@ -158,118 +161,44 @@ Menu::STATE Menu::locationMenu() {
 }
 
 
-void Menu::minStops() {
-    GraphBuilder model = GraphBuilder();
-    Graph graph = model.buildGraph();
-
-    //A melhor combinacao para testar é PSL2 CQ10  e o inverso CQ10 PSL1 porque atravessa o porto por comleto (muito longe)
-    string origin = codeStart;
-    string destiny = codeEnd;
-
-    int originIndex = model.stopToIndex[origin];
-    int destinyIndex = model.stopToIndex[destiny];
-
-    vector<pair<Line, bool>> lines;
+list<int> Menu::minStops(Graph &graph, vector<pair<Line, bool>> &lines, int originIndex, int destinyIndex) {
 
     list<int> path = graph.bfs_path(originIndex, destinyIndex, lines);
-    cout << "\nNumber of stops: " << graph.getNode(destinyIndex).dist  << endl << endl;
+    cout << "\nNumber of stops: " << graph.getNode(destinyIndex).dist << endl << endl;
 
-    int i = 0;
-    for (int & it : path) {
-        cout << setw(8) << model.indexToStop[it] << "\t";
-        if (i == lines.size()) break;
-        cout << lines[i].first.name << endl;
+    return path;
 
-        i++;
-    }
-    getchar();
 }
 
-void Menu::minDistance() { // TODO: Repetitive
-    GraphBuilder model = GraphBuilder();
-    Graph graph = model.buildGraph();
-
-    string origin = codeStart;
-    string destiny = codeEnd;
-
-    int originIndex = model.stopToIndex[origin];
-    int destinyIndex = model.stopToIndex[destiny];
-
-    vector<pair<Line, bool>> lines;
+list<int> Menu::minDistance(Graph &graph, vector<pair<Line, bool>> &lines, int originIndex, int destinyIndex) {
 
     graph.dijkstra_distance(originIndex);
     list<int> path = graph.dijkstra_path(originIndex, destinyIndex, lines);
     cout << "\nDistance: " << graph.getNode(destinyIndex).dist << endl << endl;
+    return path;
 
-    int i = 0;
-    for (int & it : path) {
-        cout << setw(8) << model.indexToStop[it] << "\t";
-        if (i == lines.size()) break;
-        cout << lines[i].first.name << endl;
-
-        i++;
-    }
-
-    getchar();
 }
 
-void Menu::minZones() {
-    GraphBuilder model = GraphBuilder();
-    Graph graph = model.buildGraph();
 
-    string origin = codeStart;
-    string destiny = codeEnd;
-
-    int originIndex = model.stopToIndex[origin];
-    int destinyIndex = model.stopToIndex[destiny];
-
-    vector<pair<Line, bool>> lines;
+list<int> Menu::minZones(Graph &graph, vector<pair<Line, bool>> &lines, int originIndex, int destinyIndex) {
 
     graph.dijkstra_zones(originIndex);
     list<int> path = graph.dijkstra_path(originIndex, destinyIndex, lines);
     cout << "\nNumber of Zones: " << graph.getNode(destinyIndex).dist << endl << endl;
+    return path;
 
-    int i = 0;
-    for (int & it : path) {
-        cout << setw(8) << model.indexToStop[it] << "\t";
-        if (i == lines.size()) break;
-        cout << lines[i].first.name << endl;
-
-        i++;
-    }
-
-    getchar();
 }
 
-void Menu::minSwaps() {
-    GraphBuilder model = GraphBuilder();
-    Graph graph = model.buildGraph();
-
-    string origin = codeStart;
-    string destiny = codeEnd;
-
-    int originIndex = model.stopToIndex[origin];
-    int destinyIndex = model.stopToIndex[destiny];
-
-    vector<pair<Line, bool>> lines;
+list<int> Menu::minSwaps(Graph &graph, vector<pair<Line, bool>> &lines, int originIndex, int destinyIndex) {
 
     graph.dijkstra_lineSwaps(originIndex);
     list<int> path = graph.dijkstra_path(originIndex, destinyIndex, lines);
     cout << "\nNumber of minimum line swaps: " << graph.getNode(destinyIndex).dist << endl << endl;
+    return path;
 
-    int i = 0;
-    for (int & it : path) {
-        cout << setw(8) << model.indexToStop[it] << "\t";
-        if (i == lines.size()) break;
-        cout << lines[i].first.name << endl;
-
-        i++;
-    }
-
-    getchar();
 }
 
-void Menu::locationStops() {
+void Menu::askLocationStops() {
 
     //TODO test if they exist
     cout << "\nStarting stop code: ";
@@ -279,35 +208,32 @@ void Menu::locationStops() {
 
 }
 
-void Menu::locationCords() {
+void Menu::askLocationCords() {
 
-    //TODO test if given inputs are valid
+    string input;
+
     cout << "\nStarting coordinates (latitude, longitude): ";
-    cin >> localStart;
+    getline(cin, input);
+    if (!processStoredCords(input, localStart)) {
+        stringstream ss(input);
+        if (ss >> localStart) {} else { cout << "Invalid!"; }
+    }
+
     cout << "\nDestination coordinates (latitude, longitude): ";
-    cin >> localEnd;
+    getline(cin, input);
+    if (!processStoredCords(input, localEnd)) {
+        stringstream ss(input);
+        if (ss >> localEnd) {} else { cout << "Invalid!"; }
+    }
 }
 
 
-void Menu::askFootDistance() {
+void Menu::settingsMenu() {
+
+    askUseMLines();
 
 
-    cout << "\nPlease provide the bfsDistance (in meters) you are\n"
-            "willing to travel on foot to reach your destination\n"
-            "(Current is " << footDistance << "m)\n";
-    cout << "\n > ";
-
-    int n;
-    if (cin >> n) {
-        footDistance = n;
-        cout << "\nFoot bfsDistance was set to " << footDistance << " m\n";
-    } else {
-        cout << "Invalid input!\n";
-    }
-
-    cin.clear();
-    cin.ignore(10000, '\n');
-    getchar();
+    askFootDistance();
 
 }
 
@@ -320,7 +246,6 @@ void Menu::start() {
         system(CLEAR);
 
         switch (state) {
-
             case location:
                 state = locationMenu();
                 break;
@@ -334,5 +259,226 @@ void Menu::start() {
 
 }
 
+void Menu::resetMenuVars() {
+    localStart = {}, localEnd = {};
+    codeStart = "", codeEnd = "";
+}
 
 
+void Menu::showGeneratedPath(int pathCriteria) {
+
+    GraphBuilder model = GraphBuilder();
+    Graph graph = model.buildGraph(useMLines);
+    vector<pair<Line, bool>> lines;
+    list<int> path;
+
+    int originIndex, destinyIndex;
+    bool isGeo = false;
+
+    if (!codeStart.empty()) {
+        originIndex = model.stopToIndex[codeStart];
+        destinyIndex = model.stopToIndex[codeEnd];
+    } else {
+        originIndex = geoStartNode;
+        destinyIndex = geoEndNode;
+        graph.addGeoStartEndNode(localStart, localEnd, 500);
+        isGeo = true;
+    }
+
+    switch (pathCriteria) {
+        case 1: // min stops
+            path = minStops(graph, lines, originIndex, destinyIndex);
+            break;
+        case 2: // min distance
+            path = minDistance(graph, lines, originIndex, destinyIndex);
+            break;
+        case 3: // min zones
+            path = minZones(graph, lines, originIndex, destinyIndex);
+            break;
+        case 4: // min lines swaps
+            path = minSwaps(graph, lines, originIndex, destinyIndex);
+            break;
+        default:
+            break;
+    }
+
+    if (isGeo)
+        beautifulPrintGeo(graph, model, lines, path);
+    else
+        beautifulPrintStops(graph, model, lines, path);
+
+}
+
+void Menu::askFootDistance() {
+    cout << "\n\nPlease provide the distance (in meters) you are\n"
+            "willing to travel on foot to reach your destination\n"
+            "(Current is " << footDistance << "m)\n";
+    cout << "\n > ";
+
+    int n;
+    if (cin >> n) {
+        footDistance = n;
+        cout << "\nFoot distance was set to " << footDistance << " m\n";
+    } else {
+        cout << "Invalid input!\n";
+    }
+
+    cin.clear();
+    cin.ignore(10000, '\n');
+    getchar();
+
+}
+
+void Menu::askUseMLines() {
+    char confirm;
+
+    cout << "\nDo you want to include M lines (Y / N) ? ";
+    cin >> confirm;
+
+    if (confirm == 'Y' || confirm == 'y')
+        useMLines = true;
+    else {
+        useMLines = false;
+        cin.clear();
+        cin.ignore(10000, '\n');
+    }
+
+}
+
+bool Menu::processStoredCords(const string &input, Location &location) {
+
+    Location temp = location;
+
+    if (input == "CQUEIJO")
+        location = geoCQueijo;
+
+    else if (input == "FEUP")
+        location = geoFeup;
+
+    else if (input == "FCUP")
+        location = geoFcup;
+
+    else if (input == "PASSAL")
+        location = geoPassal;
+
+    else if (input == "IKEA")
+        location = geoIkea;
+
+    else if (input == "FRANCELOS")
+        location = geoFrancelos;
+
+    else if (input == "ALIADOS")
+        location = geoAliados;
+
+    else if (input == "BOMSUCESSO")
+        location = geoBomSucesso;
+
+    else if (input == "PBOLSA")
+        location = geoPalBolsa;
+
+    else if (input == "GSHOP")
+        location = geoGaiaShopping;
+
+    else if (input == "NSHOP")
+        location = geoNorteShopping;
+
+    else if (input == "CORDOARIA")
+        location = geoCordoaria;
+
+    else if (input == "ALFENA")
+        location = geoAlfena;
+
+    else if (input == "CAMPANHA")
+        location = geoCampanha;
+
+    else if (input == "SOUTO")
+        location = geoCQueijo;
+
+    return (temp.latitude != location.latitude && temp.longitude != location.longitude);
+
+
+}
+
+
+void Menu::fullLinePrint(Graph graph, GraphBuilder model, vector<pair<Line, bool>> lines, const list<int> &path) {
+
+    int i = 0;
+    for (int it: path) {
+        cout << setw(8) << model.indexToStop[it] << "\t";
+        if (i == lines.size()) break;
+        cout << lines[i].first.lineDirectionName(lines[i].second) << " ; " << graph.getNode(it).stop.zone << endl;
+        i++;
+    }
+    getchar();
+
+};
+
+void Menu::beautifulPrintGeo(Graph graph, GraphBuilder model, vector<pair<Line, bool>> lines, list<int> path) {
+
+    if (lines.front().first.name == "__FOOT__") {
+        auto it = path.begin();
+        advance(it, 1);
+        cout << "Walk to " << model.indexToStop[*it] << "\n\n";
+        lines.erase(lines.begin());
+        path.pop_front();
+    }
+
+    string currentLine;
+    int i = 0;
+
+    for (int it: path) {
+
+        string line = lines[i].first.lineDirectionName(lines[i].second);
+
+        if (lines[i].first.name == "__FOOT__") {
+
+            cout << "\nLeave on " << model.indexToStop[it] << " and walk to your destination\n";
+            break;
+        }
+
+
+        if (currentLine != line) {
+            currentLine = line;
+            cout << "Take " << currentLine << endl;
+        }
+
+        cout << setw(8) << model.indexToStop[it] << "\t" << graph.getNode(it).stop.zone << "\t\t";
+        if (i == lines.size()) break;
+
+
+        cout << endl;
+        i++;
+    }
+
+    getchar();
+
+}
+
+
+void Menu::beautifulPrintStops(Graph graph, GraphBuilder model, vector<pair<Line, bool>> lines, list<int> path) {
+
+
+    string currentLine;
+    int i = 0;
+
+    cout << "Starting at " << model.indexToStop[path.front()] << endl;
+    for (int it: path) {
+        if (i == lines.size()) break;
+
+        string line = lines[i].first.lineDirectionName(lines[i].second);
+
+        if (currentLine != line) {
+            currentLine = line;
+            cout << "Take " << currentLine << endl;
+        }
+
+        cout << setw(8) << model.indexToStop[it] << "\t" << graph.getNode(it).stop.zone << "\t\t";
+
+        cout << endl;
+        i++;
+    }
+    cout << "Arrive at " << model.indexToStop[path.back()];
+
+    getchar();
+
+}
