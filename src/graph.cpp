@@ -49,11 +49,15 @@ void Graph::addGeoStartEndNode(Location start, Location end, int radius) {
 
     //adicionar as edges para caminhar a pé da origem e até destino
 
+    auto distCalc = [&](Location l, int i) {
+        return (int) distanceCalc(l, getNode(i).stop.location);
+    };
+
     for (auto i: nodesStart)
-        addEdge(2488, i, {"__FOOT__", "__FOOT__"}, false);
+        addEdge(2488, i, {"__FOOT__", "__FOOT__"}, false, {distCalc(start, i), 0, 1});
 
     for (auto i: nodesEnd)
-        addEdge(i, 2489, {"__FOOT__", "__FOOT__"}, true);
+        addEdge(i, 2489, {"__FOOT__", "__FOOT__"}, true, {distCalc(end, i), 0, 1});
 
 }
 
@@ -379,3 +383,6 @@ void Graph::findLinePath(Line &currentLine, int son, int parent, vector<pair<Lin
     currentLine = newLineCandidate.line;
     lines.insert(lines.begin(), pair<Line, bool>(currentLine, newLineCandidate.lineDirection));
 }
+
+
+

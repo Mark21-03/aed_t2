@@ -76,6 +76,13 @@ TEST(Test_dijkstra, Test_dijkstra) {
     graph.addGeoStartEndNode(geoSouto, geoGaiaShopping, 500);
     vector<pair<Line, bool>> lines;
 
+    /*
+    1: dijkstra_zones(a);
+    2: dijkstra_distance(a);
+    3: dijkstra_lineSwaps(a);
+     */
+
+
     list<int> path = graph.dijkstra_path(geoStartNode, geoEndNode, lines, 2);
 
     cout << "Path size : " << path.size() << " => ";
