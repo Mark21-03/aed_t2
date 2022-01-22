@@ -4,6 +4,20 @@
 #include "../include/menu.h"
 #include "../include/GraphBuilder.h"
 
+
+#define geoCQueijo {41.16861948613213, -8.6899475068589}
+#define geoFeup {41.17838121987286, -8.599018100763733}
+#define geoPassal {41.15203283630788, -8.49986876108789}
+#define geoFcup {41.15223552642268, -8.636936732334394}
+#define geoFrancelos {41.10191154587645, -8.659713734654174}
+#define geoIkea {41.20962241758282, -8.688599177567802}
+
+#define geoStartNode 2488
+#define geoEndNode 2489
+
+
+
+
 using testing::Eq;
 
 
@@ -106,9 +120,10 @@ TEST(Test_dijkstra, Test_dijkstra_zones) {
     int originIndex = model.stopToIndex[origin];
     int destinyIndex = model.stopToIndex[destiny];
 
+    graph.addGeoStartEndNode(geoFcup,geoFeup,10000);
     vector<Line> lines;
 
-    list<int> path = graph.dijkstra_path(originIndex, destinyIndex, lines, 1);
+    list<int> path = graph.dijkstra_path(geoStartNode, geoEndNode, lines, 1);
 
     cout << "\nNumber of stops: " << path.size() << endl;
     int i = 0;
@@ -133,9 +148,10 @@ TEST(Test_dijkstra, Test_dijkstra_distance) {
     int originIndex = model.stopToIndex[origin];
     int destinyIndex = model.stopToIndex[destiny];
 
+    graph.addGeoStartEndNode(geoFeup,geoFcup,500);
     vector<Line> lines;
 
-    list<int> path = graph.dijkstra_path(originIndex, destinyIndex, lines, 2);
+    list<int> path = graph.dijkstra_path(originIndex, geoEndNode, lines, 2);
 
     cout << "\nNumber of stops: " << path.size() << endl;
     int i = 0;
@@ -159,9 +175,11 @@ TEST(Test_dijkstra, Test_dijkstra_swap) {
     int originIndex = model.stopToIndex[origin];
     int destinyIndex = model.stopToIndex[destiny];
 
+    graph.addGeoStartEndNode(geoFeup,geoFcup,500);
+
     vector<Line> lines;
 
-    list<int> path = graph.dijkstra_path(originIndex, destinyIndex, lines, 3);
+    list<int> path = graph.dijkstra_path(2488, 2489, lines, 3);
 
     cout << "\nNumber of stops: " << path.size() << endl;
     int i = 0;
@@ -185,12 +203,7 @@ TEST(Test_bfs, Test_bfs_walk) {
     int originIndex = model.stopToIndex[origin];
     int destinyIndex = model.stopToIndex[destiny];
 
-    Location start = {41.15195430099009, -8.50037991170946}; //passal
-    Location end = {41.18169909813813, -8.600008832034906}; //sjoao
-
-    int radius = 500;
-
-    graph.addGeoStartEndNode(start,end,radius);
+    graph.addGeoStartEndNode(geoFeup,geoFcup,500);
 
     vector<Line> lines;
 
