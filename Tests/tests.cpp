@@ -142,7 +142,32 @@ TEST(Test_dijkstra, Test_dijkstra_distance) {
     for (auto it = path.begin(); it != path.end(); it++) {
         cout << setw(8) << model.indexToStop[*it] << "\t";
         if (i == lines.size()) break;
-        cout <<setw(20)<< lines[i].name << endl;
+        cout <<setw(20)<< lines[i].name << " " << graph.getNode(*it).dist << endl;
+        i++;
+    }
+
+}
+
+TEST(Test_dijkstra, Test_dijkstra_distance_2) {
+    GraphBuilder model = GraphBuilder();
+    Graph graph = model.buildGraph();
+
+    string origin = "FNTL1";
+    string destiny = "SAR2";
+
+    int originIndex = model.stopToIndex[origin];
+    int destinyIndex = model.stopToIndex[destiny];
+
+    vector<Line> lines;
+
+    list<int> path = graph.dijkstra_path(originIndex, destinyIndex, lines, 2);
+
+    cout << "\nNumber of stops: " << path.size() << endl;
+    int i = 0;
+    for (auto it = path.begin(); it != path.end(); it++) {
+        cout << setw(8) << model.indexToStop[*it]  << "\t";
+    if (i == lines.size()) break;
+        cout <<setw(20)<< lines[i].name << " " << graph.getNode(*it).dist << endl;
         i++;
     }
 

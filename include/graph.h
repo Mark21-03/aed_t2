@@ -8,8 +8,7 @@
 #include "structs.h"
 #include "minHeap.h"
 
-#define INF 999999
-
+#define INF (INT_MAX/2)
 
 using namespace std;
 
@@ -61,42 +60,28 @@ public:
     void dijkstra_lineSwaps(int a);
 
     template<typename Functor>
-    void dijkstra(int a, Functor& functor) {
-        for (int i = 1; i <= n; i++) {
-            nodes[i].dist = INF;
-            nodes[i].visited = false;
-            nodes[i].pred = -1;
+    void dijkstra(int s, Functor& functor) {
+        MinHeap<int, int> q(n, -1);
+        for (int v=1; v<=n; v++) {
+            nodes[v].dist = INF;
+            nodes[v].pred = -1;
+            q.insert(v, INF);
+            nodes[v].visited = false;
         }
-
-        nodes[a].dist = 0;
-        nodes[a].pred = -1;
-
-        MinHeap<int, int> heap(n, -1);
-
-        for (int i = 1; i <= n; i++)
-            heap.insert(i, nodes[i].dist);
-
-        while (heap.getSize() > 0) {
-
-            int u = heap.removeMin();
-
+        nodes[s].dist = 0;
+        q.decreaseKey(s, 0);
+        nodes[s].pred = s;
+        while (q.getSize()>0) {
+            int u = q.removeMin();
+            // cout << "Node " << nodes[u].stop.name << " with dist = " << nodes[u].dist << endl;
             nodes[u].visited = true;
-
-            for (auto it = nodes[u].adj.begin(); it != nodes[u].adj.end(); it++) {
-
-                int v = nodes[it->dest].dist;
-
-                int cost = functor(u , it->dest) + nodes[u].dist;
-
-                if (v > cost && !nodes[it->dest].visited) {
-
-                    nodes[it->dest].dist = cost;
-
-                    v = cost;
-
-                    nodes[it->dest].pred = u;
-
-                    heap.decreaseKey(it->dest, v);
+            for (auto e : nodes[u].adj) {
+                int v = e.dest;
+                int w = functor(u , e.dest);
+                if (!nodes[v].visited && nodes[u].dist + w < nodes[v].dist) {
+                    nodes[v].dist = nodes[u].dist + w;
+                    nodes[v].pred = u;
+                    q.decreaseKey(v, nodes[v].dist);
                 }
             }
         }
