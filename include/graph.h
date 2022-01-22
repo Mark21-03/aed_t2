@@ -17,6 +17,7 @@ class Graph {
         int dest;   // Destination node
         WeightCriteria weight; // An integer weight
         Line line;
+        bool lineDirection;
     };
 
     struct Node {
@@ -37,7 +38,7 @@ public:
 
     explicit Graph(int nodes, bool dir = false);
 
-    void addEdge(int src, int dest, Line line, WeightCriteria weight = {0, 0, 0});
+    void addEdge(int src, int dest, Line line, bool lineDirection, WeightCriteria weight = {0, 0, 0});
 
     Node &getNode(int index);
 
@@ -45,7 +46,7 @@ public:
 
     int dijkstra_distance(int a, int b);
 
-    list<int> dijkstra_path(int a, int b, vector<Line> &lines, int swicther);
+    list<int> dijkstra_path(int a, int b, vector<pair<Line, bool>> &lines, int swicther);
 
     void bfsDist(int v);
 
@@ -53,17 +54,17 @@ public:
 
     void bfsPrint(int v);
 
-    int dijkstra_distance(int a);
+    void dijkstra_distance(int a);
 
     int dijkstra_zones(int a);
 
-    int dijkstra_lineSwaps(int a);
+    void dijkstra_lineSwaps(int a);
 
-    list<int> bfs_path(int a, int b, vector<Line> &lines);
+    list<int> bfs_path(int a, int b, vector<pair<Line, bool>> &lines);
 
     Edge getEdge(int src, int dest);
 
-    void findLinePath(Line &currentLine, int son, int parent, vector<Line> &lines);
+    void findLinePath(Line &currentLine, int son, int parent, vector<pair<Line, bool>> &lines);
 
     void addGeoStartEndNode(Location start, Location end, int radius);
 

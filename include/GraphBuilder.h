@@ -33,10 +33,10 @@ public:
 
     int nodeGeoDistance(int start, int end);
 
-    list<string> availableLines(const string &code) const;
-
     static bool file_exists(const string &name);
 
+    list<string> available_1_Lines(const string &code) const;
+    list<string> available_0_Lines(const string &code) const;
 };
 
 

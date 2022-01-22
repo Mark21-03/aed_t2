@@ -5,7 +5,8 @@ inline bool GraphBuilder::file_exists(const string &name) {
     return f.good();
 }
 
-list<string> GraphBuilder::availableLines(const string &code) const {
+
+list<string> GraphBuilder::available_0_Lines(const string &code) const {
     list<string> l;
 
     bool codeIsM_Line = code.back() == 'M';
@@ -16,6 +17,20 @@ list<string> GraphBuilder::availableLines(const string &code) const {
     string format = ".csv";
     if (file_exists(basicPath + code + "_" + "0" + format))
         l.push_back(basicPath + code + "_" + "0" + format);
+
+    return l;
+}
+
+list<string> GraphBuilder::available_1_Lines(const string &code) const {
+    list<string> l;
+
+    bool codeIsM_Line = code.back() == 'M';
+
+    if (!includeM_lines && codeIsM_Line) return {};
+
+    string basicPath = "../dataset/line/line_";
+    string format = ".csv";
+
     if (file_exists(basicPath + code + "_" + "1" + format))
         l.push_back(basicPath + code + "_" + "1" + format);
 
@@ -37,7 +52,7 @@ void GraphBuilder::addEdges() {
     vector<Line> lines = LinesReader("../dataset/lines.csv");
 
     for (const auto &l: lines) {
-        auto aL = availableLines(l.code);
+        auto aL = available_0_Lines(l.code);
 
         while (!aL.empty()) {
 
@@ -59,7 +74,38 @@ void GraphBuilder::addEdges() {
 
                     int zoneDif = graph.getNode(b).stop.zone == graph.getNode(end).stop.zone ? 0 : 1;
 
-                    graph.addEdge(b, end, l, {nodeGeoDistance(b, end), zoneDif, 0});
+                    graph.addEdge(b, end, l, false, {nodeGeoDistance(b, end), zoneDif, 0});
+                } else
+                    break;
+                it++;
+            }
+        }
+    }
+
+    for (const auto &l: lines) {
+        auto aL = available_1_Lines(l.code);
+
+        while (!aL.empty()) {
+
+            auto first = aL.front();
+            aL.pop_front();
+            LineStops list;
+            ifstream f(first);
+            f >> list;
+
+            if (list.stops.empty())
+                continue;
+
+            auto it = ++list.stops.begin();
+            for (auto s = list.stops.begin(); s != list.stops.end(); s++) {
+                // the circular stuff should be treated differently TODO
+                if (it != list.stops.end()) {
+                    auto b = stopToIndex[*s];
+                    auto end = stopToIndex[*it];
+
+                    int zoneDif = graph.getNode(b).stop.zone == graph.getNode(end).stop.zone ? 0 : 1;
+
+                    graph.addEdge(b, end, l, true, {nodeGeoDistance(b, end), zoneDif, 0});
                 } else
                     break;
                 it++;

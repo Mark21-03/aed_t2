@@ -169,7 +169,7 @@ void Menu::minStops() {
     int originIndex = model.stopToIndex[origin];
     int destinyIndex = model.stopToIndex[destiny];
 
-    vector<Line> lines;
+    vector<pair<Line, bool>> lines;
 
     list<int> path = graph.bfs_path(originIndex, destinyIndex, lines);
     cout << "\nNumber of stops: " << path.size() << endl << endl;
@@ -178,7 +178,7 @@ void Menu::minStops() {
     for (auto it = path.begin(); it != path.end(); it++) {
         cout << setw(8) << model.indexToStop[*it] << "\t";
         if (i == lines.size()) break;
-        cout << lines[i].name << endl;
+        cout << lines[i].first.name << endl;
 
         i++;
     }
