@@ -34,25 +34,19 @@ TEST(Test_bfs, Test_bfs) {
 
     list<int> path = graph.bfs_path(originIndex, destinyIndex, lines);
 
-    cout << "Number of stops: " << path.size() << endl;
+    cout << "Number of stops: " << path.size() << endl << endl;
 
+    cout << "Path size : " << path.size() << " => ";
+    for (auto i: path) cout << model.indexToStop[i] << " ; ";
     cout << endl;
+    cout << "Line size : " << lines.size() << " => ";
+    for (const auto &i: lines) cout << i.first.code << " ; ";
+    cout << endl << endl;
 
     int i = 0;
+    for (int &it: path) {
 
-
-    if (path.size() != lines.size()) {
-        cout << "Path size : " << path.size() << " => ";
-        for (auto i: path) cout << model.indexToStop[i] << " ; ";
-        cout << endl;
-        cout << "Line size : " << lines.size() << " => ";
-        for (auto i: lines) cout << i.first.code << " ; ";
-        cout << endl << endl;
-    }
-
-    for (auto it = path.begin(); it != path.end(); it++) {
-
-        cout << setw(8) << model.indexToStop[*it] << "\t";
+        cout << setw(8) << model.indexToStop[it] << "\t";
         if (i == lines.size()) break;
         cout << lines[i].first.name << endl;
 
@@ -60,7 +54,7 @@ TEST(Test_bfs, Test_bfs) {
     }
 }
 
-TEST(Test_dijkstra, Test_dijkstra_zones) {
+TEST(Test_dijkstra, Test_dijkstra) {
     GraphBuilder model = GraphBuilder();
     Graph graph = model.buildGraph(false);
 
@@ -70,10 +64,17 @@ TEST(Test_dijkstra, Test_dijkstra_zones) {
     int originIndex = model.stopToIndex[origin];
     int destinyIndex = model.stopToIndex[destiny];
 
-    graph.addGeoStartEndNode(geoFeup, geoPassal, 500);
+    graph.addGeoStartEndNode(geoFrancelos, geoIkea, 500);
     vector<pair<Line, bool>> lines;
 
-    list<int> path = graph.dijkstra_path(geoStartNode, geoEndNode, lines, 1);
+    list<int> path = graph.dijkstra_path(geoStartNode, geoEndNode, lines, 3);
+
+    cout << "Path size : " << path.size() << " => ";
+    for (auto i: path) cout << model.indexToStop[i] << " ; ";
+    cout << endl;
+    cout << "Line size : " << lines.size() << " => ";
+    for (auto i: lines) cout << i.first.code << " ; ";
+    cout << endl << endl;
 
     cout << "\nNumber of stops: " << path.size() << endl;
     int i = 0;
@@ -81,6 +82,7 @@ TEST(Test_dijkstra, Test_dijkstra_zones) {
         cout << setw(8) << model.indexToStop[*it] << "\t";
         if (i == lines.size()) break;
         cout << setw(20) << lines[i].first.lineDirectionName(lines[i].second) << "\t" << graph.getNode(*it).stop.zone
+             << " "
              << endl;
 
 

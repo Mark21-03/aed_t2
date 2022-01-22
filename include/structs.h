@@ -20,7 +20,7 @@ struct Stop {
 struct Line {
     string code, name;
 
-    string lineDirectionName(bool dir) {
+    string lineDirectionName(bool dir) const {
 
         //18 - PASSEIO ALEGRE - CARMO
         stringstream ss(name);
