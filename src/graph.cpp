@@ -65,11 +65,12 @@ void Graph::addGeoStartEndNode(Location start, Location end, int radius) {
 //distance criteria
 void Graph::dijkstra_distance(int a) {
 
-    auto lambda = [this] (int x, int y) {
+    auto lambda = [this](int x, int y) {
         Location l1 = nodes[x].stop.location;
         Location l2 = nodes[y].stop.location;
 
-        return distanceCalc(l1, l2); };
+        return distanceCalc(l1, l2);
+    };
 
     dijkstra(a, lambda);
 
@@ -78,9 +79,10 @@ void Graph::dijkstra_distance(int a) {
 //min zones criteria
 void Graph::dijkstra_zones(int a) {
 
-    auto lambda = [this] (int x, int y) {
+    auto lambda = [this](int x, int y) {
 
-        return nodes[x].stop.zone == nodes[y].stop.zone ? 0 : 1;};
+        return nodes[x].stop.zone == nodes[y].stop.zone ? 0 : 1;
+    };
 
     dijkstra(a, lambda);
 
@@ -90,9 +92,9 @@ void Graph::dijkstra_zones(int a) {
 void Graph::dijkstra_lineSwaps(int a) {
 
     static set<string> lines;
-    auto lambda = [this] (int x, int y) {
+    auto lambda = [this](int x, int y) {
 
-        for (auto e : nodes[x].adj) {
+        for (auto e: nodes[x].adj) {
             if (e.dest == y) {
                 if (lines.find(e.line.code) == lines.end()) {
                     lines.insert(e.line.code);
@@ -103,7 +105,8 @@ void Graph::dijkstra_lineSwaps(int a) {
             }
         }
 
-        return nodes[x].stop.code == nodes[y].stop.code ? 0 : 1;};
+        return nodes[x].stop.code == nodes[y].stop.code ? 0 : 1;
+    };
 
     lines.clear();
 
@@ -255,6 +258,34 @@ void Graph::findLinePath(Line &currentLine, int son, int parent, vector<pair<Lin
 
     currentLine = newLineCandidate.line;
     lines.insert(lines.begin(), pair<Line, bool>(currentLine, newLineCandidate.lineDirection));
+}
+
+template<typename Functor>
+void Graph::dijkstra(int s, Functor &functor) {
+    MinHeap<int, int> q(n, -1);
+    for (int v = 1; v <= n; v++) {
+        nodes[v].dist = INF;
+        nodes[v].pred = -1;
+        q.insert(v, INF);
+        nodes[v].visited = false;
+    }
+    nodes[s].dist = 0;
+    q.decreaseKey(s, 0);
+    nodes[s].pred = s;
+    while (q.getSize() > 0) {
+        int u = q.removeMin();
+        // cout << "Node " << nodes[u].stop.name << " with dist = " << nodes[u].dist << endl;
+        nodes[u].visited = true;
+        for (auto e: nodes[u].adj) {
+            int v = e.dest;
+            int w = functor(u, e.dest);
+            if (!nodes[v].visited && nodes[u].dist + w < nodes[v].dist) {
+                nodes[v].dist = nodes[u].dist + w;
+                nodes[v].pred = u;
+                q.decreaseKey(v, nodes[v].dist);
+            }
+        }
+    }
 }
 
 

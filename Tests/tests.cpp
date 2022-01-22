@@ -95,7 +95,7 @@ TEST(Test_dijkstra, Test_dijkstra) {
 
     cout << "\nNumber of stops: " << path.size() << endl;
     int i = 0;
-    for (int & it : path) {
+    for (int &it: path) {
         cout << setw(8) << model.indexToStop[it] << "\t";
         if (i == lines.size()) break;
         cout << setw(20) << lines[i].first.lineDirectionName(lines[i].second) << "\t" << graph.getNode(it).stop.zone

@@ -172,10 +172,10 @@ void Menu::minStops() {
     vector<pair<Line, bool>> lines;
 
     list<int> path = graph.bfs_path(originIndex, destinyIndex, lines);
-    cout << "\nNumber of stops: " << graph.getNode(destinyIndex).dist  << endl << endl;
+    cout << "\nNumber of stops: " << graph.getNode(destinyIndex).dist << endl << endl;
 
     int i = 0;
-    for (int & it : path) {
+    for (int &it: path) {
         cout << setw(8) << model.indexToStop[it] << "\t";
         if (i == lines.size()) break;
         cout << lines[i].first.name << endl;
@@ -202,7 +202,7 @@ void Menu::minDistance() { // TODO: Repetitive
     cout << "\nDistance: " << graph.getNode(destinyIndex).dist << endl << endl;
 
     int i = 0;
-    for (int & it : path) {
+    for (int &it: path) {
         cout << setw(8) << model.indexToStop[it] << "\t";
         if (i == lines.size()) break;
         cout << lines[i].first.name << endl;
@@ -230,7 +230,7 @@ void Menu::minZones() {
     cout << "\nNumber of Zones: " << graph.getNode(destinyIndex).dist << endl << endl;
 
     int i = 0;
-    for (int & it : path) {
+    for (int &it: path) {
         cout << setw(8) << model.indexToStop[it] << "\t";
         if (i == lines.size()) break;
         cout << lines[i].first.name << endl;
@@ -258,7 +258,7 @@ void Menu::minSwaps() {
     cout << "\nNumber of minimum line swaps: " << graph.getNode(destinyIndex).dist << endl << endl;
 
     int i = 0;
-    for (int & it : path) {
+    for (int &it: path) {
         cout << setw(8) << model.indexToStop[it] << "\t";
         if (i == lines.size()) break;
         cout << lines[i].first.name << endl;
