@@ -1,4 +1,6 @@
 #include "../include/graph.h"
+
+#include <utility>
 #include "../include/minHeap.h"
 #include "../include/files_reader.h"
 #include "../include/distanceCalc.h"
@@ -7,9 +9,11 @@
 Graph::Graph(int num, bool dir) : n(num), hasDir(dir), nodes(num + 1) {}
 
 // Add edge from source to destination with a certain weight
-void Graph::addEdge(int src, int dest, Line line, WeightCriteria weight) {
+void Graph::addEdge(int src, int dest, Line line, bool lineDirection, WeightCriteria weight) {
     if (src < 1 || src > n || dest < 1 || dest > n) return;
-    nodes[src].adj.push_back({dest, weight, line});
+
+    Edge edge = {dest, weight, std::move(line), lineDirection};
+    nodes[src].adj.push_back(edge);
 
     if (!hasDir) nodes[dest].adj.push_back({src, weight});
 }
@@ -22,6 +26,41 @@ Graph::Edge Graph::getEdge(int src, int dest) {
 
     return {};
 }
+
+
+vector<int> Graph::nodesInReach(Location pos, int radius) {
+
+    vector<int> v;
+    for (int i = 1; i <= n; i++)
+        if (distanceCalc(nodes[i].stop.location, pos) <= radius)
+            v.push_back(i);
+    return v;
+}
+
+
+void Graph::addGeoStartEndNode(Location start, Location end, int radius) {
+
+    Stop stop = {};
+    addNode(2488, stop);
+    addNode(2489, stop);
+
+    vector<int> nodesStart = nodesInReach(start, radius);
+    vector<int> nodesEnd = nodesInReach(end, radius);
+
+    //adicionar as edges para caminhar a pé da origem e até destino
+
+    auto distCalc = [&](Location l, int i) {
+        return (int) distanceCalc(l, getNode(i).stop.location);
+    };
+
+    for (auto i: nodesStart)
+        addEdge(2488, i, {"__FOOT__", "__FOOT__"}, false, {distCalc(start, i), 0, 1});
+
+    for (auto i: nodesEnd)
+        addEdge(i, 2489, {"__FOOT__", "__FOOT__"}, true, {distCalc(end, i), 0, 1});
+
+}
+
 
 //distance criteria
 void Graph::dijkstra_distance(int a) {
@@ -67,7 +106,7 @@ int Graph::dijkstra_distance(int a, int b) {
 }
 
 
-list<int> Graph::dijkstra_path(int a, int b, vector<Line> &lines, int switcher) {
+list<int> Graph::dijkstra_path(int a, int b, vector<pair<Line, bool>> &lines, int switcher) {
     Line currentLine;
 
     switch (switcher) {
@@ -114,7 +153,7 @@ void Graph::addNode(int index, Stop &stop) {
 }
 
 
-list<int> Graph::bfs_path(int a, int b, vector<Line> &lines) {
+list<int> Graph::bfs_path(int a, int b, vector<pair<Line, bool>> &lines) {
     Line currentLine;
     bfsDist(a);
     list<int> path = {b};
@@ -198,19 +237,24 @@ void Graph::bfsPrint(int v) {
     }
 }
 
-void Graph::findLinePath(Line &currentLine, int son, int parent, vector<Line> &lines) {
-    Line newLineCandidate = {"NULL", "NULL"};
+//esta funcao procura uma edge entre dois nós tentando manter a mesma linha se possivel
+void Graph::findLinePath(Line &currentLine, int son, int parent, vector<pair<Line, bool>> &lines) {
+    Edge newLineCandidate;
 
     for (Edge e: nodes[parent].adj) {
         if (e.dest == son) {
             if (e.line.code == currentLine.code) {
-                lines.insert(lines.begin(), currentLine);
+                lines.insert(lines.begin(), pair<Line, bool>(currentLine, e.lineDirection));
                 return;
             } else {
-                newLineCandidate = e.line;
+                newLineCandidate = e;
             }
         }
     }
-    currentLine = newLineCandidate;
-    lines.insert(lines.begin(), currentLine);
+
+    currentLine = newLineCandidate.line;
+    lines.insert(lines.begin(), pair<Line, bool>(currentLine, newLineCandidate.lineDirection));
 }
+
+
+

@@ -8,6 +8,10 @@ inline bool GraphBuilder::file_exists(const string &name) {
 list<string> GraphBuilder::availableLines(const string &code) {
     list<string> l;
 
+    bool codeIsM_Line = code.back() == 'M';
+
+    if (!includeM_lines && codeIsM_Line) return {};
+
     string basicPath = "../dataset/line/line_";
     string format = ".csv";
     if (file_exists(basicPath + code + "_" + "0" + format))
@@ -17,7 +21,6 @@ list<string> GraphBuilder::availableLines(const string &code) {
 
     return l;
 }
-
 
 void GraphBuilder::addNodes() {
     int i = 1;
@@ -39,6 +42,9 @@ void GraphBuilder::addEdges() {
 
             auto first = aL.front();
             aL.pop_front();
+
+            bool direction = first.find("_0.csv") != string::npos;
+
             LineStops list;
             ifstream f(first);
             f >> list;
@@ -54,14 +60,13 @@ void GraphBuilder::addEdges() {
 
                     int zoneDif = graph.getNode(b).stop.zone == graph.getNode(end).stop.zone ? 0 : 1;
 
-                    graph.addEdge(b, end, l, {nodeGeoDistance(b, end), zoneDif, 0});
+                    graph.addEdge(b, end, l, direction, {nodeGeoDistance(b, end), zoneDif, 0});
                 } else
                     break;
                 it++;
             }
         }
     }
-
 }
 
 int GraphBuilder::nodeGeoDistance(int start, int end) {
@@ -71,3 +76,4 @@ int GraphBuilder::nodeGeoDistance(int start, int end) {
 
     return distanceCalc(l1, l2);
 }
+
