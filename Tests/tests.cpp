@@ -83,7 +83,8 @@ TEST(Test_dijkstra, Test_dijkstra) {
      */
 
 
-    list<int> path = graph.dijkstra_path(geoStartNode, geoEndNode, lines, 2);
+    graph.dijkstra_distance(geoStartNode);
+    list<int> path = graph.dijkstra_path(geoStartNode, geoEndNode, lines);
 
     cout << "Path size : " << path.size() << " => ";
     for (auto i: path) cout << model.indexToStop[i] << " ; ";
@@ -94,10 +95,10 @@ TEST(Test_dijkstra, Test_dijkstra) {
 
     cout << "\nNumber of stops: " << path.size() << endl;
     int i = 0;
-    for (auto it = path.begin(); it != path.end(); it++) {
-        cout << setw(8) << model.indexToStop[*it] << "\t";
+    for (int & it : path) {
+        cout << setw(8) << model.indexToStop[it] << "\t";
         if (i == lines.size()) break;
-        cout << setw(20) << lines[i].first.lineDirectionName(lines[i].second) << "\t" << graph.getNode(*it).stop.zone
+        cout << setw(20) << lines[i].first.lineDirectionName(lines[i].second) << "\t" << graph.getNode(it).stop.zone
              << " "
              << endl;
 

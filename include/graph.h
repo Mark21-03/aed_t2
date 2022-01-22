@@ -46,7 +46,7 @@ public:
 
     int dijkstra_distance(int a, int b);
 
-    list<int> dijkstra_path(int a, int b, vector<pair<Line, bool>> &lines, int swicther);
+    list<int> dijkstra_path(int a, int b, vector<pair<Line, bool>> &lines);
 
     void bfsDist(int v);
 

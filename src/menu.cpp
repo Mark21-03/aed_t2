@@ -172,11 +172,11 @@ void Menu::minStops() {
     vector<pair<Line, bool>> lines;
 
     list<int> path = graph.bfs_path(originIndex, destinyIndex, lines);
-    cout << "\nNumber of stops: " << path.size() << endl << endl;
+    cout << "\nNumber of stops: " << graph.getNode(destinyIndex).dist  << endl << endl;
 
     int i = 0;
-    for (auto it = path.begin(); it != path.end(); it++) {
-        cout << setw(8) << model.indexToStop[*it] << "\t";
+    for (int & it : path) {
+        cout << setw(8) << model.indexToStop[it] << "\t";
         if (i == lines.size()) break;
         cout << lines[i].first.name << endl;
 
@@ -185,18 +185,87 @@ void Menu::minStops() {
     getchar();
 }
 
-void Menu::minDistance() {
-    cout << "To implement minDistance..." << endl;
+void Menu::minDistance() { // TODO: Repetitive
+    GraphBuilder model = GraphBuilder();
+    Graph graph = model.buildGraph();
+
+    string origin = codeStart;
+    string destiny = codeEnd;
+
+    int originIndex = model.stopToIndex[origin];
+    int destinyIndex = model.stopToIndex[destiny];
+
+    vector<pair<Line, bool>> lines;
+
+    graph.dijkstra_distance(originIndex);
+    list<int> path = graph.dijkstra_path(originIndex, destinyIndex, lines);
+    cout << "\nDistance: " << graph.getNode(destinyIndex).dist << endl << endl;
+
+    int i = 0;
+    for (int & it : path) {
+        cout << setw(8) << model.indexToStop[it] << "\t";
+        if (i == lines.size()) break;
+        cout << lines[i].first.name << endl;
+
+        i++;
+    }
+
     getchar();
 }
 
 void Menu::minZones() {
-    cout << "To implement minZones..." << endl;
+    GraphBuilder model = GraphBuilder();
+    Graph graph = model.buildGraph();
+
+    string origin = codeStart;
+    string destiny = codeEnd;
+
+    int originIndex = model.stopToIndex[origin];
+    int destinyIndex = model.stopToIndex[destiny];
+
+    vector<pair<Line, bool>> lines;
+
+    graph.dijkstra_zones(originIndex);
+    list<int> path = graph.dijkstra_path(originIndex, destinyIndex, lines);
+    cout << "\nNumber of Zones: " << graph.getNode(destinyIndex).dist << endl << endl;
+
+    int i = 0;
+    for (int & it : path) {
+        cout << setw(8) << model.indexToStop[it] << "\t";
+        if (i == lines.size()) break;
+        cout << lines[i].first.name << endl;
+
+        i++;
+    }
+
     getchar();
 }
 
 void Menu::minSwaps() {
-    cout << "To implement minSwaps..." << endl;
+    GraphBuilder model = GraphBuilder();
+    Graph graph = model.buildGraph();
+
+    string origin = codeStart;
+    string destiny = codeEnd;
+
+    int originIndex = model.stopToIndex[origin];
+    int destinyIndex = model.stopToIndex[destiny];
+
+    vector<pair<Line, bool>> lines;
+
+    graph.dijkstra_lineSwaps(originIndex);
+    list<int> path = graph.dijkstra_path(originIndex, destinyIndex, lines);
+    cout << "\nNumber of minimum line swaps: " << graph.getNode(destinyIndex).dist << endl << endl;
+
+    int i = 0;
+    for (int & it : path) {
+        cout << setw(8) << model.indexToStop[it] << "\t";
+        if (i == lines.size()) break;
+        cout << lines[i].first.name << endl;
+
+        i++;
+    }
+
     getchar();
 }
 

@@ -1,7 +1,7 @@
 #include "../include/graph.h"
 
 #include <utility>
-#include "../include/minHeap.h"
+#include "set"
 #include "../include/files_reader.h"
 #include "../include/distanceCalc.h"
 
@@ -89,9 +89,23 @@ void Graph::dijkstra_zones(int a) {
 //min line changes criteria
 void Graph::dijkstra_lineSwaps(int a) {
 
+    static set<string> lines;
     auto lambda = [this] (int x, int y) {
 
+        for (auto e : nodes[x].adj) {
+            if (e.dest == y) {
+                if (lines.find(e.line.code) == lines.end()) {
+                    lines.insert(e.line.code);
+                    return 1;
+                } else {
+                    return 0;
+                }
+            }
+        }
+
         return nodes[x].stop.code == nodes[y].stop.code ? 0 : 1;};
+
+    lines.clear();
 
     dijkstra(a, lambda);
 
@@ -106,21 +120,8 @@ int Graph::dijkstra_distance(int a, int b) {
 }
 
 
-list<int> Graph::dijkstra_path(int a, int b, vector<pair<Line, bool>> &lines, int switcher) {
+list<int> Graph::dijkstra_path(int a, int b, vector<pair<Line, bool>> &lines) {
     Line currentLine;
-
-    switch (switcher) {
-        case 1:
-            dijkstra_zones(a);
-            break;
-        case 2:
-            dijkstra_distance(a);
-            break;
-        case 3:
-            dijkstra_lineSwaps(a);
-            break;
-    }
-
 
     list<int> path = {b};
     int parent = b;

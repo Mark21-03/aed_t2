@@ -39,11 +39,11 @@ public:
 
     void minStops();
 
-    static void minDistance();
+    void minDistance();
 
-    static void minZones();
+    void minZones();
 
-    static void minSwaps();
+    void minSwaps();
 
     void locationStops();
 
