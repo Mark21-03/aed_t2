@@ -32,8 +32,8 @@ struct Line {
         getline(ss, endName, '-');
 
         if (dir)
-            return codeName + ". " + startName + " - " + endName;
-        return codeName + ". " + endName + " - " + startName;
+            return codeName + "." + startName + "-" + endName;
+        return codeName + "." + endName + "-" + startName;
 
     }
 };

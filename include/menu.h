@@ -41,6 +41,9 @@ class Menu {
 
 private:
 
+
+public:
+
     Location localStart, localEnd;
     string codeStart, codeEnd;
     int footDistance = 500;
@@ -52,9 +55,6 @@ private:
     };
 
     static bool menuConfirmationPrompt();
-
-
-public:
 
     STATE locationMenu();
 
@@ -86,7 +86,11 @@ public:
 
     bool processStoredCords(const string &input, Location &location);
 
-    static void beautifulPrint(Graph &graph, GraphBuilder &model, vector<pair<Line, bool>> &lines, const list<int> &path);
+    static void beautifulPrintGeo(Graph graph, GraphBuilder model, vector<pair<Line, bool>> lines, list<int> path);
+
+    static void fullLinePrint(Graph graph, GraphBuilder model, vector<pair<Line, bool>> lines, const list<int> &path);
+
+    static void beautifulPrintStops(Graph graph, GraphBuilder model, vector<pair<Line, bool>> lines, list<int> path);
 };
 
 string trimStr(istream &ios, string str);
