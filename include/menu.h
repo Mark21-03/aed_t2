@@ -7,6 +7,7 @@
 #include <string>
 #include "files_reader.h"
 #include "graph.h"
+#include "GraphBuilder.h"
 
 #ifdef _WIN32
 #define CLEAR "cls"
@@ -84,6 +85,8 @@ public:
     void askUseMLines();
 
     bool processStoredCords(const string &input, Location &location);
+
+    static void beautifulPrint(Graph &graph, GraphBuilder &model, vector<pair<Line, bool>> &lines, const list<int> &path);
 };
 
 string trimStr(istream &ios, string str);

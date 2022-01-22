@@ -213,14 +213,14 @@ void Menu::askLocationCords() {
     string input;
 
     cout << "\nStarting coordinates (latitude, longitude): ";
-    getline(cin,input);
+    getline(cin, input);
     if (!processStoredCords(input, localStart)) {
         stringstream ss(input);
         if (ss >> localStart) {} else { cout << "Invalid!"; }
     }
 
     cout << "\nDestination coordinates (latitude, longitude): ";
-    getline(cin,input);
+    getline(cin, input);
     if (!processStoredCords(input, localEnd)) {
         stringstream ss(input);
         if (ss >> localEnd) {} else { cout << "Invalid!"; }
@@ -301,14 +301,7 @@ void Menu::showGeneratedPath(int pathCriteria) {
             break;
     }
 
-    int i = 0;
-    for (int &it: path) {
-        cout << setw(8) << model.indexToStop[it] << "\t";
-        if (i == lines.size()) break;
-        cout << lines[i].first.lineDirectionName(lines[i].second) << " ; " << graph.getNode(it).stop.zone << endl;
-        i++;
-    }
-    getchar();
+    beautifulPrint(graph, model, lines, path);
 
 }
 
@@ -399,6 +392,20 @@ bool Menu::processStoredCords(const string &input, Location &location) {
 
     return (temp.latitude != location.latitude && temp.longitude != location.longitude);
 
+
+}
+
+
+void Menu::beautifulPrint(Graph &graph, GraphBuilder &model, vector<pair<Line, bool>> &lines, const list<int> &path) {
+
+    int i = 0;
+    for (int it: path) {
+        cout << setw(8) << model.indexToStop[it] << "\t";
+        if (i == lines.size()) break;
+        cout << lines[i].first.lineDirectionName(lines[i].second) << " ; " << graph.getNode(it).stop.zone << endl;
+        i++;
+    }
+    getchar();
 
 }
 
