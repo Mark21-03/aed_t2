@@ -133,10 +133,10 @@ Menu::STATE Menu::locationMenu() {
                 case '0':
                     return close;
                 case '1':
-                    locationStops();
+                    askLocationStops();
                     return menuConfirmationPrompt() ? criteria : location;
                 case '2':
-                    locationCords();
+                    askLocationCords();
                     return menuConfirmationPrompt() ? criteria : location;
                 case '3':
                     settingsMenu();
@@ -198,7 +198,7 @@ list<int> Menu::minSwaps(Graph &graph, vector<pair<Line, bool>> &lines, int orig
 
 }
 
-void Menu::locationStops() {
+void Menu::askLocationStops() {
 
     //TODO test if they exist
     cout << "\nStarting stop code: ";
@@ -208,13 +208,23 @@ void Menu::locationStops() {
 
 }
 
-void Menu::locationCords() {
+void Menu::askLocationCords() {
 
-    //TODO test if given inputs are valid
+    string input;
+
     cout << "\nStarting coordinates (latitude, longitude): ";
-    cin >> localStart;
+    getline(cin,input);
+    if (!processStoredCords(input, localStart)) {
+        stringstream ss(input);
+        if (ss >> localStart) {} else { cout << "Invalid!"; }
+    }
+
     cout << "\nDestination coordinates (latitude, longitude): ";
-    cin >> localEnd;
+    getline(cin,input);
+    if (!processStoredCords(input, localEnd)) {
+        stringstream ss(input);
+        if (ss >> localEnd) {} else { cout << "Invalid!"; }
+    }
 }
 
 
@@ -291,12 +301,11 @@ void Menu::showGeneratedPath(int pathCriteria) {
             break;
     }
 
-
     int i = 0;
     for (int &it: path) {
         cout << setw(8) << model.indexToStop[it] << "\t";
         if (i == lines.size()) break;
-        cout << lines[i].first.lineDirectionName(lines[i].second) << " " << graph.getNode(it).stop.zone << endl;
+        cout << lines[i].first.lineDirectionName(lines[i].second) << " ; " << graph.getNode(it).stop.zone << endl;
         i++;
     }
     getchar();
@@ -339,6 +348,57 @@ void Menu::askUseMLines() {
 
 }
 
+bool Menu::processStoredCords(const string &input, Location &location) {
+
+    Location temp = location;
+
+    if (input == "CQUEIJO")
+        location = geoCQueijo;
+
+    else if (input == "FEUP")
+        location = geoFeup;
+
+    else if (input == "FCUP")
+        location = geoFcup;
+
+    else if (input == "PASSAL")
+        location = geoPassal;
+
+    else if (input == "IKEA")
+        location = geoIkea;
+
+    else if (input == "FRANCELOS")
+        location = geoFrancelos;
+
+    else if (input == "ALIADOS")
+        location = geoAliados;
+
+    else if (input == "BOMSUCESSO")
+        location = geoBomSucesso;
+
+    else if (input == "PBOLSA")
+        location = geoPalBolsa;
+
+    else if (input == "GSHOP")
+        location = geoGaiaShopping;
+
+    else if (input == "NSHOP")
+        location = geoNorteShopping;
+
+    else if (input == "CORDOARIA")
+        location = geoCordoaria;
+
+    else if (input == "ALFENA")
+        location = geoAlfena;
+
+    else if (input == "CAMPANHA")
+        location = geoCampanha;
+
+    else if (input == "SOUTO")
+        location = geoCQueijo;
+
+    return (temp.latitude != location.latitude && temp.longitude != location.longitude);
 
 
+}
 
