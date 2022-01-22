@@ -16,8 +16,6 @@
 #define geoEndNode 2489
 
 
-
-
 using testing::Eq;
 
 
@@ -120,7 +118,7 @@ TEST(Test_dijkstra, Test_dijkstra_zones) {
     int originIndex = model.stopToIndex[origin];
     int destinyIndex = model.stopToIndex[destiny];
 
-    graph.addGeoStartEndNode(geoFcup,geoFeup,10000);
+    graph.addGeoStartEndNode(geoFcup, geoFeup, 10000);
     vector<Line> lines;
 
     list<int> path = graph.dijkstra_path(geoStartNode, geoEndNode, lines, 1);
@@ -130,7 +128,7 @@ TEST(Test_dijkstra, Test_dijkstra_zones) {
     for (auto it = path.begin(); it != path.end(); it++) {
         cout << setw(8) << model.indexToStop[*it] << "\t";
         if (i == lines.size()) break;
-        cout <<setw(20)<< lines[i].name << "\t" << graph.getNode(*it).stop.zone << endl;
+        cout << setw(20) << lines[i].name << "\t" << graph.getNode(*it).stop.zone << endl;
 
 
         i++;
@@ -148,7 +146,7 @@ TEST(Test_dijkstra, Test_dijkstra_distance) {
     int originIndex = model.stopToIndex[origin];
     int destinyIndex = model.stopToIndex[destiny];
 
-    graph.addGeoStartEndNode(geoFeup,geoFcup,500);
+    graph.addGeoStartEndNode(geoFeup, geoFcup, 500);
     vector<Line> lines;
 
     list<int> path = graph.dijkstra_path(originIndex, geoEndNode, lines, 2);
@@ -158,7 +156,7 @@ TEST(Test_dijkstra, Test_dijkstra_distance) {
     for (auto it = path.begin(); it != path.end(); it++) {
         cout << setw(8) << model.indexToStop[*it] << "\t";
         if (i == lines.size()) break;
-        cout <<setw(20)<< lines[i].name << endl;
+        cout << setw(20) << lines[i].name << endl;
         i++;
     }
 
@@ -175,7 +173,7 @@ TEST(Test_dijkstra, Test_dijkstra_swap) {
     int originIndex = model.stopToIndex[origin];
     int destinyIndex = model.stopToIndex[destiny];
 
-    graph.addGeoStartEndNode(geoFeup,geoFcup,500);
+    graph.addGeoStartEndNode(geoFeup, geoFcup, 500);
 
     vector<Line> lines;
 
@@ -186,7 +184,7 @@ TEST(Test_dijkstra, Test_dijkstra_swap) {
     for (auto it = path.begin(); it != path.end(); it++) {
         cout << setw(8) << model.indexToStop[*it] << "\t";
         if (i == lines.size()) break;
-        cout <<setw(20)<< lines[i].name << endl;
+        cout << setw(20) << lines[i].name << endl;
         i++;
     }
 
@@ -197,17 +195,18 @@ TEST(Test_bfs, Test_bfs_walk) {
     GraphBuilder model = GraphBuilder();
     Graph graph = model.buildGraph();
 
-    string origin = "FRC";
-    string destiny = "ALXH1";
+    string origin = "FNTL1";
+    string destiny = "SAR2";
 
     int originIndex = model.stopToIndex[origin];
     int destinyIndex = model.stopToIndex[destiny];
 
-    graph.addGeoStartEndNode(geoFeup,geoFcup,500);
+    graph.addGeoStartEndNode(geoFeup, geoFcup, 500);
+
 
     vector<Line> lines;
 
-    list<int> path = graph.bfs_path(2488, 2489, lines);
+    list<int> path = graph.bfs_path(originIndex, destinyIndex, lines);
 
     cout << "Number of stops: " << path.size() << endl;
 

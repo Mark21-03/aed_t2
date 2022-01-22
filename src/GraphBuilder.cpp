@@ -5,8 +5,12 @@ inline bool GraphBuilder::file_exists(const string &name) {
     return f.good();
 }
 
-list <string> GraphBuilder::availableLines(const string &code) {
-    list <string> l;
+list<string> GraphBuilder::availableLines(const string &code) const {
+    list<string> l;
+
+    bool codeIsM_Line = code.back() == 'M';
+
+    if (!includeM_lines && codeIsM_Line) return {};
 
     string basicPath = "../dataset/line/line_";
     string format = ".csv";
@@ -30,7 +34,7 @@ void GraphBuilder::addNodes() {
 }
 
 void GraphBuilder::addEdges() {
-    vector <Line> lines = LinesReader("../dataset/lines.csv");
+    vector<Line> lines = LinesReader("../dataset/lines.csv");
 
     for (const auto &l: lines) {
         auto aL = availableLines(l.code);

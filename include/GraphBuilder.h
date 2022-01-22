@@ -12,6 +12,8 @@ class GraphBuilder {
 
 private:
 
+    bool includeM_lines;
+
     void addNodes();
 
     void addEdges();
@@ -21,8 +23,9 @@ public:
     map<string, int> stopToIndex;
     map<int, string> indexToStop;
 
-    Graph buildGraph() {
+    Graph buildGraph(bool includeMLines = true) {
         graph = Graph(2487 + 2, true);
+        this->includeM_lines = includeMLines;
         addNodes();
         addEdges();
         return graph;
@@ -30,7 +33,7 @@ public:
 
     int nodeGeoDistance(int start, int end);
 
-    static list<string> availableLines(const string &code);
+    list<string> availableLines(const string &code) const;
 
     static bool file_exists(const string &name);
 
