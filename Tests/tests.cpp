@@ -64,8 +64,8 @@ TEST(Test_bfs, Test_bfs) {
     Graph graph = model.buildGraph();
 
     //A melhor combinacao para testar é FRC ALXH1  ou CQ10 PSL1 porque atravessa o porto por comleto (muito longe)
-    string origin = "FRC";
-    string destiny = "ALXH1";
+    string origin = "PSL2";
+    string destiny = "ASP2";
 
     int originIndex = model.stopToIndex[origin];
     int destinyIndex = model.stopToIndex[destiny];
