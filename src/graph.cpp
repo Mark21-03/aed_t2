@@ -92,13 +92,22 @@ void Graph::dijkstra_zones(int a) {
 void Graph::dijkstra_lineSwaps(int a) {
 
 
-    auto lambda = [this](int x, Edge y) {
+    auto lambda = [this, a](int x, Edge& y) {
 
         if (y.line.code == nodes[x].pred.line.code) {
             return 0;
         }
+        set<int> seen;
+        while (y.origin != a ) {
+            if (seen.find(y.origin) != seen.end())
+                break;
+            y.weight += 3000;
+            seen.insert(y.origin);
+            y = nodes[x].pred;
 
-        return 1;
+        }
+
+        return 4000;
 
     };
 
@@ -251,12 +260,12 @@ void Graph::dijkstra(int s, Functor &functor) {
     }
     nodes[s].dist = 0;
     q.decreaseKey(s, 0);
-    nodes[s].pred = {s, 0, "", ""};
+    nodes[s].pred = {s, 0, "", "", false, s};
     while (q.getSize() > 0) {
         int u = q.removeMin();
         // cout << "Node " << nodes[u].stop.name << " with dist = " << nodes[u].dist << endl;
         nodes[u].visited = true;
-        for (auto e: nodes[u].adj) {
+        for (auto& e: nodes[u].adj) {
             int v = e.dest;
             int w = functor(u, e);
             if (!nodes[v].visited && nodes[u].dist + w < nodes[v].dist) {
