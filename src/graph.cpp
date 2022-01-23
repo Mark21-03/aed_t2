@@ -79,18 +79,18 @@ void Graph::dijkstra_distance(int a) {
 //min zones criteria
 void Graph::dijkstra_zones(int a) {
 
-    auto lambda = [this, a](int x, Edge& y) {
-        set<int> seen;
-        Edge d = y;
-        while (y.origin != a ) {
-            if (seen.find(y.origin) != seen.end())
-                break;
-            y.weight += 100;
-            seen.insert(y.origin);
-            y = nodes[x].pred;
+    static set<string> avLines;
+    for (auto e : nodes[a].adj) {
+        avLines.insert(e.line.code);
+    }
+    auto lambda = [this](int x, Edge& y) {
 
+        int penalty = 0;
+        if (avLines.find(y.line.code) == avLines.end()) {
+            penalty = 1;
         }
-        return (nodes[x].stop.zone == nodes[d.dest].stop.zone ? 0 : 1 ) * 100;
+
+        return (nodes[x].stop.zone == nodes[y.dest].stop.zone ? 0 : 1) + penalty; // TODO: THE PENALTY WILL MESS WITH INFORMATION OF NUMBER OD ZONES
     };
 
     dijkstra(a, lambda);
