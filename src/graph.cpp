@@ -65,7 +65,7 @@ void Graph::addGeoStartEndNode(Location start, Location end, int radius) {
 //distance criteria
 void Graph::dijkstra_distance(int a) {
 
-    auto lambda = [this](int x, Edge y) {
+    auto lambda = [this](int x, Edge& y) {
         Location l1 = nodes[x].stop.location;
         Location l2 = nodes[y.dest].stop.location;
 
@@ -79,9 +79,18 @@ void Graph::dijkstra_distance(int a) {
 //min zones criteria
 void Graph::dijkstra_zones(int a) {
 
-    auto lambda = [this](int x, Edge y) {
+    auto lambda = [this, a](int x, Edge& y) {
+        set<int> seen;
+        Edge d = y;
+        while (y.origin != a ) {
+            if (seen.find(y.origin) != seen.end())
+                break;
+            y.weight += 100;
+            seen.insert(y.origin);
+            y = nodes[x].pred;
 
-        return nodes[x].stop.zone == nodes[y.dest].stop.zone ? 0 : 1;
+        }
+        return (nodes[x].stop.zone == nodes[d.dest].stop.zone ? 0 : 1 ) * 100;
     };
 
     dijkstra(a, lambda);
@@ -91,29 +100,23 @@ void Graph::dijkstra_zones(int a) {
 //min line changes criteria
 void Graph::dijkstra_lineSwaps(int a) {
 
+    static set<string> avLines;
+    for (auto e : nodes[a].adj) {
+        avLines.insert(e.line.code);
+    }
+    auto lambda = [this](int x, Edge& y) {
 
-    auto lambda = [this, a](int x, Edge& y) {
-
-        if (y.line.code == nodes[x].pred.line.code) {
+        if (avLines.find(y.line.code) != avLines.end() && y.line.code == nodes[x].pred.line.code) {
             return 0;
         }
-        set<int> seen;
-        while (y.origin != a ) {
-            if (seen.find(y.origin) != seen.end())
-                break;
-            y.weight += 3000;
-            seen.insert(y.origin);
-            y = nodes[x].pred;
-
-        }
-
-        return 4000;
+        return 1;
 
     };
 
 
     dijkstra(a, lambda);
 
+    avLines.clear();
 }
 
 
@@ -268,7 +271,7 @@ void Graph::dijkstra(int s, Functor &functor) {
         for (auto& e: nodes[u].adj) {
             int v = e.dest;
             int w = functor(u, e);
-            if (!nodes[v].visited && nodes[u].dist + w < nodes[v].dist) {
+            if (!nodes[v].visited && nodes[u].dist + w <= nodes[v].dist) {
                 nodes[v].dist = nodes[u].dist + w;
                 nodes[v].pred = e;
                 q.decreaseKey(v, nodes[v].dist);
