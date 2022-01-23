@@ -62,13 +62,13 @@ public:
 
     void start();
 
-    static list<int> minStops(Graph &graph, vector<pair<Line, bool>> &lines, int originIndex, int destinyIndex);
+    static list<Graph::Edge> minStops(Graph &graph, int originIndex, int destinyIndex);
 
-    static list<int> minDistance(Graph &graph, vector<pair<Line, bool>> &lines, int originIndex, int destinyIndex);
+    static list<Graph::Edge> minDistance(Graph &graph, int originIndex, int destinyIndex);
 
-    static list<int> minZones(Graph &graph, vector<pair<Line, bool>> &lines, int originIndex, int destinyIndex);
+    static list<Graph::Edge> minZones(Graph &graph,int originIndex, int destinyIndex);
 
-    static list<int> minSwaps(Graph &graph, vector<pair<Line, bool>> &lines, int originIndex, int destinyIndex);
+    static list<Graph::Edge> minSwaps(Graph &graph,int originIndex, int destinyIndex);
 
     void askLocationStops();
 
@@ -86,11 +86,11 @@ public:
 
     bool processStoredCords(const string &input, Location &location);
 
-    static void beautifulPrintGeo(Graph graph, GraphBuilder model, vector<pair<Line, bool>> lines, list<int> path);
+    static void beautifulPrintGeo(Graph graph, GraphBuilder model, list<Graph::Edge> path);
 
     static void fullLinePrint(Graph graph, GraphBuilder model, vector<pair<Line, bool>> lines, const list<int> &path);
 
-    static void beautifulPrintStops(Graph graph, GraphBuilder model, vector<pair<Line, bool>> lines, list<int> path);
+    static void beautifulPrintStops(Graph graph, GraphBuilder model, list<Graph::Edge> path);
 };
 
 string trimStr(istream &ios, string str);

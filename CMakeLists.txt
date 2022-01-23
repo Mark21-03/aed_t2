@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 11)
 set(CREATE_EXE TRUE)
 
 
-if (CMAKE_BUILD_TYPE MATCHES Debug)
+if (CMAKE_BUILD_TYPE MATCHES Release)
     add_subdirectory(lib/googletest-master)
     include_directories(lib/googletest-master/googletest/include)
     include_directories(lib/googletest-master/googlemock/include)
@@ -25,7 +25,7 @@ if (CMAKE_BUILD_TYPE MATCHES Debug)
 endif ()
 
 
-if (CMAKE_BUILD_TYPE MATCHES Release)
+if (CMAKE_BUILD_TYPE MATCHES Debug)
 
     add_executable(aed_t2 main.cpp
 

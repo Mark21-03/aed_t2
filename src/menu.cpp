@@ -161,38 +161,38 @@ Menu::STATE Menu::locationMenu() {
 }
 
 
-list<int> Menu::minStops(Graph &graph, vector<pair<Line, bool>> &lines, int originIndex, int destinyIndex) {
+list<Graph::Edge> Menu::minStops(Graph &graph, int originIndex, int destinyIndex) {
 
-    list<int> path = graph.bfs_path(originIndex, destinyIndex, lines);
+    list<Graph::Edge> path = graph.bfs_path(originIndex, destinyIndex);
     cout << "\nNumber of stops: " << graph.getNode(destinyIndex).dist << endl << endl;
 
     return path;
 
 }
 
-list<int> Menu::minDistance(Graph &graph, vector<pair<Line, bool>> &lines, int originIndex, int destinyIndex) {
+list<Graph::Edge> Menu::minDistance(Graph &graph, int originIndex, int destinyIndex) {
 
     graph.dijkstra_distance(originIndex);
-    list<int> path = graph.dijkstra_path(originIndex, destinyIndex, lines);
+    list<Graph::Edge> path = graph.dijkstra_path(originIndex, destinyIndex);
     cout << "\nDistance: " << graph.getNode(destinyIndex).dist << endl << endl;
     return path;
 
 }
 
 
-list<int> Menu::minZones(Graph &graph, vector<pair<Line, bool>> &lines, int originIndex, int destinyIndex) {
+list<Graph::Edge> Menu::minZones(Graph &graph, int originIndex, int destinyIndex) {
 
     graph.dijkstra_zones(originIndex);
-    list<int> path = graph.dijkstra_path(originIndex, destinyIndex, lines);
-    cout << "\nNumber of Zones: " << graph.getNode(destinyIndex).dist << endl << endl;
+    list<Graph::Edge> path = graph.dijkstra_path(originIndex, destinyIndex);
+    cout << "\nNumber of Zones: " << graph.getNode(destinyIndex).dist + 1 << endl << endl;
     return path;
 
 }
 
-list<int> Menu::minSwaps(Graph &graph, vector<pair<Line, bool>> &lines, int originIndex, int destinyIndex) {
+list<Graph::Edge> Menu::minSwaps(Graph &graph,int originIndex, int destinyIndex) {
 
     graph.dijkstra_lineSwaps(originIndex);
-    list<int> path = graph.dijkstra_path(originIndex, destinyIndex, lines);
+    list<Graph::Edge> path = graph.dijkstra_path(originIndex, destinyIndex);
     cout << "\nNumber of minimum line swaps: " << graph.getNode(destinyIndex).dist << endl << endl;
     return path;
 
@@ -270,7 +270,7 @@ void Menu::showGeneratedPath(int pathCriteria) {
     GraphBuilder model = GraphBuilder();
     Graph graph = model.buildGraph(useMLines);
     vector<pair<Line, bool>> lines;
-    list<int> path;
+    list<Graph::Edge> path;
 
     int originIndex, destinyIndex;
     bool isGeo = false;
@@ -287,25 +287,25 @@ void Menu::showGeneratedPath(int pathCriteria) {
 
     switch (pathCriteria) {
         case 1: // min stops
-            path = minStops(graph, lines, originIndex, destinyIndex);
+            path = minStops(graph,originIndex, destinyIndex);
             break;
         case 2: // min distance
-            path = minDistance(graph, lines, originIndex, destinyIndex);
+            path = minDistance(graph, originIndex, destinyIndex);
             break;
         case 3: // min zones
-            path = minZones(graph, lines, originIndex, destinyIndex);
+            path = minZones(graph, originIndex, destinyIndex);
             break;
         case 4: // min lines swaps
-            path = minSwaps(graph, lines, originIndex, destinyIndex);
+            path = minSwaps(graph,originIndex, destinyIndex);
             break;
         default:
             break;
     }
 
     if (isGeo)
-        beautifulPrintGeo(graph, model, lines, path);
+        beautifulPrintGeo(graph, model, path);
     else
-        beautifulPrintStops(graph, model, lines, path);
+        beautifulPrintStops(graph, model, path);
 
 }
 
@@ -399,6 +399,22 @@ bool Menu::processStoredCords(const string &input, Location &location) {
 
 }
 
+string lineDirectionName(string name ,bool dir) {
+
+    //18 - PASSEIO ALEGRE - CARMO
+    stringstream ss(name);
+
+    string codeName, startName, endName;
+
+    getline(ss, codeName, '-');
+    getline(ss, startName, '-');
+    getline(ss, endName, '-');
+
+    if (dir)
+        return codeName + "." + startName + "-" + endName;
+    return codeName + "." + endName + "-" + startName;
+
+}
 
 void Menu::fullLinePrint(Graph graph, GraphBuilder model, vector<pair<Line, bool>> lines, const list<int> &path) {
 
@@ -413,26 +429,24 @@ void Menu::fullLinePrint(Graph graph, GraphBuilder model, vector<pair<Line, bool
 
 };
 
-void Menu::beautifulPrintGeo(Graph graph, GraphBuilder model, vector<pair<Line, bool>> lines, list<int> path) {
+void Menu::beautifulPrintGeo(Graph graph, GraphBuilder model, list<Graph::Edge> path) {
 
-    if (lines.front().first.name == "__FOOT__") {
+    if (path.front().line.name == "__FOOT__") {
         auto it = path.begin();
         advance(it, 1);
-        cout << "Walk to " << model.indexToStop[*it] << "\n\n";
-        lines.erase(lines.begin());
+        cout << "Walk to " << model.indexToStop[it->dest] << "\n\n";
         path.pop_front();
     }
 
     string currentLine;
-    int i = 0;
 
-    for (int it: path) {
+    for (auto it: path) {
 
-        string line = lines[i].first.lineDirectionName(lines[i].second);
+        string line = lineDirectionName(it.line.name , it.lineDirection);
 
-        if (lines[i].first.name == "__FOOT__") {
+        if (it.line.name == "__FOOT__") {
 
-            cout << "\nLeave on " << model.indexToStop[it] << " and walk to your destination\n";
+            cout << "\nLeave on " << model.indexToStop[it.origin] << " and walk to your destination\n"; // TODO: IS IT RIGHT ?
             break;
         }
 
@@ -442,12 +456,9 @@ void Menu::beautifulPrintGeo(Graph graph, GraphBuilder model, vector<pair<Line, 
             cout << "Take " << currentLine << endl;
         }
 
-        cout << setw(8) << model.indexToStop[it] << "\t" << graph.getNode(it).stop.zone << "\t\t";
-        if (i == lines.size()) break;
-
+        cout << setw(8) << model.indexToStop[it.origin] << "\t" << graph.getNode(it.origin).stop.zone << "\t\t";
 
         cout << endl;
-        i++;
     }
 
     getchar();
@@ -455,30 +466,27 @@ void Menu::beautifulPrintGeo(Graph graph, GraphBuilder model, vector<pair<Line, 
 }
 
 
-void Menu::beautifulPrintStops(Graph graph, GraphBuilder model, vector<pair<Line, bool>> lines, list<int> path) {
-
+void Menu::beautifulPrintStops(Graph graph, GraphBuilder model, list<Graph::Edge> path) {
 
     string currentLine;
-    int i = 0;
 
-    cout << "Starting at " << model.indexToStop[path.front()] << endl;
-    for (int it: path) {
-        if (i == lines.size()) break;
-
-        string line = lines[i].first.lineDirectionName(lines[i].second);
+    cout << "Starting at " << model.indexToStop[path.front().origin] << endl;
+    for (auto it: path) {
+        string line = lineDirectionName(it.line.name ,it.lineDirection);
 
         if (currentLine != line) {
             currentLine = line;
             cout << "Take " << currentLine << endl;
         }
 
-        cout << setw(8) << model.indexToStop[it] << "\t" << graph.getNode(it).stop.zone << "\t\t";
+        cout << setw(8) << model.indexToStop[it.dest] << "\t" << graph.getNode(it.dest).stop.zone << "\t\t";
 
         cout << endl;
-        i++;
     }
-    cout << "Arrive at " << model.indexToStop[path.back()];
+    cout << "Arrive at " << model.indexToStop[path.back().dest];
 
     getchar();
 
 }
+
+

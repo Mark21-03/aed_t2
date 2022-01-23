@@ -14,17 +14,20 @@
 using namespace std;
 
 class Graph {
+
+public:
     struct Edge {
         int dest;   // Destination node
-        WeightCriteria weight; // An integer weight
+        int weight; // An integer weight
         Line line;
         bool lineDirection;
+        int origin;
     };
 
     struct Node {
         list<Edge> adj; // The list of outgoing edges (to adjacent nodes)
         int dist;
-        int pred;
+        Edge pred;
         bool visited;
         Stop stop;
     };
@@ -33,13 +36,11 @@ class Graph {
     bool hasDir;        // false: undirect; true: directed
     vector<Node> nodes; // The list of nodes being represented
 
-public:
-
     Graph() = default;
 
     explicit Graph(int nodes, bool dir = false);
 
-    void addEdge(int src, int dest, Line line, bool lineDirection, WeightCriteria weight = {0, 0, 0});
+    void addEdge(int src, int dest, Line line, bool lineDirection, int weight);
 
     Node &getNode(int index);
 
@@ -47,7 +48,7 @@ public:
 
     int dijkstra_distance(int a, int b);
 
-    list<int> dijkstra_path(int a, int b, vector<pair<Line, bool>> &lines);
+    list<Edge> dijkstra_path(int a, int b);
 
     void bfsDist(int v);
 
@@ -64,7 +65,7 @@ public:
     template<typename Functor>
     void dijkstra(int s, Functor &functor);
 
-    list<int> bfs_path(int a, int b, vector<pair<Line, bool>> &lines);
+    list<Edge> bfs_path(int a, int b);
 
     Edge getEdge(int src, int dest);
 
@@ -73,6 +74,7 @@ public:
     void addGeoStartEndNode(Location start, Location end, int radius);
 
     vector<int> nodesInReach(Location pos, int radius);
+
 };
 
 

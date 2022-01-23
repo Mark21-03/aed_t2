@@ -60,7 +60,7 @@ void GraphBuilder::addEdges() {
 
                     int zoneDif = graph.getNode(b).stop.zone == graph.getNode(end).stop.zone ? 0 : 1;
 
-                    graph.addEdge(b, end, l, direction, {nodeGeoDistance(b, end), zoneDif, 0});
+                    graph.addEdge(b, end, l, direction, INF);
                 } else
                     break;
                 it++;
