@@ -69,7 +69,7 @@ public:
 
     Edge getEdge(int src, int dest);
 
-    void findLinePath(Line &currentLine, int son, int parent, vector<pair<Line, bool>> &lines);
+    void findLinePath(Line &currentLine, int son, int parent);
 
     void addGeoStartEndNode(Location start, Location end, int radius);
 

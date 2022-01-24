@@ -100,16 +100,25 @@ void Graph::dijkstra_zones(int a) {
 //min line changes criteria
 void Graph::dijkstra_lineSwaps(int a) {
 
+
     static set<string> avLines;
     for (auto e : nodes[a].adj) {
         avLines.insert(e.line.code);
     }
-    auto lambda = [this](int x, Edge& y) {
+    auto lambda = [this, a](int x, Edge& y) {
 
         if (avLines.find(y.line.code) != avLines.end() && y.line.code == nodes[x].pred.line.code) {
-            return 0;
+            return 0 + (nodes[x].stop.zone == nodes[y.dest].stop.zone ? 0 : 1) * 10 ;
         }
-        return 1;
+        Edge& d = y;
+        while (d.origin != a) {
+            if (d.line.code.empty())
+                break;
+            cout << d.origin << " " << d.dest << endl;
+            d.weight += 10;
+            d = nodes[d.origin].pred;
+        }
+        return 100 * 100 + (nodes[x].stop.zone == nodes[y.dest].stop.zone ? 0 : 1) * 10 ;
 
     };
 
@@ -117,6 +126,7 @@ void Graph::dijkstra_lineSwaps(int a) {
     dijkstra(a, lambda);
 
     avLines.clear();
+
 }
 
 
@@ -139,6 +149,8 @@ list<Graph::Edge> Graph::dijkstra_path(int a, int b) {
 
     while (parent.origin != a) {
         parent = nodes[parent.origin].pred;
+
+        findLinePath(parent.line, parent.origin , parent.dest);
 
         path.push_front(parent);
     }
@@ -234,22 +246,18 @@ void Graph::bfsPrint(int v) {
 }
 
 //esta funcao procura uma edge entre dois nós tentando manter a mesma linha se possivel
-void Graph::findLinePath(Line &currentLine, int son, int parent, vector<pair<Line, bool>> &lines) {
-    Edge newLineCandidate;
-
+void Graph::findLinePath(Line &currentLine, int son, int parent) {
     for (Edge e: nodes[parent].adj) {
         if (e.dest == son) {
             if (e.line.code == currentLine.code) {
-                lines.insert(lines.begin(), pair<Line, bool>(currentLine, e.lineDirection));
+                nodes[parent].pred = e;
                 return;
-            } else {
-                newLineCandidate = e;
             }
         }
     }
 
-    currentLine = newLineCandidate.line;
-    lines.insert(lines.begin(), pair<Line, bool>(currentLine, newLineCandidate.lineDirection));
+    currentLine = nodes[parent].pred.line;
+
 }
 
 template<typename Functor>
@@ -271,7 +279,7 @@ void Graph::dijkstra(int s, Functor &functor) {
         for (auto& e: nodes[u].adj) {
             int v = e.dest;
             int w = functor(u, e);
-            if (!nodes[v].visited && nodes[u].dist + w <= nodes[v].dist) {
+            if (!nodes[v].visited && nodes[u].dist + w < nodes[v].dist) {
                 nodes[v].dist = nodes[u].dist + w;
                 nodes[v].pred = e;
                 q.decreaseKey(v, nodes[v].dist);
@@ -279,6 +287,3 @@ void Graph::dijkstra(int s, Functor &functor) {
         }
     }
 }
-
-
-
