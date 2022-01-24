@@ -9,16 +9,16 @@
 Graph::Graph(int num, bool dir) : n(num), hasDir(dir), nodes(num + 1) {}
 
 // Add edge from source to destination with a certain weight
-void Graph::addEdge(int src, int dest, Line line, bool lineDirection, WeightCriteria weight) {
+void Graph::addEdge(int src, int dest, Line line, bool lineDirection, int weight) {
     if (src < 1 || src > n || dest < 1 || dest > n) return;
 
-    Edge edge = {dest, weight, std::move(line), lineDirection};
+    Edge edge = {dest, weight, std::move(line), lineDirection, src};
     nodes[src].adj.push_back(edge);
 
     if (!hasDir) nodes[dest].adj.push_back({src, weight});
 }
 
-Graph::Edge Graph::getEdge(int src, int dest) {
+Graph::Edge Graph::getEdge(int src, int dest) { // TODO: THIS METHOD IS WRONG... WE HAVE MULTIPLE edges for the same nodes
 
     for (Edge e: nodes[src].adj)
         if (e.dest == dest)
@@ -54,10 +54,10 @@ void Graph::addGeoStartEndNode(Location start, Location end, int radius) {
     };
 
     for (auto i: nodesStart)
-        addEdge(2488, i, {"__FOOT__", "__FOOT__"}, false, {distCalc(start, i), 0, 1});
+        addEdge(2488, i, {"__FOOT__", "__FOOT__"}, false, INF);
 
     for (auto i: nodesEnd)
-        addEdge(i, 2489, {"__FOOT__", "__FOOT__"}, true, {distCalc(end, i), 0, 1});
+        addEdge(i, 2489, {"__FOOT__", "__FOOT__"}, true, INF);
 
 }
 
@@ -65,9 +65,9 @@ void Graph::addGeoStartEndNode(Location start, Location end, int radius) {
 //distance criteria
 void Graph::dijkstra_distance(int a) {
 
-    auto lambda = [this](int x, int y) {
+    auto lambda = [this](int x, Edge& y) {
         Location l1 = nodes[x].stop.location;
-        Location l2 = nodes[y].stop.location;
+        Location l2 = nodes[y.dest].stop.location;
 
         return distanceCalc(l1, l2);
     };
@@ -79,9 +79,18 @@ void Graph::dijkstra_distance(int a) {
 //min zones criteria
 void Graph::dijkstra_zones(int a) {
 
-    auto lambda = [this](int x, int y) {
+    static set<string> avLines;
+    for (auto e : nodes[a].adj) {
+        avLines.insert(e.line.code);
+    }
+    auto lambda = [this](int x, Edge& y) {
 
-        return nodes[x].stop.zone == nodes[y].stop.zone ? 0 : 1;
+        int penalty = 0;
+        if (avLines.find(y.line.code) == avLines.end()) {
+            penalty = 1;
+        }
+
+        return (nodes[x].stop.zone == nodes[y.dest].stop.zone ? 0 : 1) + penalty; // TODO: THE PENALTY WILL MESS WITH INFORMATION OF NUMBER OD ZONES
     };
 
     dijkstra(a, lambda);
@@ -91,26 +100,31 @@ void Graph::dijkstra_zones(int a) {
 //min line changes criteria
 void Graph::dijkstra_lineSwaps(int a) {
 
-    static set<string> lines;
-    auto lambda = [this](int x, int y) {
 
-        for (auto e: nodes[x].adj) {
-            if (e.dest == y) {
-                if (lines.find(e.line.code) == lines.end()) {
-                    lines.insert(e.line.code);
-                    return 1;
-                } else {
-                    return 0;
-                }
-            }
+    static set<string> avLines;
+    for (auto e : nodes[a].adj) {
+        avLines.insert(e.line.code);
+    }
+    auto lambda = [this, a](int x, Edge& y) {
+
+        if (avLines.find(y.line.code) != avLines.end() && y.line.code == nodes[x].pred.line.code) {
+            return 0 + (nodes[x].stop.zone == nodes[y.dest].stop.zone ? 0 : 1) * 10 ;
         }
+        Edge& d = y;
+        while (d.origin != a) {
+            if (d.line.code.empty())
+                break;
+            d.weight += 10;
+            d = nodes[d.origin].pred;
+        }
+        return 100 * 100 + (nodes[x].stop.zone == nodes[y.dest].stop.zone ? 0 : 1) * 10 ;
 
-        return nodes[x].stop.code == nodes[y].stop.code ? 0 : 1;
     };
 
-    lines.clear();
 
     dijkstra(a, lambda);
+
+    avLines.clear();
 
 }
 
@@ -123,26 +137,20 @@ int Graph::dijkstra_distance(int a, int b) {
 }
 
 
-list<int> Graph::dijkstra_path(int a, int b, vector<pair<Line, bool>> &lines) {
-    Line currentLine;
+list<Graph::Edge> Graph::dijkstra_path(int a, int b) {
+    list<Edge> path;
+    Edge parent = nodes[b].pred;
+    path.push_back(parent);
 
-    list<int> path = {b};
-    int parent = b;
-    int son = parent;
-
-    if (nodes[b].pred == -1)
+    if (nodes[b].pred.origin == -1)
         return {};
 
-    while (parent != a) {
-        son = parent;
-        parent = nodes[parent].pred;
+    while (parent.origin != a) {
+        parent = nodes[parent.origin].pred;
 
-        if (path.size() == 1)
-            currentLine = getEdge(parent, son).line;
+        findLinePath( path.back().line ,parent);
 
         path.push_front(parent);
-
-        findLinePath(currentLine, son, parent, lines);
     }
 
     return path;
@@ -157,26 +165,20 @@ void Graph::addNode(int index, Stop &stop) {
 }
 
 
-list<int> Graph::bfs_path(int a, int b, vector<pair<Line, bool>> &lines) {
+list<Graph::Edge> Graph::bfs_path(int a, int b) {
     Line currentLine;
     bfsDist(a);
-    list<int> path = {b};
-    int parent = b;
-    int son = parent;
+    list<Edge> path;
+    Edge parent = nodes[b].pred;
+    path.push_back(parent);
 
-    if (nodes[b].pred == -1)
+    if (nodes[b].pred.origin == -1)
         return {};
 
-    while (parent != a) {
-        son = parent;
-        parent = nodes[parent].pred;
-
-        if (path.size() == 1)
-            currentLine = getEdge(parent, son).line;
+    while (parent.origin != a) {
+        parent = nodes[parent.origin].pred;
 
         path.push_front(parent);
-
-        findLinePath(currentLine, son, parent, lines);
     }
 
     return path;
@@ -196,7 +198,7 @@ void Graph::bfsDist(int v) {
     nodes[v].dist = 0;
     for (int v = 1; v <= n; v++) {
         nodes[v].visited = false;
-        nodes[v].pred = -1;
+        nodes[v].pred.origin = -1;
     }
     queue<int> q; // queue of unvisited nodes
     q.push(v);
@@ -212,7 +214,7 @@ void Graph::bfsDist(int v) {
                 q.push(w);
                 nodes[w].visited = true;
                 nodes[w].dist = nodes[u].dist + 1;
-                nodes[w].pred = u;
+                nodes[w].pred = e;
             }
         }
     }
@@ -242,22 +244,16 @@ void Graph::bfsPrint(int v) {
 }
 
 //esta funcao procura uma edge entre dois nós tentando manter a mesma linha se possivel
-void Graph::findLinePath(Line &currentLine, int son, int parent, vector<pair<Line, bool>> &lines) {
-    Edge newLineCandidate;
-
-    for (Edge e: nodes[parent].adj) {
-        if (e.dest == son) {
+void Graph::findLinePath(Line &currentLine, Edge& edge) {
+    for (Edge e: nodes[edge.origin].adj) {
+        if (e.dest == edge.dest) {
             if (e.line.code == currentLine.code) {
-                lines.insert(lines.begin(), pair<Line, bool>(currentLine, e.lineDirection));
+                nodes[edge.dest].pred = e;
+                edge = e;
                 return;
-            } else {
-                newLineCandidate = e;
             }
         }
     }
-
-    currentLine = newLineCandidate.line;
-    lines.insert(lines.begin(), pair<Line, bool>(currentLine, newLineCandidate.lineDirection));
 }
 
 template<typename Functor>
@@ -265,28 +261,25 @@ void Graph::dijkstra(int s, Functor &functor) {
     MinHeap<int, int> q(n, -1);
     for (int v = 1; v <= n; v++) {
         nodes[v].dist = INF;
-        nodes[v].pred = -1;
+        nodes[v].pred = {-1,INF,"", ""};
         q.insert(v, INF);
         nodes[v].visited = false;
     }
     nodes[s].dist = 0;
     q.decreaseKey(s, 0);
-    nodes[s].pred = s;
+    nodes[s].pred = {s, 0, "", "", false, s};
     while (q.getSize() > 0) {
         int u = q.removeMin();
         // cout << "Node " << nodes[u].stop.name << " with dist = " << nodes[u].dist << endl;
         nodes[u].visited = true;
-        for (auto e: nodes[u].adj) {
+        for (auto& e: nodes[u].adj) {
             int v = e.dest;
-            int w = functor(u, e.dest);
+            int w = functor(u, e);
             if (!nodes[v].visited && nodes[u].dist + w < nodes[v].dist) {
                 nodes[v].dist = nodes[u].dist + w;
-                nodes[v].pred = u;
+                nodes[v].pred = e;
                 q.decreaseKey(v, nodes[v].dist);
             }
         }
     }
 }
-
-
-
