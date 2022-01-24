@@ -114,7 +114,6 @@ void Graph::dijkstra_lineSwaps(int a) {
         while (d.origin != a) {
             if (d.line.code.empty())
                 break;
-            cout << d.origin << " " << d.dest << endl;
             d.weight += 10;
             d = nodes[d.origin].pred;
         }
@@ -139,7 +138,6 @@ int Graph::dijkstra_distance(int a, int b) {
 
 
 list<Graph::Edge> Graph::dijkstra_path(int a, int b) {
-    Line currentLine;
     list<Edge> path;
     Edge parent = nodes[b].pred;
     path.push_back(parent);
@@ -150,7 +148,7 @@ list<Graph::Edge> Graph::dijkstra_path(int a, int b) {
     while (parent.origin != a) {
         parent = nodes[parent.origin].pred;
 
-        findLinePath(parent.line, parent.origin , parent.dest);
+        findLinePath( path.back().line ,parent);
 
         path.push_front(parent);
     }
@@ -246,18 +244,16 @@ void Graph::bfsPrint(int v) {
 }
 
 //esta funcao procura uma edge entre dois nós tentando manter a mesma linha se possivel
-void Graph::findLinePath(Line &currentLine, int son, int parent) {
-    for (Edge e: nodes[parent].adj) {
-        if (e.dest == son) {
+void Graph::findLinePath(Line &currentLine, Edge& edge) {
+    for (Edge e: nodes[edge.origin].adj) {
+        if (e.dest == edge.dest) {
             if (e.line.code == currentLine.code) {
-                nodes[parent].pred = e;
+                nodes[edge.dest].pred = e;
+                edge = e;
                 return;
             }
         }
     }
-
-    currentLine = nodes[parent].pred.line;
-
 }
 
 template<typename Functor>
