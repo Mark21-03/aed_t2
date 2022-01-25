@@ -107,10 +107,7 @@ vector<Stop> StopsReader(const string &path) {
 
 vector<Line> LinesReader(const string &path) {
 
-    // where file contents are stored
     vector<Line> rows;
-
-    //variables to retrieve from files
     fstream file(path, ios::in);
 
     Line line;
@@ -125,3 +122,26 @@ vector<Line> LinesReader(const string &path) {
 
     return rows;
 }
+
+vector<string> StopsCodesReader(const string &path) {
+
+    vector<string> rows;
+    fstream file(path, ios::in);
+
+    Line line;
+    string aux;
+
+    getline(file, aux);
+    while (getline(file, aux)) {
+        stringstream ss(aux);
+        ss >> line;
+        rows.push_back(line.code);
+    }
+
+    return rows;
+}
+
+
+
+
+

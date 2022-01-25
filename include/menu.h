@@ -40,7 +40,7 @@ using namespace std;
 class Menu {
 
 private:
-
+    vector<string> stopsCode = StopsCodesReader("../dataset/stops.csv");
 
 public:
 
@@ -62,13 +62,13 @@ public:
 
     void start();
 
-    static list<Graph::Edge> minStops(Graph &graph, int originIndex, int destinyIndex);
+    static list <Graph::Edge> minStops(Graph &graph, int originIndex, int destinyIndex);
 
-    static list<Graph::Edge> minDistance(Graph &graph, int originIndex, int destinyIndex);
+    static list <Graph::Edge> minDistance(Graph &graph, int originIndex, int destinyIndex);
 
-    static list<Graph::Edge> minZones(Graph &graph,int originIndex, int destinyIndex);
+    static list <Graph::Edge> minZones(Graph &graph, int originIndex, int destinyIndex);
 
-    static list<Graph::Edge> minSwaps(Graph &graph,int originIndex, int destinyIndex);
+    static list <Graph::Edge> minSwaps(Graph &graph, int originIndex, int destinyIndex);
 
     void askLocationStops();
 
@@ -86,15 +86,30 @@ public:
 
     bool processStoredCords(const string &input, Location &location);
 
-    static void beautifulPrintGeo(Graph graph, GraphBuilder model, list<Graph::Edge> path);
+    static void beautifulPrintGeo(Graph graph, GraphBuilder model, list <Graph::Edge> path);
 
     static void fullLinePrint(Graph graph, GraphBuilder model, vector<pair<Line, bool>> lines, const list<int> &path);
 
-    static void beautifulPrintStops(Graph graph, GraphBuilder model, list<Graph::Edge> path);
+    static void beautifulPrintStops(Graph graph, GraphBuilder model, list <Graph::Edge> path);
+
+    bool validStop(const string &stop);
 };
 
 string trimStr(istream &ios, string str);
 
 bool emptyStream(istream &ios);
+
+
+template<class Sortable>
+int binarySearch(vector<Sortable> v, Sortable val) {
+    int l = 0, r = v.size() - 1;
+    while (l <= r) {
+        int m = l + (r - l) / 2;
+        if (v[m] == val) return m;
+        if (v[m] < val) l = m + 1;
+        else r = m - 1;
+    }
+    return -1;
+}
 
 #endif

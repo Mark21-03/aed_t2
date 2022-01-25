@@ -28,76 +28,41 @@
 using testing::Eq;
 
 
-TEST(Test_bfs, Test_bfs) {
-    GraphBuilder model = GraphBuilder();
-    Graph graph = model.buildGraph();
+template<class Sortable>
+int binarySearch(vector<Sortable> v, Sortable val) {
 
-    //A melhor combinacao para testar é FRC ALXH1  ou CQ10 PSL1 porque atravessa o porto por comleto (muito longe)
-    string origin = "PSL2";
-    string destiny = "ASP2";
+    int l = 0, r = v.size() - 1;
 
-    int originIndex = model.stopToIndex[origin];
-    int destinyIndex = model.stopToIndex[destiny];
+    while (l <= r) {
+        int m = l + (r - l) / 2;
 
-    vector<pair<Line, bool>> lines;
+        if (v[m] == val)
+            return m;
 
-    list<int> path = graph.bfs_path(originIndex, destinyIndex, lines);
+        if (v[m] < val)
+            l = m + 1;
 
-    cout << "Number of stops: " << path.size() << endl << endl;
-
-    cout << "Path size : " << path.size() << " => ";
-    for (auto i: path) cout << model.indexToStop[i] << " ; ";
-    cout << endl;
-    cout << "Line size : " << lines.size() << " => ";
-    for (const auto &i: lines) cout << i.first.code << " ; ";
-    cout << endl << endl;
-
-    int i = 0;
-    for (int &it: path) {
-
-        cout << setw(8) << model.indexToStop[it] << "\t";
-        if (i == lines.size()) break;
-        cout << lines[i].first.name << endl;
-
-        i++;
+        else
+            r = m - 1;
     }
+
+    // if we reach here, then element was
+    // not present
+    return -1;
 }
 
-TEST(Test_dijkstra, Test_dijkstra) {
-    GraphBuilder model = GraphBuilder();
-    Graph graph = model.buildGraph(false);
-
-    string origin = "FRC";
-    string destiny = "ALXH1";
-
-    int originIndex = model.stopToIndex[origin];
-    int destinyIndex = model.stopToIndex[destiny];
-
-    graph.addGeoStartEndNode(geoSouto, geoGaiaShopping, 500);
-    vector<pair<Line, bool>> lines;
+TEST(Test_bfs, Test_bfs) {
 
 
-    graph.dijkstra_distance(geoStartNode);
-    list<int> path = graph.dijkstra_path(geoStartNode, geoEndNode, lines);
+    vector<string> stopsCode = StopsCodesReader("../dataset/lines.csv");
 
-    cout << "Path size : " << path.size() << " => ";
-    for (auto i: path) cout << model.indexToStop[i] << " ; ";
-    cout << endl;
-    cout << "Line size : " << lines.size() << " => ";
-    for (auto i: lines) cout << i.first.code << " ; ";
-    cout << endl << endl;
+    string val = "AGR1";
 
-    cout << "\nNumber of stops: " << path.size() << endl;
-    int i = 0;
-    for (int &it: path) {
-        cout << setw(8) << model.indexToStop[it] << "\t";
-        if (i == lines.size()) break;
-        cout << setw(20) << lines[i].first.lineDirectionName(lines[i].second) << "\t" << graph.getNode(it).stop.zone
-             << " "
-             << endl;
+    bool found = binary_search(stopsCode.begin(), stopsCode.end(), val);
 
-
-        i++;
-    }
+    if (found)
+        cout << "\nFound!\n";
+    else
+        cout << "\nNot Found!\n";
 
 }

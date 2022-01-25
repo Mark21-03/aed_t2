@@ -28,5 +28,6 @@ vector<Stop> StopsReader(const string &path);
 
 vector<Line> LinesReader(const string &path);
 
+vector<string> StopsCodesReader(const string &path);
 
 #endif //AED_T2_FILES_READER_H

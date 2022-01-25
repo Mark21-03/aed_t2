@@ -1,6 +1,5 @@
 #include <iomanip>
 #include "../include/menu.h"
-#include "../include/GraphBuilder.h"
 
 string trimStr(istream &ios, string str) {
     str.erase(0, str.find_first_not_of(' '));
@@ -189,7 +188,7 @@ list<Graph::Edge> Menu::minZones(Graph &graph, int originIndex, int destinyIndex
 
 }
 
-list<Graph::Edge> Menu::minSwaps(Graph &graph,int originIndex, int destinyIndex) {
+list<Graph::Edge> Menu::minSwaps(Graph &graph, int originIndex, int destinyIndex) {
 
     graph.dijkstra_lineSwaps(originIndex);
     list<Graph::Edge> path = graph.dijkstra_path(originIndex, destinyIndex);
@@ -200,11 +199,21 @@ list<Graph::Edge> Menu::minSwaps(Graph &graph,int originIndex, int destinyIndex)
 
 void Menu::askLocationStops() {
 
-    //TODO test if they exist
+    string input;
+
     cout << "\nStarting stop code: ";
-    cin >> codeStart;
+    getline(cin, input);
+    if (validStop(input)) {
+        stringstream ss(input);
+        ss >> codeStart;
+    } else cout << "Invalid!";
+
     cout << "\nDestination stop code: ";
-    cin >> codeEnd;
+    getline(cin, input);
+    if (validStop(input)) {
+        stringstream ss(input);
+        ss >> codeEnd;
+    } else cout << "Invalid!";
 
 }
 
@@ -287,7 +296,7 @@ void Menu::showGeneratedPath(int pathCriteria) {
 
     switch (pathCriteria) {
         case 1: // min stops
-            path = minStops(graph,originIndex, destinyIndex);
+            path = minStops(graph, originIndex, destinyIndex);
             break;
         case 2: // min distance
             path = minDistance(graph, originIndex, destinyIndex);
@@ -296,7 +305,7 @@ void Menu::showGeneratedPath(int pathCriteria) {
             path = minZones(graph, originIndex, destinyIndex);
             break;
         case 4: // min lines swaps
-            path = minSwaps(graph,originIndex, destinyIndex);
+            path = minSwaps(graph, originIndex, destinyIndex);
             break;
         default:
             break;
@@ -399,7 +408,7 @@ bool Menu::processStoredCords(const string &input, Location &location) {
 
 }
 
-string lineDirectionName(string name ,bool dir) {
+string lineDirectionName(string name, bool dir) {
 
     //18 - PASSEIO ALEGRE - CARMO
     stringstream ss(name);
@@ -442,11 +451,12 @@ void Menu::beautifulPrintGeo(Graph graph, GraphBuilder model, list<Graph::Edge> 
 
     for (auto it: path) {
 
-        string line = lineDirectionName(it.line.name , it.lineDirection);
+        string line = lineDirectionName(it.line.name, it.lineDirection);
 
         if (it.line.name == "__FOOT__") {
 
-            cout << "\nLeave on " << model.indexToStop[it.origin] << " and walk to your destination\n"; // TODO: IS IT RIGHT ?
+            cout << "\nLeave on " << model.indexToStop[it.origin]
+                 << " and walk to your destination\n"; // TODO: IS IT RIGHT ?
             break;
         }
 
@@ -472,7 +482,7 @@ void Menu::beautifulPrintStops(Graph graph, GraphBuilder model, list<Graph::Edge
 
     cout << "Starting at " << model.indexToStop[path.front().origin] << endl;
     for (auto it: path) {
-        string line = lineDirectionName(it.line.name ,it.lineDirection);
+        string line = lineDirectionName(it.line.name, it.lineDirection);
 
         if (currentLine != line) {
             currentLine = line;
@@ -489,4 +499,10 @@ void Menu::beautifulPrintStops(Graph graph, GraphBuilder model, list<Graph::Edge
 
 }
 
+bool Menu::validStop(const string &stop) {
+
+    int index = binarySearch(stopsCode, stop);
+
+    return index != -1;
+}
 
