@@ -105,22 +105,14 @@ void Graph::dijkstra_lineSwaps(int a) {
     for (auto e : nodes[a].adj) {
         avLines.insert(e.line.code);
     }
-    auto lambda = [this, a](int x, Edge& y) {
+    auto lambda = [this](int x, Edge& y) {
 
         if (avLines.find(y.line.code) != avLines.end() && y.line.code == nodes[x].pred.line.code) {
-            return 0 + (nodes[x].stop.zone == nodes[y.dest].stop.zone ? 0 : 1) * 10 ;
+            return 0;
         }
-        Edge& d = y;
-        while (d.origin != a) {
-            if (d.line.code.empty())
-                break;
-            d.weight += 10;
-            d = nodes[d.origin].pred;
-        }
-        return 100 * 100 + (nodes[x].stop.zone == nodes[y.dest].stop.zone ? 0 : 1) * 10 ;
+        return 1;
 
     };
-
 
     dijkstra(a, lambda);
 
@@ -177,6 +169,8 @@ list<Graph::Edge> Graph::bfs_path(int a, int b) {
 
     while (parent.origin != a) {
         parent = nodes[parent.origin].pred;
+
+        findLinePath( path.back().line ,parent);
 
         path.push_front(parent);
     }
