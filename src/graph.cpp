@@ -18,16 +18,6 @@ void Graph::addEdge(int src, int dest, Line line, bool lineDirection, int weight
     if (!hasDir) nodes[dest].adj.push_back({src, weight});
 }
 
-Graph::Edge Graph::getEdge(int src, int dest) { // TODO: THIS METHOD IS WRONG... WE HAVE MULTIPLE edges for the same nodes
-
-    for (Edge e: nodes[src].adj)
-        if (e.dest == dest)
-            return e;
-
-    return {};
-}
-
-
 vector<int> Graph::nodesInReach(Location pos, int radius) {
 
     vector<int> v;
@@ -46,12 +36,6 @@ void Graph::addGeoStartEndNode(Location start, Location end, int radius) {
 
     vector<int> nodesStart = nodesInReach(start, radius);
     vector<int> nodesEnd = nodesInReach(end, radius);
-
-    //adicionar as edges para caminhar a pé da origem e até destino
-
-    auto distCalc = [&](Location l, int i) {
-        return (int) distanceCalc(l, getNode(i).stop.location);
-    };
 
     for (auto i: nodesStart)
         addEdge(2488, i, {"__FOOT__", "__FOOT__"}, false, INF);
@@ -80,7 +64,7 @@ void Graph::dijkstra_distance(int a) {
 void Graph::dijkstra_zones(int a) {
 
     static set<string> avLines;
-    for (auto e : nodes[a].adj) {
+    for (const auto& e : nodes[a].adj) {
         avLines.insert(e.line.code);
     }
     auto lambda = [this](int x, Edge& y) {
@@ -102,7 +86,7 @@ void Graph::dijkstra_lineSwaps(int a) {
 
 
     static set<string> avLines;
-    for (auto e : nodes[a].adj) {
+    for (const auto& e : nodes[a].adj) {
         avLines.insert(e.line.code);
     }
     auto lambda = [this](int x, Edge& y) {
@@ -190,9 +174,9 @@ int Graph::bfsDistance(int a, int b) {
 // V será o no de origem e calcula a distancia deste a todos os nós
 void Graph::bfsDist(int v) {
     nodes[v].dist = 0;
-    for (int v = 1; v <= n; v++) {
-        nodes[v].visited = false;
-        nodes[v].pred.origin = -1;
+    for (int i = 1; i <= n; i++) {
+        nodes[i].visited = false;
+        nodes[i].pred.origin = -1;
     }
     queue<int> q; // queue of unvisited nodes
     q.push(v);
@@ -202,7 +186,7 @@ void Graph::bfsDist(int v) {
         int u = q.front();
         q.pop();
         //cout << u << " "; // show node order
-        for (auto e: nodes[u].adj) {
+        for (const auto& e: nodes[u].adj) {
             int w = e.dest;
             if (!nodes[w].visited) {
                 q.push(w);
@@ -218,7 +202,7 @@ void Graph::bfsDist(int v) {
 
 // Depth-First Search
 void Graph::bfsPrint(int v) {
-    for (int v = 1; v <= n; v++) nodes[v].visited = false;
+    for (int i = 1; i <= n; i++) nodes[i].visited = false;
     queue<int> q; // queue of unvisited nodes
     q.push(v);
     nodes[v].visited = true;
@@ -226,7 +210,7 @@ void Graph::bfsPrint(int v) {
         int u = q.front();
         q.pop();
         cout << nodes[u].stop << endl; // show nodes
-        for (auto e: nodes[u].adj) {
+        for (const auto& e: nodes[u].adj) {
             int w = e.dest;
             //cout<<e.line<<endl; //show edges
             if (!nodes[w].visited) {
@@ -239,7 +223,7 @@ void Graph::bfsPrint(int v) {
 
 //esta funcao procura uma edge entre dois nós tentando manter a mesma linha se possivel
 void Graph::findLinePath(Line &currentLine, Edge& edge) {
-    for (Edge e: nodes[edge.origin].adj) {
+    for (const Edge& e: nodes[edge.origin].adj) {
         if (e.dest == edge.dest) {
             if (e.line.code == currentLine.code) {
                 nodes[edge.dest].pred = e;

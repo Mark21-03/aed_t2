@@ -58,7 +58,7 @@ public:
 
     STATE locationMenu();
 
-    STATE criteriaMenu();
+    STATE criteriaMenu() const;
 
     void start();
 
@@ -78,13 +78,13 @@ public:
 
     void resetMenuVars();
 
-    void showGeneratedPath(int pathCriteria);
+    void showGeneratedPath(int pathCriteria) const;
 
     void askFootDistance();
 
     void askUseMLines();
 
-    bool processStoredCords(const string &input, Location &location);
+    static bool processStoredCords(const string &input, Location &location);
 
     static void beautifulPrintGeo(Graph graph, GraphBuilder model, list <Graph::Edge> path);
 

@@ -36,7 +36,7 @@ bool Menu::menuConfirmationPrompt() {
 }
 
 
-Menu::STATE Menu::criteriaMenu() {
+Menu::STATE Menu::criteriaMenu() const {
     char userInput;
     string inputError;
 
@@ -274,7 +274,7 @@ void Menu::resetMenuVars() {
 }
 
 
-void Menu::showGeneratedPath(int pathCriteria) {
+void Menu::showGeneratedPath(int pathCriteria) const {
 
     GraphBuilder model = GraphBuilder();
     Graph graph = model.buildGraph(useMLines);
@@ -401,14 +401,14 @@ bool Menu::processStoredCords(const string &input, Location &location) {
         location = geoCampanha;
 
     else if (input == "SOUTO")
-        location = geoCQueijo;
+        location = geoSouto;
 
     return (temp.latitude != location.latitude && temp.longitude != location.longitude);
 
 
 }
 
-string lineDirectionName(string name, bool dir) {
+string lineDirectionName(const string &name, bool dir) {
 
     //18 - PASSEIO ALEGRE - CARMO
     stringstream ss(name);
@@ -436,7 +436,7 @@ void Menu::fullLinePrint(Graph graph, GraphBuilder model, vector<pair<Line, bool
     }
     getchar();
 
-};
+}
 
 void Menu::beautifulPrintGeo(Graph graph, GraphBuilder model, list<Graph::Edge> path) {
 
@@ -449,7 +449,7 @@ void Menu::beautifulPrintGeo(Graph graph, GraphBuilder model, list<Graph::Edge> 
 
     string currentLine;
 
-    for (auto it: path) {
+    for (const auto &it: path) {
 
         string line = lineDirectionName(it.line.name, it.lineDirection);
 
@@ -481,7 +481,7 @@ void Menu::beautifulPrintStops(Graph graph, GraphBuilder model, list<Graph::Edge
     string currentLine;
 
     cout << "Starting at " << model.indexToStop[path.front().origin] << endl;
-    for (auto it: path) {
+    for (const auto &it: path) {
         string line = lineDirectionName(it.line.name, it.lineDirection);
 
         if (currentLine != line) {

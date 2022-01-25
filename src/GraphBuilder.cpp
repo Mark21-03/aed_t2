@@ -5,7 +5,7 @@ inline bool GraphBuilder::file_exists(const string &name) {
     return f.good();
 }
 
-list<string> GraphBuilder::availableLines(const string &code) {
+list<string> GraphBuilder::availableLines(const string &code) const {
     list<string> l;
 
     bool codeIsM_Line = code.back() == 'M';
@@ -58,8 +58,6 @@ void GraphBuilder::addEdges() {
                     auto b = stopToIndex[*s];
                     auto end = stopToIndex[*it];
 
-                    int zoneDif = graph.getNode(b).stop.zone == graph.getNode(end).stop.zone ? 0 : 1;
-
                     graph.addEdge(b, end, l, direction, INF);
                 } else
                     break;
@@ -74,6 +72,6 @@ int GraphBuilder::nodeGeoDistance(int start, int end) {
     Location l1 = graph.getNode(start).stop.location;
     Location l2 = graph.getNode(end).stop.location;
 
-    return distanceCalc(l1, l2);
+    return (int)distanceCalc(l1, l2);
 }
 

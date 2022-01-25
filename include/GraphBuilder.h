@@ -35,7 +35,7 @@ public:
 
     static bool file_exists(const string &name);
 
-    list<string> availableLines(const string &code);
+    list<string> availableLines(const string &code) const;
 };
 
 
