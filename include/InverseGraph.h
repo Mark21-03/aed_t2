@@ -1,7 +1,3 @@
-//
-// Created by ricar on 27/01/2022.
-//
-
 #ifndef AED_T2_INVERSEGRAPH_H
 #define AED_T2_INVERSEGRAPH_H
 
@@ -11,34 +7,34 @@
 class InverseGraph {
 public:
     struct Edge {
-        int dest;   // Destination node
-        int weight; // An integer weight
+        int dest;
+        int weight;
         bool lineDirection;
         int origin;
     };
 
     struct Node {
-        list<Edge> adj; // The list of outgoing edges (to adjacent nodes)
+        list<Edge> adj;
         int dist;
         Edge pred;
         bool visited;
-        pair<string ,  string> stop;
+        pair<string, string> stop;
     };
 
-    int n;              // Graph size (vertices are numbered from 1 to n)
-    bool hasDir;        // false: Indirect; true: directed
-    vector<Node> nodes; // The list of nodes being represented
+    int n;
+    bool hasDir;
+    vector<Node> nodes;
 
 
     InverseGraph() = default;
 
     explicit InverseGraph(int nodes, bool dir = false);
 
-    void addEdge(int src, int dest, bool lineDirection , int weight);
+    void addEdge(int src, int dest, bool lineDirection, int weight);
 
     Node &getNode(int index);
 
-    void addNode(int index, string &stop, string & line);
+    void addNode(int index, string &stop, string &line);
 
     void dijkstra(int s);
 

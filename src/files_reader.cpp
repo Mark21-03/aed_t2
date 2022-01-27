@@ -1,6 +1,11 @@
 #include "../include/files_reader.h"
 
 
+bool file_exists(const string &name) {
+    ifstream f(name.c_str());
+    return f.good();
+}
+
 ostream &operator<<(ostream &os, const Location &l) {
     os << l.latitude << " " << l.longitude;
     return os;
@@ -141,6 +146,22 @@ vector<string> StopsCodesReader(const string &path) {
     return rows;
 }
 
+list<string> availableLines(const string &code, bool includeM_lines) {
+    list<string> l;
+
+    bool codeIsM_Line = code.back() == 'M';
+
+    if (!includeM_lines && codeIsM_Line) return {};
+
+    string basicPath = "../dataset/line/line_";
+    string format = ".csv";
+    if (file_exists(basicPath + code + "_" + "0" + format))
+        l.push_back(basicPath + code + "_" + "0" + format);
+    if (file_exists(basicPath + code + "_" + "1" + format))
+        l.push_back(basicPath + code + "_" + "1" + format);
+
+    return l;
+}
 
 
 

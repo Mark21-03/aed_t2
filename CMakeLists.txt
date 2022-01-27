@@ -15,9 +15,9 @@ if (CMAKE_BUILD_TYPE MATCHES Debug)
 
             src/graph.cpp include/graph.h
 
-            include/distanceCalc.h src/menu.cpp include/menu.h include/minHeap.h
+            include/Utils.h src/menu.cpp include/menu.h include/minHeap.h
             src/files_reader.cpp include/files_reader.h include/GraphBuilder.h include/structs.h src/GraphBuilder.cpp
-            src/InverseGraph.cpp include/InverseGraph.h include/GraphInverseBuilder.h src/GraphInverseBuilder.cpp)
+            src/InverseGraph.cpp include/InverseGraph.h include/GraphInverseBuilder.h src/GraphInverseBuilder.cpp include/menuAsks.h)
 
 
     target_link_libraries(aed_t2 gtest gtest_main)
@@ -32,9 +32,9 @@ if (CMAKE_BUILD_TYPE MATCHES Release)
 
             src/graph.cpp include/graph.h
 
-            include/distanceCalc.h src/menu.cpp include/menu.h include/minHeap.h src/files_reader.cpp
+            include/Utils.h src/menu.cpp include/menu.h include/minHeap.h src/files_reader.cpp
             include/files_reader.h include/GraphBuilder.h include/structs.h src/GraphBuilder.cpp
-            src/InverseGraph.cpp include/InverseGraph.h include/GraphInverseBuilder.h src/GraphInverseBuilder.cpp)
+            src/InverseGraph.cpp include/InverseGraph.h include/GraphInverseBuilder.h src/GraphInverseBuilder.cpp include/menuAsks.h)
 
 
     message("Release mode")
