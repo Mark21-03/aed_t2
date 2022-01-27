@@ -29,20 +29,15 @@ GraphInverseBuilder &GraphInverseBuilder::addNodes() {
             auto it = ++list.stops.begin();
             for (auto s = list.stops.begin(); s != list.stops.end(); s++) {
                 string lineName = l.code;
+                graph.addNode(i, *s, lineName);
+                nodeToIndex.insert(pair<pair<string,string>, int>(pair<string,string>(*s,lineName), i));
+                indexToNode.insert(pair<int, pair<string,string>>(i, pair<string ,string >(*s, lineName)));
+
                 if (it != list.stops.end()) {
-                    graph.addNode(i, *s, lineName);
-                    nodeToIndex.insert(pair<pair<string,string>, int>(pair<string,string>(*s,lineName), i));
-                    indexToNode.insert(pair<int, pair<string,string>>(i, pair<string ,string >(*s, lineName)));
                     graph.addEdge(i, i + 1, false, 0);
-                    i++;
-                } else {
-                    graph.addNode(i, *s, lineName);
-                    nodeToIndex.insert(pair<pair<string,string>, int>(pair<string,string>(*s,lineName), i));
-                    indexToNode.insert(pair<int, pair<string,string>>(i, pair<string ,string >(*s, lineName)));
-                    i++;
-                    break;
                 }
-                it++;
+                i++;
+
             }
         }
     }
