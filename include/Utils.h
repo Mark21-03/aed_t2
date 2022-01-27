@@ -4,6 +4,7 @@
 #define _USE_MATH_DEFINES
 
 #include <math.h>
+#include <vector>
 
 #include "structs.h"
 
@@ -26,6 +27,7 @@ static double distanceCalc(Location l1, Location l2) {
     double c = 2 * asin(sqrt(a));
     return rad * c * 1000;
 }
+
 
 
 #endif //AED_T2_UTILS_H
