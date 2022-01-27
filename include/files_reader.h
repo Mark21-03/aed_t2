@@ -9,6 +9,7 @@
 #include <sstream>
 #include "structs.h"
 
+bool file_exists(const string &name);
 
 ostream &operator<<(ostream &os, const Location &l);
 
@@ -29,5 +30,7 @@ vector<Stop> StopsReader(const string &path);
 vector<Line> LinesReader(const string &path);
 
 vector<string> StopsCodesReader(const string &path);
+
+list<string> availableLines(const string &code, bool includeM_lines);
 
 #endif //AED_T2_FILES_READER_H

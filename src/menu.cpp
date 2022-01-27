@@ -283,7 +283,7 @@ void Menu::showGeneratedPath(int pathCriteria) const {
     list<Graph::Edge> path;
 
     GraphInverseBuilder graphInverseBuilder = GraphInverseBuilder();
-    InverseGraph graph1 = graphInverseBuilder.buildGraph();
+    InverseGraph graph1 = graphInverseBuilder.buildGraph(useMLines, footDistance);
 
     int originIndex, destinyIndex;
 
@@ -528,7 +528,7 @@ void Menu::beautifulPrintStopsInverse(InverseGraph &graph, GraphInverseBuilder &
             cout << "Take " << currentLine << endl;
         }
 
-        cout << setw(8) << p.first << "\t" << "graph.getNode(it.dest).stop.zone" << "\t\t"; // TODO: ZONE
+        cout << setw(8) << p.first << "\t" << "TODO" << "\t\t"; // TODO: ZONE
 
         cout << endl;
     }

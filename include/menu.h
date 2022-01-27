@@ -92,9 +92,10 @@ public:
 
     static void fullLinePrint(Graph graph, GraphBuilder model, vector<pair<Line, bool>> lines, const list<int> &path);
 
-    static void beautifulPrintStops(Graph& graph, GraphBuilder& model, list <Graph::Edge>& path);
+    static void beautifulPrintStops(Graph &graph, GraphBuilder &model, list <Graph::Edge> &path);
 
-    static void beautifulPrintStopsInverse(InverseGraph& graph, GraphInverseBuilder& model, list <InverseGraph::Edge>& path);
+    static void
+    beautifulPrintStopsInverse(InverseGraph &graph, GraphInverseBuilder &model, list <InverseGraph::Edge> &path);
 
 
     bool validStop(const string &stop);

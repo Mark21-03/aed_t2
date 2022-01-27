@@ -4,7 +4,7 @@
 #include "graph.h"
 #include "files_reader.h"
 #include "map"
-#include "distanceCalc.h"
+#include "Utils.h"
 #include <climits>
 
 
@@ -14,13 +14,13 @@ private:
 
     bool includeM_lines;
 
-    GraphBuilder& addNodes();
+    GraphBuilder &addNodes();
 
-    GraphBuilder& addEdges();
+    GraphBuilder &addEdges();
 
 
 public:
-    GraphBuilder& addWalkingEdges(int radius);
+    GraphBuilder &addWalkingEdges(int radius);
 
     Graph graph;
     map<string, int> stopToIndex;
@@ -31,16 +31,12 @@ public:
         this->includeM_lines = includeMLines;
         addNodes();
         addEdges();
-        if (footDistance!=-1)
+        if (footDistance != -1)
             addWalkingEdges(footDistance);
         return graph;
     }
 
     int nodeGeoDistance(int start, int end);
-
-    static bool file_exists(const string &name);
-
-    list<string> availableLines(const string &code) const;
 
     const Graph &getGraph() const;
 };

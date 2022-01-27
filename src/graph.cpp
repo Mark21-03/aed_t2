@@ -3,7 +3,7 @@
 #include <utility>
 #include "set"
 #include "../include/files_reader.h"
-#include "../include/distanceCalc.h"
+#include "../include/Utils.h"
 
 // Constructor: nr nodes and direction (default: undirected)
 Graph::Graph(int num, bool dir) : n(num), hasDir(dir), nodes(num + 1) {}
@@ -22,7 +22,7 @@ vector<int> Graph::nodesInReach(Location pos, int radius) {
 
     vector<int> v;
     for (int i = 1; i <= n; i++) // TODO: WHAT IF THE LOCATION IS THE SAME ?
-        if ((int)distanceCalc(nodes[i].stop.location, pos) <= radius) {
+        if ((int) distanceCalc(nodes[i].stop.location, pos) <= radius) {
             v.push_back(i);
         }
     return v;
@@ -50,7 +50,7 @@ void Graph::addGeoStartEndNode(Location start, Location end, int radius) {
 //distance criteria
 void Graph::dijkstra_distance(int a) {
 
-    auto lambda = [this](int x, Edge& y) {
+    auto lambda = [this](int x, Edge &y) {
         Location l1 = nodes[x].stop.location;
         Location l2 = nodes[y.dest].stop.location;
 
@@ -69,10 +69,10 @@ void Graph::dijkstra_distance(int a) {
 void Graph::dijkstra_zones(int a) {
 
     static set<string> avLines;
-    for (const auto& e : nodes[a].adj) {
+    for (const auto &e: nodes[a].adj) {
         avLines.insert(e.line.code);
     }
-    auto lambda = [this](int x, Edge& y) {
+    auto lambda = [this](int x, Edge &y) {
 
         int penalty = 0;
         if (avLines.find(y.line.code) == avLines.end()) {
@@ -83,7 +83,8 @@ void Graph::dijkstra_zones(int a) {
             penalty += 1;
 
 
-        return (nodes[x].stop.zone == nodes[y.dest].stop.zone ? 0 : 1) + penalty; // TODO: THE PENALTY WILL MESS WITH INFORMATION OF NUMBER OD ZONES
+        return (nodes[x].stop.zone == nodes[y.dest].stop.zone ? 0 : 1) +
+               penalty; // TODO: THE PENALTY WILL MESS WITH INFORMATION OF NUMBER OD ZONES
     };
 
     dijkstra(a, lambda);
@@ -100,18 +101,18 @@ void Graph::dijkstra_lineSwaps(int a) {
 
 
     static set<string> avLines;
-    for (const auto& e : nodes[a].adj) {
+    for (const auto &e: nodes[a].adj) {
         avLines.insert(e.line.code);
     }
-    auto lambda = [this, graph1](int x, Edge& y) {
+    auto lambda = [this, graph1](int x, Edge &y) {
 
         int penalty = 0;
         if (y.line.code == "__FOOT__")
             penalty += 10000;
         if (avLines.find(y.line.code) != avLines.end() && y.line.code == nodes[x].pred.line.code) {
-            return 0 + penalty + graph1.nodes[x].dist ;
+            return 0 + penalty + graph1.nodes[x].dist;
         }
-        return 100000 + penalty  + graph1.nodes[x].dist;
+        return 100000 + penalty + graph1.nodes[x].dist;
 
     };
 
@@ -141,7 +142,7 @@ list<Graph::Edge> Graph::dijkstra_path(int a, int b) {
     while (parent.origin != a) {
         parent = nodes[parent.origin].pred;
 
-        findLinePath( path.back().line ,parent);
+        findLinePath(path.back().line, parent);
 
         path.push_front(parent);
     }
@@ -171,7 +172,7 @@ list<Graph::Edge> Graph::bfs_path(int a, int b) {
     while (parent.origin != a) {
         parent = nodes[parent.origin].pred;
 
-        findLinePath( path.back().line ,parent);
+        findLinePath(path.back().line, parent);
 
         path.push_front(parent);
     }
@@ -203,7 +204,7 @@ void Graph::bfsDist(int v) {
         int u = q.front();
         q.pop();
         //cout << u << " "; // show node order
-        for (const auto& e: nodes[u].adj) {
+        for (const auto &e: nodes[u].adj) {
             int w = e.dest;
             if (!nodes[w].visited) {
                 q.push(w);
@@ -227,7 +228,7 @@ void Graph::bfsPrint(int v) {
         int u = q.front();
         q.pop();
         cout << nodes[u].stop << endl; // show nodes
-        for (const auto& e: nodes[u].adj) {
+        for (const auto &e: nodes[u].adj) {
             int w = e.dest;
             //cout<<e.line<<endl; //show edges
             if (!nodes[w].visited) {
@@ -239,8 +240,8 @@ void Graph::bfsPrint(int v) {
 }
 
 //esta funcao procura uma edge entre dois nós tentando manter a mesma linha se possivel
-void Graph::findLinePath(Line &currentLine, Edge& edge) {
-    for (const Edge& e: nodes[edge.origin].adj) {
+void Graph::findLinePath(Line &currentLine, Edge &edge) {
+    for (const Edge &e: nodes[edge.origin].adj) {
         if (e.dest == edge.dest) {
             if (e.line.code == currentLine.code) {
                 nodes[edge.dest].pred = e;
@@ -256,7 +257,7 @@ void Graph::dijkstra(int s, Functor &functor) {
     MinHeap<int, int> q(n, -1);
     for (int v = 1; v <= n; v++) {
         nodes[v].dist = INF;
-        nodes[v].pred = {-1,INF,"", ""};
+        nodes[v].pred = {-1, INF, "", ""};
         q.insert(v, INF);
         nodes[v].visited = false;
     }
@@ -267,7 +268,7 @@ void Graph::dijkstra(int s, Functor &functor) {
         int u = q.removeMin();
         // cout << "Node " << nodes[u].line.name << " with dist = " << nodes[u].dist << endl;
         nodes[u].visited = true;
-        for (auto& e: nodes[u].adj) {
+        for (auto &e: nodes[u].adj) {
             int v = e.dest;
             int w = functor(u, e);
             if (!nodes[v].visited && nodes[u].dist + w < nodes[v].dist) {

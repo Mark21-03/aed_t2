@@ -1,5 +1,5 @@
-#ifndef AED_T2_DISTANCECALC_H
-#define AED_T2_DISTANCECALC_H
+#ifndef AED_T2_UTILS_H
+#define AED_T2_UTILS_H
 
 #define _USE_MATH_DEFINES
 
@@ -28,4 +28,4 @@ static double distanceCalc(Location l1, Location l2) {
 }
 
 
-#endif //AED_T2_DISTANCECALC_H
+#endif //AED_T2_UTILS_H

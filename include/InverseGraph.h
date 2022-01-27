@@ -1,7 +1,3 @@
-//
-// Created by ricar on 27/01/2022.
-//
-
 #ifndef AED_T2_INVERSEGRAPH_H
 #define AED_T2_INVERSEGRAPH_H
 
@@ -22,7 +18,7 @@ public:
         int dist;
         Edge pred;
         bool visited;
-        pair<string ,  string> stop;
+        pair<string, string> stop;
     };
 
     int n;              // Graph size (vertices are numbered from 1 to n)
@@ -34,11 +30,11 @@ public:
 
     explicit InverseGraph(int nodes, bool dir = false);
 
-    void addEdge(int src, int dest, bool lineDirection , int weight);
+    void addEdge(int src, int dest, bool lineDirection, int weight);
 
     Node &getNode(int index);
 
-    void addNode(int index, string &stop, string & line);
+    void addNode(int index, string &stop, string &line);
 
     void dijkstra(int s);
 
