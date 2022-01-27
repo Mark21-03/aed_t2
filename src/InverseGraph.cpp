@@ -1,5 +1,8 @@
 #include "../include/InverseGraph.h"
 
+InverseGraph::InverseGraph(int num, bool dir) : n(num), hasDir(dir), nodes(num + 1) {}
+
+
 void InverseGraph::addEdge(int src, int dest, bool lineDirection, int weight) {
     if (src < 1 || src > n || dest < 1 || dest > n) return;
 
@@ -16,8 +19,6 @@ InverseGraph::Node &InverseGraph::getNode(int index) {
 void InverseGraph::addNode(int index, string &stop, string &line) {
     nodes[index].stop = pair<string, string>(stop, line);
 }
-
-InverseGraph::InverseGraph(int num, bool dir) : n(num), hasDir(dir), nodes(num + 1) {}
 
 void InverseGraph::dijkstra(int s) {
     MinHeap<int, int> q(n, -1);
