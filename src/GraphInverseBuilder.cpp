@@ -28,14 +28,20 @@ GraphInverseBuilder &GraphInverseBuilder::addNodes() {
 
             auto it = ++list.stops.begin();
             for (auto s = list.stops.begin(); s != list.stops.end(); s++) {
+                string lineName = l.code;
                 if (it != list.stops.end()) {
-                    string lineName = l.code;
                     graph.addNode(i, *s, lineName);
                     nodeToIndex.insert(pair<pair<string,string>, int>(pair<string,string>(*s,lineName), i));
-                    indexToNode.insert(pair<int, pair<string,string>>(i++, pair<string ,string >(*s, lineName)));
-
-                } else
+                    indexToNode.insert(pair<int, pair<string,string>>(i, pair<string ,string >(*s, lineName)));
+                    graph.addEdge(i, i + 1, false, 0);
+                    i++;
+                } else {
+                    graph.addNode(i, *s, lineName);
+                    nodeToIndex.insert(pair<pair<string,string>, int>(pair<string,string>(*s,lineName), i));
+                    indexToNode.insert(pair<int, pair<string,string>>(i, pair<string ,string >(*s, lineName)));
+                    i++;
                     break;
+                }
                 it++;
             }
         }
@@ -56,15 +62,9 @@ GraphInverseBuilder &GraphInverseBuilder::addNodes() {
 GraphInverseBuilder &GraphInverseBuilder::addEdges() {
     vector<Line> lines = LinesReader("../dataset/lines.csv");
 
-    for (int i = 1; i < len; ++i) {
-        for (int j = i+1; j <= len; ++j) {
-            if (graph.nodes[i].stop.first == graph.nodes[j].stop.first && graph.nodes[i].stop.second != graph.nodes[j].stop.second) {
-                graph.addEdge(i, j, false, 2);
-                graph.addEdge(j, i, false, 2);
-            }
-        }
-    }
-   for (int i = 1; i <= len; ++i) {
+
+
+    for (int i = 1; i <= len; ++i) {
         for (int j = 1; j <= len; ++j) {
             if (graph.nodes[i].stop.second.empty() || graph.nodes[j].stop.second.empty()) {
                 if (graph.nodes[i].stop.first == graph.nodes[j].stop.first && graph.nodes[i].stop.second != graph.nodes[j].stop.second) {
@@ -72,15 +72,6 @@ GraphInverseBuilder &GraphInverseBuilder::addEdges() {
                     graph.addEdge(j, i, false, 1);
                 }
             }
-        }
-    }
-
-
-    for (int i = 1; i < len; ++i) {
-        int j = i+1;
-        if (graph.nodes[i].stop.first != graph.nodes[j].stop.first && graph.nodes[i].stop.second == graph.nodes[j].stop.second) {
-            if (!graph.nodes[i].stop.second.empty())
-                graph.addEdge(i, j, false, 0);
         }
     }
 
