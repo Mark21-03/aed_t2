@@ -27,9 +27,9 @@
 
 using testing::Eq;
 
-
+/*
 template<class Sortable>
-/*int binarySearch(vector<Sortable> v, Sortable val) {
+int binarySearch(vector<Sortable> v, Sortable val) {
 
     int l = 0, r = v.size() - 1;
 

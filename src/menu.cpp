@@ -1,7 +1,6 @@
 #include <iomanip>
 #include "../include/menu.h"
-#include "../include/InverseGraph.h"
-#include "../include/GraphInverseBuilder.h"
+
 
 string trimStr(istream &ios, string str) {
     str.erase(0, str.find_first_not_of(' '));
@@ -297,23 +296,30 @@ void Menu::showGeneratedPath(int pathCriteria) const {
         graph.addGeoStartEndNode(localStart, localEnd, footDistance);
     }
 
-    if (pathCriteria == 4){
-        originIndex = graphInverseBuilder.nodeToIndex[pair<string,string>(codeStart,"")];
-        destinyIndex = graphInverseBuilder.nodeToIndex[pair<string,string>(codeEnd,"")];
+    if (pathCriteria == 4) {
+        originIndex = graphInverseBuilder.nodeToIndex[pair<string, string>(codeStart, "")];
+        destinyIndex = graphInverseBuilder.nodeToIndex[pair<string, string>(codeEnd, "")];
     }
+
+    list<Graph::Edge> aux;
+    list<InverseGraph::Edge> auxInverse;
 
     switch (pathCriteria) {
         case 1: // min stops
-            beautifulPrintStops(graph, model, minStops(graph, originIndex, destinyIndex));
+            aux = minStops(graph, originIndex, destinyIndex);
+            beautifulPrintStops(graph, model, aux);
             break;
         case 2: // min distance
-            beautifulPrintStops(graph, model, minDistance(graph, originIndex, destinyIndex));
+            aux = minDistance(graph, originIndex, destinyIndex);
+            beautifulPrintStops(graph, model, aux);
             break;
         case 3: // min zones
-            beautifulPrintStops(graph, model, minZones(graph, originIndex, destinyIndex));
+            aux = minZones(graph, originIndex, destinyIndex);
+            beautifulPrintStops(graph, model, aux);
             break;
         case 4: // min lines swaps
-            beautifulPrintStopsInverse(graph1, graphInverseBuilder, minSwaps(graph1, originIndex, destinyIndex));
+            auxInverse = minSwaps(graph1, originIndex, destinyIndex);
+            beautifulPrintStopsInverse(graph1, graphInverseBuilder, auxInverse);
             break;
         default:
             break;
@@ -478,7 +484,7 @@ void Menu::beautifulPrintGeo(Graph graph, GraphBuilder model, list<Graph::Edge> 
 }
 
 
-void Menu::beautifulPrintStops(Graph& graph, GraphBuilder& model, list<Graph::Edge>& path) {
+void Menu::beautifulPrintStops(Graph &graph, GraphBuilder &model, list<Graph::Edge> &path) {
 
     string currentLine;
 
@@ -508,7 +514,7 @@ bool Menu::validStop(const string &stop) {
     return index != -1;
 }
 
-void Menu::beautifulPrintStopsInverse(InverseGraph &graph, GraphInverseBuilder &model, list<InverseGraph::Edge>& path) {
+void Menu::beautifulPrintStopsInverse(InverseGraph &graph, GraphInverseBuilder &model, list<InverseGraph::Edge> &path) {
     string currentLine;
 
     cout << "Starting at " << model.indexToNode[path.front().origin].first << endl;
