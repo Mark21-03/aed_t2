@@ -54,7 +54,11 @@ void Graph::dijkstra_distance(int a) {
         Location l1 = nodes[x].stop.location;
         Location l2 = nodes[y.dest].stop.location;
 
-        return distanceCalc(l1, l2);
+        int penalty = 0;
+        if (y.line.code == "__FOOT__")
+            penalty = 1000;
+
+        return distanceCalc(l1, l2) + penalty;
     };
 
     dijkstra(a, lambda);
@@ -75,6 +79,10 @@ void Graph::dijkstra_zones(int a) {
             penalty = 1;
         }
 
+        if (y.line.code == "__FOOT__")
+            penalty = 1;
+
+
         return (nodes[x].stop.zone == nodes[y.dest].stop.zone ? 0 : 1) + penalty; // TODO: THE PENALTY WILL MESS WITH INFORMATION OF NUMBER OD ZONES
     };
 
@@ -92,10 +100,13 @@ void Graph::dijkstra_lineSwaps(int a) {
     }
     auto lambda = [this](int x, Edge& y) {
 
+        int penalty = 0;
+        if (y.line.code == "__FOOT__")
+            penalty = 1;
         if (avLines.find(y.line.code) != avLines.end() && y.line.code == nodes[x].pred.line.code) {
-            return 0;
+            return 0 + penalty;
         }
-        return 1;
+        return 1 + penalty;
 
     };
 
