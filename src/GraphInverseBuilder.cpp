@@ -12,7 +12,7 @@ GraphInverseBuilder &GraphInverseBuilder::addNodes() {
             auto first = aL.front();
             aL.pop_front();
 
-            bool direction = first.find("_0.csv") != string::npos;
+            //bool direction = first.find("_0.csv") != string::npos;
 
             LineStops list;
             ifstream f(first);
@@ -38,7 +38,7 @@ GraphInverseBuilder &GraphInverseBuilder::addNodes() {
     }
 
     for (auto d: StopsReader("../dataset/stops.csv")) {
-        string s = "";
+        string s;
         graph.addNode(i, d.code, s);
         nodeToIndex.insert(pair<pair<string, string>, int>(pair<string, string>(d.code, s), i));
         indexToNode.insert(pair<int, pair<string, string>>(i++, pair<string, string>(d.code, s)));

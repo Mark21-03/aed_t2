@@ -98,8 +98,6 @@ Menu::STATE Menu::criteriaMenu() const {
 
 Menu::STATE Menu::locationMenu() {
 
-    resetMenuVars();
-
     char userInput;
     string inputError;
 
@@ -139,8 +137,7 @@ Menu::STATE Menu::locationMenu() {
                     askLocationCords();
                     return menuConfirmationPrompt() ? criteria : location;
                 case '3':
-                    settingsMenu();
-                    return location;
+                    return settings;
                 default:
                     cout << "Invalid Input!\n";
                     cin.clear();
@@ -238,12 +235,77 @@ void Menu::askLocationCords() {
 }
 
 
-void Menu::settingsMenu() {
+Menu::STATE Menu::settingsMenu() {
 
-    askUseMLines();
+    char userInput;
+    string inputError;
 
+    while (true) {
+        system(CLEAR);
 
-    askFootDistance();
+        if (!inputError.empty())
+            cout << inputError;
+        inputError = "";
+
+        cout << "====================================" << endl;
+        cout << "        Settings  " << endl;
+        cout << "====================================" << endl;
+        cout << "    1)  Foot Distance \t( " << footDistance << " )" << endl;
+        cout << "    2)  Stop Radius \t( " << stopRadius << " )" << endl;
+        cout << "    3)  M Lines \t( " << (useMLines ? "YES" : "NO") << " )" << endl;
+        cout << "    4)  Disable Stop \t( " << "???" << " )" << endl;
+        cout << "    5)  Disable Line \t( " << "???" << " )" << endl;
+        cout << "    6)  Go Back " << endl;
+        cout << "    0)  Exit" << endl;
+        cout << "====================================" << endl;
+        cout << " > ";
+
+        if ((cin >> userInput)) {
+            if (!emptyStream(cin)) {
+                cout << "Invalid Input!\n";
+                cin.clear();
+                cin.ignore(10000, '\n');
+                continue;
+            }
+
+            switch (userInput) {
+                case '0':
+                    return close;
+                case '1':
+                    askFootDistance();
+                    return settings;
+                case '2':
+                    askStopRadius();
+                    return settings;
+                case '3':
+                    askUseMLines();
+                    return settings;
+                case '4':
+                    askDisableStop();
+                    return settings;
+                case '5':
+                    askDisableLine();
+                    return settings;
+                case '6':
+                    return location;
+                default:
+                    cout << "Invalid Input!\n";
+                    cin.clear();
+                    cin.ignore(10000, '\n');
+                    getchar();
+                    break;
+            }
+            continue;
+
+        } else {
+            cout << "Invalid Input!\n";
+            cin.clear();
+            cin.ignore(10000, '\n');
+            getchar();
+            continue;
+        }
+    }
+
 
 }
 
@@ -262,18 +324,15 @@ void Menu::start() {
             case criteria:
                 state = criteriaMenu();
                 break;
+            case settings:
+                state = settingsMenu();
+                break;
             case close:
                 return;
         }
     }
 
 }
-
-void Menu::resetMenuVars() {
-    localStart = {}, localEnd = {};
-    codeStart = "", codeEnd = "";
-}
-
 
 void Menu::showGeneratedPath(int pathCriteria) const {
 
@@ -328,8 +387,7 @@ void Menu::showGeneratedPath(int pathCriteria) const {
 
 void Menu::askFootDistance() {
     cout << "\n\nPlease provide the distance (in meters) you are\n"
-            "willing to travel on foot to reach your destination\n"
-            "(Current is " << footDistance << "m)\n";
+            "willing to travel on foot to reach the destination\n";
     cout << "\n > ";
 
     int n;
@@ -356,9 +414,12 @@ void Menu::askUseMLines() {
         useMLines = true;
     else {
         useMLines = false;
-        cin.clear();
-        cin.ignore(10000, '\n');
     }
+
+    cin.clear();
+    cin.ignore(10000, '\n');
+    cout << "\nInclude M lines was set to " << (useMLines ? "TRUE" : "FALSE") << endl;
+    getchar();
 
 }
 
@@ -534,6 +595,35 @@ void Menu::beautifulPrintStopsInverse(InverseGraph &graph, GraphInverseBuilder &
     }
     cout << "Arrive at " << model.indexToNode[path.back().dest].first;
 
+    getchar();
+}
+
+
+void Menu::askStopRadius() {
+    cout << "\n\nPlease provide the distance (in meters) you are\n"
+            "willing to travel on foot between intermediate stops\n";
+    cout << "\n > ";
+
+    int n;
+    if (cin >> n) {
+        stopRadius = n;
+        cout << "\nStop Radius was set to " << stopRadius << " m\n";
+    } else {
+        cout << "Invalid input!\n";
+    }
+
+    cin.clear();
+    cin.ignore(10000, '\n');
+    getchar();
+}
+
+void Menu::askDisableStop() {
+    cout << "\naskDisableStop\n";
+    getchar();
+}
+
+void Menu::askDisableLine() {
+    cout << "\naskDisableLine\n";
     getchar();
 }
 

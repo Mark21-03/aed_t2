@@ -49,16 +49,19 @@ public:
     Location localStart, localEnd;
     string codeStart, codeEnd;
     int footDistance = 200;
+    int stopRadius = 40;
     bool useMLines = true;
 
 
     enum STATE {
-        location, criteria, close
+        location, criteria, close, settings
     };
 
     static bool menuConfirmationPrompt();
 
     STATE locationMenu();
+
+    STATE settingsMenu();
 
     STATE criteriaMenu() const;
 
@@ -75,10 +78,6 @@ public:
     void askLocationStops();
 
     void askLocationCords();
-
-    void settingsMenu();
-
-    void resetMenuVars();
 
     void showGeneratedPath(int pathCriteria) const;
 
@@ -99,6 +98,12 @@ public:
 
 
     bool validStop(const string &stop);
+
+    void askStopRadius();
+
+    static void askDisableStop();
+
+    static void askDisableLine();
 };
 
 string trimStr(istream &ios, string str);
