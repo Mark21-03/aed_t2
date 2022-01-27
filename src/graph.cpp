@@ -80,7 +80,7 @@ void Graph::dijkstra_zones(int a) {
         }
 
         if (y.line.code == "__FOOT__")
-            penalty = 1;
+            penalty += 1;
 
 
         return (nodes[x].stop.zone == nodes[y.dest].stop.zone ? 0 : 1) + penalty; // TODO: THE PENALTY WILL MESS WITH INFORMATION OF NUMBER OD ZONES
@@ -94,19 +94,24 @@ void Graph::dijkstra_zones(int a) {
 void Graph::dijkstra_lineSwaps(int a) {
 
 
+    Graph graph1 = Graph();
+    graph1.nodes = nodes;
+    graph1.bfsDist(a);
+
+
     static set<string> avLines;
     for (const auto& e : nodes[a].adj) {
         avLines.insert(e.line.code);
     }
-    auto lambda = [this](int x, Edge& y) {
+    auto lambda = [this, graph1](int x, Edge& y) {
 
         int penalty = 0;
         if (y.line.code == "__FOOT__")
-            penalty = 1;
+            penalty += 10000;
         if (avLines.find(y.line.code) != avLines.end() && y.line.code == nodes[x].pred.line.code) {
-            return 0 + penalty;
+            return 0 + penalty + graph1.nodes[x].dist ;
         }
-        return 1 + penalty;
+        return 100000 + penalty  + graph1.nodes[x].dist;
 
     };
 
@@ -260,7 +265,7 @@ void Graph::dijkstra(int s, Functor &functor) {
     nodes[s].pred = {s, 0, "", "", false, s};
     while (q.getSize() > 0) {
         int u = q.removeMin();
-        // cout << "Node " << nodes[u].stop.name << " with dist = " << nodes[u].dist << endl;
+        // cout << "Node " << nodes[u].line.name << " with dist = " << nodes[u].dist << endl;
         nodes[u].visited = true;
         for (auto& e: nodes[u].adj) {
             int v = e.dest;

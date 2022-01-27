@@ -57,7 +57,7 @@ void MinHeap<K, V>::downHeap(int i) {
     while (LEFT(i) <= size) { // while within heap limits
         int j = LEFT(i);
         if (RIGHT(i) <= size && a[RIGHT(i)].value < a[j].value) j = RIGHT(i); // choose smaller child
-        if (a[i].value < a[j].value) break;   // node already smaller than children, stop
+        if (a[i].value < a[j].value) break;   // node already smaller than children, line
         swap(i, j);                    // otherwise, swap with smaller child
         i = j;
     }

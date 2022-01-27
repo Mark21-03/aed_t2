@@ -1,5 +1,7 @@
 #include <iomanip>
 #include "../include/menu.h"
+#include "../include/InverseGraph.h"
+#include "../include/GraphInverseBuilder.h"
 
 string trimStr(istream &ios, string str) {
     str.erase(0, str.find_first_not_of(' '));
@@ -188,10 +190,10 @@ list<Graph::Edge> Menu::minZones(Graph &graph, int originIndex, int destinyIndex
 
 }
 
-list<Graph::Edge> Menu::minSwaps(Graph &graph, int originIndex, int destinyIndex) {
+list<InverseGraph::Edge> Menu::minSwaps(InverseGraph &graph, int originIndex, int destinyIndex) {
 
-    graph.dijkstra_lineSwaps(originIndex);
-    list<Graph::Edge> path = graph.dijkstra_path(originIndex, destinyIndex);
+    graph.dijkstra(originIndex);
+    list<InverseGraph::Edge> path = graph.dijkstra_path(originIndex, destinyIndex);
     cout << "\nNumber of minimum line swaps: " << graph.getNode(destinyIndex).dist << endl << endl;
     return path;
 
@@ -201,14 +203,14 @@ void Menu::askLocationStops() {
 
     string input;
 
-    cout << "\nStarting stop code: ";
+    cout << "\nStarting line code: ";
     getline(cin, input);
     if (validStop(input)) {
         stringstream ss(input);
         ss >> codeStart;
     } else cout << "Invalid!";
 
-    cout << "\nDestination stop code: ";
+    cout << "\nDestination line code: ";
     getline(cin, input);
     if (validStop(input)) {
         stringstream ss(input);
@@ -281,6 +283,9 @@ void Menu::showGeneratedPath(int pathCriteria) const {
     vector<pair<Line, bool>> lines;
     list<Graph::Edge> path;
 
+    GraphInverseBuilder graphInverseBuilder = GraphInverseBuilder();
+    InverseGraph graph1 = graphInverseBuilder.buildGraph();
+
     int originIndex, destinyIndex;
 
     if (!codeStart.empty()) {
@@ -292,25 +297,27 @@ void Menu::showGeneratedPath(int pathCriteria) const {
         graph.addGeoStartEndNode(localStart, localEnd, footDistance);
     }
 
+    if (pathCriteria == 4){
+        originIndex = graphInverseBuilder.nodeToIndex[pair<string,string>(codeStart,"")];
+        destinyIndex = graphInverseBuilder.nodeToIndex[pair<string,string>(codeEnd,"")];
+    }
+
     switch (pathCriteria) {
         case 1: // min stops
-            path = minStops(graph, originIndex, destinyIndex);
+            beautifulPrintStops(graph, model, minStops(graph, originIndex, destinyIndex));
             break;
         case 2: // min distance
-            path = minDistance(graph, originIndex, destinyIndex);
+            beautifulPrintStops(graph, model, minDistance(graph, originIndex, destinyIndex));
             break;
         case 3: // min zones
-            path = minZones(graph, originIndex, destinyIndex);
+            beautifulPrintStops(graph, model, minZones(graph, originIndex, destinyIndex));
             break;
         case 4: // min lines swaps
-            path = minSwaps(graph, originIndex, destinyIndex);
+            beautifulPrintStopsInverse(graph1, graphInverseBuilder, minSwaps(graph1, originIndex, destinyIndex));
             break;
         default:
             break;
     }
-
-    beautifulPrintStops(graph, model, path);
-
 }
 
 void Menu::askFootDistance() {
@@ -471,7 +478,7 @@ void Menu::beautifulPrintGeo(Graph graph, GraphBuilder model, list<Graph::Edge> 
 }
 
 
-void Menu::beautifulPrintStops(Graph graph, GraphBuilder model, list<Graph::Edge> path) {
+void Menu::beautifulPrintStops(Graph& graph, GraphBuilder& model, list<Graph::Edge>& path) {
 
     string currentLine;
 
@@ -499,5 +506,28 @@ bool Menu::validStop(const string &stop) {
     int index = binarySearch(stopsCode, stop);
 
     return index != -1;
+}
+
+void Menu::beautifulPrintStopsInverse(InverseGraph &graph, GraphInverseBuilder &model, list<InverseGraph::Edge>& path) {
+    string currentLine;
+
+    cout << "Starting at " << model.indexToNode[path.front().origin].first << endl;
+    for (const auto &it: path) {
+        //string line = lineDirectionName(, it.lineDirection);
+        auto p = model.indexToNode[it.origin];
+        string line = p.second;
+
+        if (currentLine != line) {
+            currentLine = line;
+            cout << "Take " << currentLine << endl;
+        }
+
+        cout << setw(8) << p.first << "\t" << "graph.getNode(it.dest).stop.zone" << "\t\t"; // TODO: ZONE
+
+        cout << endl;
+    }
+    cout << "Arrive at " << model.indexToNode[path.back().dest].first;
+
+    getchar();
 }
 

@@ -8,6 +8,8 @@
 #include "files_reader.h"
 #include "graph.h"
 #include "GraphBuilder.h"
+#include "InverseGraph.h"
+#include "GraphInverseBuilder.h"
 
 #ifdef _WIN32
 #define CLEAR "cls"
@@ -68,7 +70,7 @@ public:
 
     static list <Graph::Edge> minZones(Graph &graph, int originIndex, int destinyIndex);
 
-    static list <Graph::Edge> minSwaps(Graph &graph, int originIndex, int destinyIndex);
+    static list <InverseGraph::Edge> minSwaps(InverseGraph &graph, int originIndex, int destinyIndex);
 
     void askLocationStops();
 
@@ -86,11 +88,14 @@ public:
 
     static bool processStoredCords(const string &input, Location &location);
 
-    static void beautifulPrintGeo(Graph graph, GraphBuilder model, list <Graph::Edge> path);
+    static void beautifulPrintGeo(Graph graph, GraphBuilder model, list <Graph::Edge> path); // TODO: PASS BY REFERENCE
 
     static void fullLinePrint(Graph graph, GraphBuilder model, vector<pair<Line, bool>> lines, const list<int> &path);
 
-    static void beautifulPrintStops(Graph graph, GraphBuilder model, list <Graph::Edge> path);
+    static void beautifulPrintStops(Graph& graph, GraphBuilder& model, list <Graph::Edge>& path);
+
+    static void beautifulPrintStopsInverse(InverseGraph& graph, GraphInverseBuilder& model, list <InverseGraph::Edge>& path);
+
 
     bool validStop(const string &stop);
 };
