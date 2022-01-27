@@ -277,12 +277,11 @@ void Menu::resetMenuVars() {
 void Menu::showGeneratedPath(int pathCriteria) const {
 
     GraphBuilder model = GraphBuilder();
-    Graph graph = model.buildGraph(useMLines);
+    Graph graph = model.buildGraph(useMLines, footDistance);
     vector<pair<Line, bool>> lines;
     list<Graph::Edge> path;
 
     int originIndex, destinyIndex;
-    bool isGeo = false;
 
     if (!codeStart.empty()) {
         originIndex = model.stopToIndex[codeStart];
@@ -290,8 +289,7 @@ void Menu::showGeneratedPath(int pathCriteria) const {
     } else {
         originIndex = geoStartNode;
         destinyIndex = geoEndNode;
-        graph.addGeoStartEndNode(localStart, localEnd, 500);
-        isGeo = true;
+        graph.addGeoStartEndNode(localStart, localEnd, footDistance);
     }
 
     switch (pathCriteria) {
@@ -311,10 +309,7 @@ void Menu::showGeneratedPath(int pathCriteria) const {
             break;
     }
 
-    if (isGeo)
-        beautifulPrintGeo(graph, model, path);
-    else
-        beautifulPrintStops(graph, model, path);
+    beautifulPrintStops(graph, model, path);
 
 }
 

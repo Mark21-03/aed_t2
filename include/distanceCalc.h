@@ -1,7 +1,9 @@
 #ifndef AED_T2_DISTANCECALC_H
 #define AED_T2_DISTANCECALC_H
 
-#include <cmath>
+#define _USE_MATH_DEFINES
+
+#include <math.h>
 
 #include "structs.h"
 

@@ -14,20 +14,25 @@ private:
 
     bool includeM_lines;
 
-    void addNodes();
+    GraphBuilder& addNodes();
 
-    void addEdges();
+    GraphBuilder& addEdges();
+
 
 public:
+    GraphBuilder& addWalkingEdges(int radius);
+
     Graph graph;
     map<string, int> stopToIndex;
     map<int, string> indexToStop;
 
-    Graph buildGraph(bool includeMLines = true) {
+    Graph buildGraph(bool includeMLines = true, int footDistance = -1) {
         graph = Graph(2487 + 2, true);
         this->includeM_lines = includeMLines;
         addNodes();
         addEdges();
+        if (footDistance!=-1)
+            addWalkingEdges(footDistance);
         return graph;
     }
 
@@ -36,6 +41,8 @@ public:
     static bool file_exists(const string &name);
 
     list<string> availableLines(const string &code) const;
+
+    const Graph &getGraph() const;
 };
 
 

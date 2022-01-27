@@ -29,7 +29,7 @@ using testing::Eq;
 
 
 template<class Sortable>
-int binarySearch(vector<Sortable> v, Sortable val) {
+/*int binarySearch(vector<Sortable> v, Sortable val) {
 
     int l = 0, r = v.size() - 1;
 
@@ -50,7 +50,8 @@ int binarySearch(vector<Sortable> v, Sortable val) {
     // not present
     return -1;
 }
-
+*/
+/*
 TEST(Test_bfs, Test_bfs) {
 
 
@@ -66,3 +67,4 @@ TEST(Test_bfs, Test_bfs) {
         cout << "\nNot Found!\n";
 
 }
+*/

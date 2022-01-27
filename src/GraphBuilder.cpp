@@ -22,17 +22,17 @@ list<string> GraphBuilder::availableLines(const string &code) const {
     return l;
 }
 
-void GraphBuilder::addNodes() {
+GraphBuilder& GraphBuilder::addNodes() {
     int i = 1;
     for (auto d: StopsReader("../dataset/stops.csv")) {
         graph.addNode(i, d);
         stopToIndex.insert(pair<string, int>(d.code, i));
         indexToStop.insert(pair<int, string>(i++, d.code));
     }
-
+    return *this;
 }
 
-void GraphBuilder::addEdges() {
+GraphBuilder& GraphBuilder::addEdges() {
     vector<Line> lines = LinesReader("../dataset/lines.csv");
 
     for (const auto &l: lines) {
@@ -65,6 +65,7 @@ void GraphBuilder::addEdges() {
             }
         }
     }
+    return *this;
 }
 
 int GraphBuilder::nodeGeoDistance(int start, int end) {
@@ -73,5 +74,22 @@ int GraphBuilder::nodeGeoDistance(int start, int end) {
     Location l2 = graph.getNode(end).stop.location;
 
     return (int)distanceCalc(l1, l2);
+}
+
+GraphBuilder &GraphBuilder::addWalkingEdges(int radius) {
+    for (auto& s : graph.nodes) {
+        vector<int> v = graph.nodesInReach(s.stop.location,radius);
+        for (auto i : v) {
+            if (stopToIndex[s.stop.code] == i)
+                continue;
+
+            graph.addEdge(stopToIndex[s.stop.code],i, Line{"__FOOT__","__FOOT__"}, true, INF); // TODO: CHECK LINE DIRECTION and name
+        }
+    }
+    return *this;
+}
+
+const Graph &GraphBuilder::getGraph() const {
+    return graph;
 }
 
