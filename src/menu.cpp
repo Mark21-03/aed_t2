@@ -7,7 +7,7 @@ Menu::STATE Menu::criteriaMenu() const {
     string inputError;
 
     while (true) {
-        system(CLEAR);
+        (void) system(CLEAR);
 
         if (!inputError.empty())
             cout << inputError;
@@ -68,7 +68,7 @@ Menu::STATE Menu::settingsMenu() {
     string inputError;
 
     while (true) {
-        system(CLEAR);
+        (void) system(CLEAR);
 
         if (!inputError.empty())
             cout << inputError;
@@ -143,7 +143,7 @@ Menu::STATE Menu::locationMenu() {
     string inputError;
 
     while (true) {
-        system(CLEAR);
+        (void) system(CLEAR);
 
         if (!inputError.empty())
             cout << inputError;
@@ -205,7 +205,7 @@ void Menu::start() {
 
     while (true) {
 
-        system(CLEAR);
+        (void) system(CLEAR);
 
         switch (state) {
             case location:
