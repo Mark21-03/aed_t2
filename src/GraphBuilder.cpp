@@ -54,14 +54,6 @@ GraphBuilder &GraphBuilder::addEdges() {
     return *this;
 }
 
-int GraphBuilder::nodeGeoDistance(int start,
-                                  int end) {
-
-    Location l1 = graph.getNode(start).stop.location;
-    Location l2 = graph.getNode(end).stop.location;
-
-    return (int) distanceCalc(l1, l2);
-}
 
 GraphBuilder &GraphBuilder::addWalkingEdges(int radius) {
     for (auto &s: graph.nodes) {
@@ -75,9 +67,5 @@ GraphBuilder &GraphBuilder::addWalkingEdges(int radius) {
         }
     }
     return *this;
-}
-
-const Graph &GraphBuilder::getGraph() const {
-    return graph;
 }
 
