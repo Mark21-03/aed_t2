@@ -446,7 +446,7 @@ void Menu::beautifulPrintStopsInverse(InverseGraph &graph, GraphInverseBuilder &
             cout << "Take " << currentLine << endl;
         }
 
-        cout << setw(8) << p.first << "\t" << "TODO" << "\t\t"; // TODO: ZONE
+        cout << setw(8) << p.first << "\t" << model.zones[p.first] << "\t\t"; // TODO: ZONE
 
         cout << endl;
     }
