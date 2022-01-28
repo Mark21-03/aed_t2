@@ -32,7 +32,7 @@ GraphInverseBuilder &GraphInverseBuilder::addNodes() {
                     graph.addEdge(i, i + 1, false, 1);
                 }
                 i++;
-
+                it++;
             }
         }
     }
