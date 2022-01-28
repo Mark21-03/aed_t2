@@ -10,6 +10,12 @@
 
 using namespace std;
 
+/**
+ * Computes the geographic distance between two locations (in meters)
+ * @param l1 first location
+ * @param l2 second location
+ * @return distance between first and second location
+ */
 static double distanceCalc(Location l1, Location l2) {
 
     double lat1 = l1.latitude, lon1 = l1.longitude;
@@ -27,7 +33,6 @@ static double distanceCalc(Location l1, Location l2) {
     double c = 2 * asin(sqrt(a));
     return rad * c * 1000;
 }
-
 
 
 #endif //AED_T2_UTILS_H

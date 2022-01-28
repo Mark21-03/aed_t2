@@ -8,9 +8,6 @@
 #include<algorithm>
 #include "structs.h"
 
-using namespace std;
-
-
 #define geoCQueijo {41.16861948613213, -8.6899475068589}
 #define geoFeup {41.17838121987286, -8.599018100763733}
 #define geoPassal {41.15203283630788, -8.49986876108789}
@@ -29,25 +26,46 @@ using namespace std;
 #define geoStartNode 2488
 #define geoEndNode 2489
 
+using namespace std;
 
-bool validLine(const string &basicString);
+/**
+ * Tests if a given bus line is actual valid based on the dataset
+ * @param line line to be tested
+ * @return boolean if bus line exists in dataset
+ */
+bool validLine(const string &line);
 
-string trimStr(istream &ios, string str) {
+
+/**
+ * Removes empty spaces from the start and end of a string
+ * @param str string to be trimmed
+ * @return trimmed string
+ */
+string trimStr(string str) {
     str.erase(0, str.find_first_not_of(' '));
     str.erase(str.find_last_not_of(' ') + 1);
     return str;
 }
 
 
+/**
+ * Tests if IOstream buffer is empty
+ * @param ios buffer to be tested
+ * @return boolean if buffer is empty
+ */
 bool emptyStream(istream &ios) {
     string bufferContent;
     getline(ios, bufferContent);
-    trimStr(ios, bufferContent);
+    trimStr(bufferContent);
     if (bufferContent.empty())
         return true;
     return false;
 }
 
+/**
+ * Shows user a confirmation prompt
+ * @return boolean if confirmed by user
+ */
 bool menuConfirmationPrompt() {
     char confirm;
 
@@ -68,6 +86,12 @@ bool menuConfirmationPrompt() {
 }
 
 
+/**
+ * Returns the bus line name based on its direction
+ * @param name name of the line
+ * @param dir direction in which the bus is moving
+ * @return string with the bus line and direction
+ */
 string lineDirectionName(const string &name, bool dir) {
 
     //18 - PASSEIO ALEGRE - CARMO
@@ -86,6 +110,10 @@ string lineDirectionName(const string &name, bool dir) {
 }
 
 
+/**
+ * Asks user the distance they want to walk between intermediate stops
+ * @return distance given by user
+ */
 int askStopRadius() {
     int stopRadius = 50;
 
@@ -107,7 +135,10 @@ int askStopRadius() {
     return stopRadius;
 }
 
-
+/**
+ * Asks user the distance they want to walk to the first stop and from the last stop to the destiny.
+ * @return distance given by user
+ */
 int askFootDistance() {
     int footDistance = 200;
 
@@ -129,6 +160,10 @@ int askFootDistance() {
     return footDistance;
 }
 
+/**
+ * Asks user if M lines should be included
+ * @return boolean given by user distance given by user
+ */
 bool askUseMLines() {
 
     bool useMLines = true;
@@ -152,7 +187,13 @@ bool askUseMLines() {
     return useMLines;
 }
 
-
+/**
+ * Checks if input string coincides with one of the built-in locations and  sets the value
+ * if it can find a match, returning true
+ * @param input value to be compared to internal location keywords
+ * @param location location to be set if input is a match with internal location keyword
+ * @return boolean true if input was a match and location was set to that stored value
+ */
 bool processStoredCords(const string &input, Location &location) {
 
     Location temp = location;
@@ -206,7 +247,13 @@ bool processStoredCords(const string &input, Location &location) {
 
 }
 
-
+/**
+ * Searches for a value in a vector and returns its position if found else -1.
+ * @tparam Sortable any kind of type that has comparison overload
+ * @param v vector where to search
+ * @param val value to be searched
+ * @return position of elem found else -1
+ */
 template<class Sortable>
 int binarySearch(vector<Sortable> v, Sortable val) {
     int l = 0, r = v.size() - 1;
@@ -219,7 +266,12 @@ int binarySearch(vector<Sortable> v, Sortable val) {
     return -1;
 }
 
-
+/**
+ * Tests if a stop code is valid (exists in the dataset)
+ * @param stopsCode vector with all stops in the dataset
+ * @param stop stop to verify if belongs in the dataset
+ * @return boolean if stop is valid
+ */
 bool validStop(const vector<string> &stopsCode, const string &stop) {
 
     int index = binarySearch(stopsCode, stop);
@@ -227,7 +279,12 @@ bool validStop(const vector<string> &stopsCode, const string &stop) {
     return index != -1;
 }
 
-
+/**
+ * Asks user for the stop code they want disabled and adds them to a set
+ * of disabled stops
+ * @param stopsCode vector of all stops in dataset
+ * @param v set of all disabled stops
+ */
 void askDisableStop(const vector<string> &stopsCode, set<string> &v) {
     string stopCode;
 
@@ -247,6 +304,11 @@ void askDisableStop(const vector<string> &stopsCode, set<string> &v) {
 
 }
 
+/**
+ * Asks user which line they want disabled. If it is valid, its added to the
+ * disabled lines set
+ * @param v set with all disabled lines
+ */
 void askDisableLine(set<string> &v) {
     string lineCode;
 
@@ -264,6 +326,11 @@ void askDisableLine(set<string> &v) {
     getchar();
 }
 
+/**
+ * Tests if a line code is valid by searching for it in the dataset
+ * @param line line code to search
+ * @return boolean if found line in the dataset
+ */
 bool validLine(const string &line) {
 
     for (const auto &l: LinesReader("../dataset/lines.csv"))

@@ -8,15 +8,24 @@
 using namespace std;
 
 
+/**
+ * A location is defined by its position : latitude & longitude
+ */
 struct Location {
     double latitude, longitude;
 };
 
+/**
+ * A bus stop has a location and some information that defines it
+ */
 struct Stop {
     string code, name, zone;
     Location location;
 };
 
+/**
+ * A bus line has a name and a code. It can be traversed in both ways
+ */
 struct Line {
     string code, name;
 
@@ -38,12 +47,11 @@ struct Line {
     }
 };
 
+/**
+ * A collection of stops of a specific bus line
+ */
 struct LineStops {
     list<string> stops;
-};
-
-struct WeightCriteria {
-    int distance, zones, changes;
 };
 
 
