@@ -267,13 +267,15 @@ int binarySearch(vector<Sortable> v, Sortable val) {
 }
 
 /**
- * Tests if a stop code is valid (exists in the dataset)
+ * Tests if a stop code is valid (exists in the dataset) and not disabled
  * @param stopsCode vector with all stops in the dataset
+ * @param disabledStops set with all disabled stops
  * @param stop stop to verify if belongs in the dataset
- * @return boolean if stop is valid
+ * @return boolean if stop is valid and not disabled
  */
-bool validStop(const vector<string> &stopsCode, const string &stop) {
+bool validStop(const vector<string> &stopsCode, const set<string> &disabledStops, const string &stop) {
 
+    if (disabledStops.count(stop) > 0) return false;
     int index = binarySearch(stopsCode, stop);
 
     return index != -1;
@@ -283,16 +285,16 @@ bool validStop(const vector<string> &stopsCode, const string &stop) {
  * Asks user for the stop code they want disabled and adds them to a set
  * of disabled stops
  * @param stopsCode vector of all stops in dataset
- * @param v set of all disabled stops
+ * @param disabledStops set of all disabled stops
  */
-void askDisableStop(const vector<string> &stopsCode, set<string> &v) {
+void askDisableStop(const vector<string> &stopsCode, set<string> &disabledStops) {
     string stopCode;
 
     cout << "\nWhich stop do you want to disable?\n > ";
     cin >> stopCode;
 
-    if (validStop(stopsCode, stopCode)) {
-        v.insert(stopCode);
+    if (validStop(stopsCode, disabledStops, stopCode)) {
+        disabledStops.insert(stopCode);
         cout << "Stop disabled\n";
     } else
         cout << "Canceled...\n";

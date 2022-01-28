@@ -266,14 +266,14 @@ void Menu::askLocationStops() {
 
     cout << "\nStarting line code: ";
     getline(cin, input);
-    if (validStop(stopsCode, input)) {
+    if (validStop(stopsCode, disabledStops, input)) {
         stringstream ss(input);
         ss >> codeStart;
     } else cout << "Invalid!";
 
     cout << "\nDestination line code: ";
     getline(cin, input);
-    if (validStop(stopsCode, input)) {
+    if (validStop(stopsCode, disabledStops, input)) {
         stringstream ss(input);
         ss >> codeEnd;
     } else cout << "Invalid!";
