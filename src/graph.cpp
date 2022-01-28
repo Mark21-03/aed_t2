@@ -160,6 +160,8 @@ void Graph::addNode(int index, Stop &stop) {
 
 
 list<Graph::Edge> Graph::bfs_path(int a, int b) {
+
+    cout << "\nNodes size : " << nodes.size() << endl;
     Line currentLine;
     bfsDist(a);
     list<Edge> path;
@@ -278,4 +280,38 @@ void Graph::dijkstra(int s, Functor &functor) {
             }
         }
     }
+}
+
+void Graph::removeLines(const set<string> &disabled) {
+
+    if (disabled.empty())return;
+
+    for (int v = 1; v <= n; v++)
+        for (auto it = nodes[v].adj.begin(); it != nodes[v].adj.end(); it++)
+            if (disabled.count(it->line.code) > 0) {
+                cout << "Removing edge of line " << it->line.code << endl;
+                it = nodes[v].adj.erase(it);
+            }
+
+}
+
+void Graph::removeStops(const set<string> &disabled) {
+
+    if (disabled.empty())return;
+
+    for (int v = 1; v <= n; v++)
+        if (disabled.count(nodes[v].stop.code) > 0) {
+            for (int v2 = 1; v2 <= n; v2++)
+                for (auto it = nodes[v2].adj.begin(); it != nodes[v2].adj.end(); it++) {
+                    if (it->dest == v || it->origin == v) {
+                        cout << "Removing edge... \n";
+                        it = nodes[v2].adj.erase(it);
+                    }
+                }
+            nodes.erase(nodes.begin() + v);
+            cout << "Removing node...\n";
+            n--;
+        }
+
+
 }

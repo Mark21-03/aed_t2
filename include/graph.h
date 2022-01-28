@@ -8,6 +8,7 @@
 #include <climits>
 #include "structs.h"
 #include "minHeap.h"
+#include<set>
 
 #define INF (INT_MAX/2)
 
@@ -67,14 +68,15 @@ public:
 
     list<Edge> bfs_path(int a, int b);
 
-    Edge getEdge(int src, int dest);
-
     void findLinePath(Line &currentLine, Edge &edge);
 
     void addGeoStartEndNode(Location start, Location end, int radius);
 
     vector<int> nodesInReach(Location pos, int radius);
 
+    void removeLines(const set<string>&disabledLinesCodes);
+
+    void removeStops(const set<string> &disabled);
 };
 
 

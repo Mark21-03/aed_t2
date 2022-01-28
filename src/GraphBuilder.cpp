@@ -1,10 +1,9 @@
 #include "../include/GraphBuilder.h"
 
 
-GraphBuilder &GraphBuilder::addNodes(const set<string> &disabledStops) {
+GraphBuilder &GraphBuilder::addNodes() {
     int i = 1;
     for (auto d: StopsReader("../dataset/stops.csv")) {
-        if (disabledStops.count(d.code) == 1) continue;
         graph.addNode(i, d);
         stopToIndex.insert(pair<string, int>(d.code, i));
         indexToStop.insert(pair<int, string>(i++, d.code));
@@ -12,11 +11,10 @@ GraphBuilder &GraphBuilder::addNodes(const set<string> &disabledStops) {
     return *this;
 }
 
-GraphBuilder &GraphBuilder::addEdges(const set<string> &disabledLines) {
+GraphBuilder &GraphBuilder::addEdges() {
     vector<Line> lines = LinesReader("../dataset/lines.csv");
 
     for (const auto &l: lines) {
-        if (disabledLines.count(l.code) == 1) continue;
         auto aL = availableLines(l.code, includeM_lines);
 
         while (!aL.empty()) {

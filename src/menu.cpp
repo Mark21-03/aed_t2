@@ -310,11 +310,15 @@ void Menu::showGeneratedPath(int pathCriteria) const {
 
     GraphBuilder model = GraphBuilder();
     Graph graph = model.buildGraph(useMLines, footDistance);
+
     vector<pair<Line, bool>> lines;
     list<Graph::Edge> path;
 
     GraphInverseBuilder graphInverseBuilder = GraphInverseBuilder();
     InverseGraph graph1 = graphInverseBuilder.buildGraph(useMLines, footDistance);
+
+    graph.removeLines(disabledLines);
+    graph.removeStops(disabledStops);
 
     int originIndex, destinyIndex;
 
