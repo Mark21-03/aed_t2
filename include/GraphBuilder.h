@@ -6,6 +6,7 @@
 #include "map"
 #include "Utils.h"
 #include <climits>
+#include<set>
 
 
 class GraphBuilder {
@@ -14,9 +15,9 @@ private:
 
     bool includeM_lines;
 
-    GraphBuilder &addNodes();
+    GraphBuilder &addNodes(const set<string> &disabledStops);
 
-    GraphBuilder &addEdges();
+    GraphBuilder &addEdges(const set<string> &disabledLines);
 
 
 public:
@@ -26,11 +27,12 @@ public:
     map<string, int> stopToIndex;
     map<int, string> indexToStop;
 
-    Graph buildGraph(bool includeMLines = true, int footDistance = -1) {
+    Graph buildGraph(bool includeMLines = true, int footDistance = -1, const set<string> &disabledStops={},
+                     const set<string> &disabledLines={}) {
         graph = Graph(2487 + 2, true);
         this->includeM_lines = includeMLines;
-        addNodes();
-        addEdges();
+        addNodes(disabledStops);
+        addEdges(disabledLines);
         if (footDistance != -1)
             addWalkingEdges(footDistance);
         return graph;

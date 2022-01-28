@@ -6,13 +6,13 @@
 #include <iomanip>
 #include <vector>
 #include <string>
+#include<set>
 
 #include "files_reader.h"
 #include "graph.h"
 #include "GraphBuilder.h"
 #include "InverseGraph.h"
 #include "GraphInverseBuilder.h"
-
 
 
 #ifdef _WIN32
@@ -29,6 +29,8 @@ class Menu {
 
 private:
     vector<string> stopsCode = StopsCodesReader("../dataset/stops.csv");
+    set<string> disabledLines;
+    set<string> disabledStops;
 
 public:
 
@@ -75,7 +77,6 @@ public:
     beautifulPrintStopsInverse(InverseGraph &graph, GraphInverseBuilder &model, list<InverseGraph::Edge> &path);
 
 };
-
 
 
 #endif

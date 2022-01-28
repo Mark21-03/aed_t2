@@ -4,6 +4,8 @@
 
 #include <iostream>
 #include <vector>
+#include<set>
+#include<algorithm>
 #include "structs.h"
 
 using namespace std;
@@ -27,6 +29,8 @@ using namespace std;
 #define geoStartNode 2488
 #define geoEndNode 2489
 
+
+bool validLine(const string &basicString);
 
 string trimStr(istream &ios, string str) {
     str.erase(0, str.find_first_not_of(' '));
@@ -149,16 +153,6 @@ bool askUseMLines() {
 }
 
 
-void askDisableStop() {
-    cout << "\naskDisableStop\n";
-    getchar();
-}
-
-void askDisableLine() {
-    cout << "\naskDisableLine\n";
-    getchar();
-}
-
 bool processStoredCords(const string &input, Location &location) {
 
     Location temp = location;
@@ -232,5 +226,52 @@ bool validStop(const vector<string> &stopsCode, const string &stop) {
 
     return index != -1;
 }
+
+
+void askDisableStop(const vector<string> &stopsCode, set<string> &v) {
+    string stopCode;
+
+    cout << "\nWhich stop do you want to disable?\n > ";
+    cin >> stopCode;
+
+    if (validStop(stopsCode, stopCode)) {
+        v.insert(stopCode);
+        cout << "Stop disabled\n";
+    } else
+        cout << "Canceled...\n";
+
+
+    cin.clear();
+    cin.ignore(1000, '\n');
+    getchar();
+
+}
+
+void askDisableLine(set<string> &v) {
+    string lineCode;
+
+    cout << "\nWhich line do you want to disable?\n > ";
+    cin >> lineCode;
+
+    if (validLine(lineCode)) {
+        v.insert(lineCode);
+        cout << "Line disabled\n";
+    } else
+        cout << "Canceled...\n";
+
+    cin.clear();
+    cin.ignore(1000, '\n');
+    getchar();
+}
+
+bool validLine(const string &line) {
+
+    for (const auto &l: LinesReader("../dataset/lines.csv"))
+        if (l.code == line)
+            return true;
+
+    return false;
+}
+
 
 #endif //AED_T2_MENUASKS_H
