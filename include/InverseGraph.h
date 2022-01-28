@@ -42,7 +42,6 @@ public:
 
     list<InverseGraph::Edge> dijkstra_path(int a, int b);
 
-    vector<int> nodesInReach(Location location, int i);
 };
 
 

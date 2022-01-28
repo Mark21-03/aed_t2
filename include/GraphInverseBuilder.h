@@ -20,13 +20,28 @@ private:
 public:
     GraphInverseBuilder &addWalkingEdges(int radius);
 
+
+    vector<int> nodesInReach(int i, int radius) {
+
+        vector<int> v;
+        for (int d = onlyStopsFirstIndex; d <= len; d++) {
+            if ((int) distanceCalc(graph.nodeLocation[graph.getNode(d).stop.first],
+                                   graph.nodeLocation[graph.getNode(i).stop.first]) <= radius) {
+                v.push_back(d);
+            }
+
+        }
+        return v;
+    }
+
+
     InverseGraph graph;
     map<pair<string, string>, int> nodeToIndex;
     map<int, pair<string, string>> indexToNode;
     int len;
     int onlyStopsFirstIndex;
 
-    InverseGraph buildGraph(bool includeMLines = true, int footDistance = -1, const set<string> &disabledLines = {},
+    InverseGraph &buildGraph(bool includeMLines = true, int footDistance = -1, const set<string> &disabledLines = {},
                             const set<string> &disabledStops = {}) {
         graph = InverseGraph(9000, true);
         this->includeM_lines = includeMLines;
@@ -37,6 +52,31 @@ public:
         if (footDistance != -1)
             addWalkingEdges(footDistance);
         return graph;
+    }
+
+    void addGeoStartEndNode(Location start, Location end, int radius) {
+
+        Stop stop = {};
+        string s = "";
+        string startStop = "CURRENT POINT";
+        string endStop = "END POINT";
+        graph.addNode(len + 1, startStop, s);
+        graph.nodeLocation.insert(pair<string,Location>(startStop, start));
+        graph.addNode(len + 2, endStop, s);
+        graph.nodeLocation.insert(pair<string,Location>(endStop, end));
+
+
+        vector<int> nodesStart = nodesInReach(len + 1, radius);
+        vector<int> nodesEnd = nodesInReach(len + 2, radius);
+
+        for (int i : nodesStart) {
+            graph.addEdge(len + 1, i, false, 1);
+        }
+
+        for (int i: nodesEnd) {
+            graph.addEdge(i, len + 2, true, 1);
+        }
+
     }
 
 };

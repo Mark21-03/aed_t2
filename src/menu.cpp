@@ -309,13 +309,13 @@ void Menu::askLocationCords() {
 void Menu::showGeneratedPath(int pathCriteria) const {
 
     GraphBuilder model = GraphBuilder();
-    Graph graph = model.buildGraph(useMLines, stopRadius, disabledLines, disabledStops);
+    Graph& graph = model.buildGraph(useMLines, stopRadius, disabledLines, disabledStops);
 
     vector<pair<Line, bool>> lines;
     list<Graph::Edge> path;
 
     GraphInverseBuilder graphInverseBuilder = GraphInverseBuilder();
-    InverseGraph graph1 = graphInverseBuilder.buildGraph(useMLines, stopRadius, disabledLines, disabledStops);
+    InverseGraph& graph1 = graphInverseBuilder.buildGraph(useMLines, stopRadius, disabledLines, disabledStops);
 
 
     int originIndex, destinyIndex;
@@ -330,8 +330,14 @@ void Menu::showGeneratedPath(int pathCriteria) const {
     }
 
     if (pathCriteria == 4) {
-        originIndex = graphInverseBuilder.nodeToIndex[pair<string, string>(codeStart, "")];
-        destinyIndex = graphInverseBuilder.nodeToIndex[pair<string, string>(codeEnd, "")];
+        if (!codeStart.empty()) {
+            originIndex = graphInverseBuilder.nodeToIndex[pair<string, string>(codeStart, "")];
+            destinyIndex = graphInverseBuilder.nodeToIndex[pair<string, string>(codeEnd, "")];
+        }else {
+            originIndex = graphInverseBuilder.len + 1;
+            destinyIndex = graphInverseBuilder.len + 2;
+            graphInverseBuilder.addGeoStartEndNode(localStart, localEnd, footDistance);
+        }
     }
 
     list<Graph::Edge> aux;

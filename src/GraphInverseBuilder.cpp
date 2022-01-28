@@ -62,8 +62,8 @@ GraphInverseBuilder &GraphInverseBuilder::addEdges() {
             if (graph.nodes[i].stop.second.empty() || graph.nodes[j].stop.second.empty()) {
                 if (graph.nodes[i].stop.first == graph.nodes[j].stop.first
                     && graph.nodes[i].stop.second != graph.nodes[j].stop.second) {
-                    graph.addEdge(i, j, false, 4);
-                    graph.addEdge(j, i, false, 4);
+                    graph.addEdge(i, j, false, 100);
+                    graph.addEdge(j, i, false, 100);
                 }
             }
         }
@@ -76,23 +76,12 @@ GraphInverseBuilder &GraphInverseBuilder::addEdges() {
 GraphInverseBuilder &GraphInverseBuilder::addWalkingEdges(int radius) {
 
     for (int i = onlyStopsFirstIndex; i <= len; i++) {
-        vector<int> v;
-        for (int d = onlyStopsFirstIndex; d <= len; d++) {
-            if (d == 6034 && i == 6033) {
-                cout << (int) distanceCalc(graph.nodeLocation[graph.getNode(d).stop.first],
-                                           graph.nodeLocation[graph.getNode(i).stop.first]) << endl;
-
-            }
-            if ((int) distanceCalc(graph.nodeLocation[graph.getNode(d).stop.first],
-                                   graph.nodeLocation[graph.getNode(i).stop.first]) <= radius) {
-                v.push_back(d);
-            }
-        }
+        vector<int> v = nodesInReach(i, radius);
         for (auto j: v) {
             if (i == j)
                 continue;
 
-            graph.addEdge(i,j, true,10);
+            graph.addEdge(i,j, true,201);
         }
     }
     return *this;
