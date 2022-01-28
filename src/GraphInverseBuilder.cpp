@@ -23,23 +23,16 @@ GraphInverseBuilder &GraphInverseBuilder::addNodes() {
                 continue;
 
             auto it = ++list.stops.begin();
-            for (auto s = list.stops.begin(); s != list.stops.end(); s++) {
-                if (disabledStopsCodes.count(*s) > 0) {
-                    //TODO verificar os iteradores Ricardo
-                    i++;
-                    it++;
-                    continue;
+            for (auto s = list.stops.begin(); s != list.stops.end() && it != list.stops.end(); s++) {
+                if (disabledStopsCodes.count(*s) == 0) {
+                    string lineName = l.code;
+                    graph.addNode(i, *s, lineName);
+                    nodeToIndex.insert(pair<pair<string, string>, int>(pair<string, string>(*s, lineName), i));
+                    indexToNode.insert(pair<int, pair<string, string>>(i, pair<string, string>(*s, lineName)));
                 }
-                string lineName = l.code;
-                graph.addNode(i, *s, lineName);
-                nodeToIndex.insert(pair<pair<string, string>, int>(pair<string, string>(*s, lineName), i));
-                indexToNode.insert(pair<int, pair<string, string>>(i, pair<string, string>(*s, lineName)));
-
-                if (it != list.stops.end()) {
-                    graph.addEdge(i, i + 1, false, 1);
-                }
-                i++;
+                graph.addEdge(i, i + 1, false, 1);
                 it++;
+                i++;
             }
         }
     }
@@ -50,6 +43,7 @@ GraphInverseBuilder &GraphInverseBuilder::addNodes() {
         graph.addNode(i, d.code, s);
         nodeToIndex.insert(pair<pair<string, string>, int>(pair<string, string>(d.code, s), i));
         indexToNode.insert(pair<int, pair<string, string>>(i++, pair<string, string>(d.code, s)));
+        zones.insert(pair<string,string>( d.code ,d.zone));
     }
 
     len = i;

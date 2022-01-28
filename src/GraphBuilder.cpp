@@ -38,14 +38,13 @@ GraphBuilder &GraphBuilder::addEdges() {
             auto it = ++list.stops.begin();
             for (auto s = list.stops.begin(); s != list.stops.end(); s++) {
                 if (it != list.stops.end()) {
-                    if (disabledStopsCodes.count(*s) > 0) {
-                        it++;
-                        continue;
-                    }
-                    auto b = stopToIndex[*s];
-                    auto end = stopToIndex[*it];
+                    if (disabledStopsCodes.count(*s) <= 0) {
 
-                    graph.addEdge(b, end, l, direction, INF);
+                        auto b = stopToIndex[*s];
+                        auto end = stopToIndex[*it];
+
+                        graph.addEdge(b, end, l, direction, INF);
+                    }
                 } else
                     break;
                 it++;

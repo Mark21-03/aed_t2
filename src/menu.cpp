@@ -335,7 +335,7 @@ void Menu::showGeneratedPath(int pathCriteria) const {
     }
 
     list<Graph::Edge> aux;
-    list<InverseGraph::Edge> auxInverse;
+    list<InverseGraph::Edge> auxInverse; // TODO: CHANGE THIS
 
     switch (pathCriteria) {
         case 1: // min stops
@@ -446,7 +446,7 @@ void Menu::beautifulPrintStopsInverse(InverseGraph &graph, GraphInverseBuilder &
             cout << "Take " << currentLine << endl;
         }
 
-        cout << setw(8) << p.first << "\t" << "TODO" << "\t\t"; // TODO: ZONE
+        cout << setw(8) << p.first << "\t" << model.zones[p.first] << "\t\t"; // TODO: ZONE
 
         cout << endl;
     }
