@@ -8,6 +8,7 @@
 #include <climits>
 #include "structs.h"
 #include "minHeap.h"
+#include<set>
 
 #define INF (INT_MAX/2)
 
@@ -66,8 +67,6 @@ public:
     void dijkstra(int s, Functor &functor);
 
     list<Edge> bfs_path(int a, int b);
-
-    Edge getEdge(int src, int dest);
 
     void findLinePath(Line &currentLine, Edge &edge);
 

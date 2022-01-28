@@ -80,8 +80,8 @@ Menu::STATE Menu::settingsMenu() {
         cout << "    1)  Foot Distance \t( " << footDistance << " )" << endl;
         cout << "    2)  Stop Radius \t( " << stopRadius << " )" << endl;
         cout << "    3)  M Lines \t( " << (useMLines ? "YES" : "NO") << " )" << endl;
-        cout << "    4)  Disable Stop \t( " << "???" << " )" << endl;
-        cout << "    5)  Disable Line \t( " << "???" << " )" << endl;
+        cout << "    4)  Disable Stop \t( " << disabledStops.size() << " )" << endl;
+        cout << "    5)  Disable Line \t( " << disabledLines.size() << " )" << endl;
         cout << "    6)  Go Back " << endl;
         cout << "    0)  Exit" << endl;
         cout << "====================================" << endl;
@@ -108,10 +108,10 @@ Menu::STATE Menu::settingsMenu() {
                     useMLines = askUseMLines();
                     return settings;
                 case '4':
-                    askDisableStop();
+                    askDisableStop(stopsCode, disabledStops);
                     return settings;
                 case '5':
-                    askDisableLine();
+                    askDisableLine(disabledLines);
                     return settings;
                 case '6':
                     return location;
@@ -200,13 +200,9 @@ Menu::STATE Menu::locationMenu() {
 
 
 void Menu::start() {
-
     STATE state = location;
-
     while (true) {
-
         (void) system(CLEAR);
-
         switch (state) {
             case location:
                 state = locationMenu();
@@ -221,7 +217,6 @@ void Menu::start() {
                 return;
         }
     }
-
 }
 
 
@@ -306,15 +301,22 @@ void Menu::askLocationCords() {
 }
 
 
+//
+
+//
+
+
 void Menu::showGeneratedPath(int pathCriteria) const {
 
     GraphBuilder model = GraphBuilder();
-    Graph graph = model.buildGraph(useMLines, footDistance);
+    Graph graph = model.buildGraph(useMLines, footDistance, disabledLines, disabledStops);
+
     vector<pair<Line, bool>> lines;
     list<Graph::Edge> path;
 
     GraphInverseBuilder graphInverseBuilder = GraphInverseBuilder();
-    InverseGraph graph1 = graphInverseBuilder.buildGraph(useMLines, footDistance);
+    InverseGraph graph1 = graphInverseBuilder.buildGraph(useMLines, footDistance, disabledLines, disabledStops);
+
 
     int originIndex, destinyIndex;
 
@@ -371,6 +373,7 @@ void Menu::fullLinePrint(Graph graph, GraphBuilder model, vector<pair<Line, bool
 
 }
 
+
 void Menu::beautifulPrintGeo(Graph graph, GraphBuilder model, list<Graph::Edge> path) {
 
     if (path.front().line.name == "__FOOT__") {
@@ -393,7 +396,6 @@ void Menu::beautifulPrintGeo(Graph graph, GraphBuilder model, list<Graph::Edge> 
             break;
         }
 
-
         if (currentLine != line) {
             currentLine = line;
             cout << "Take " << currentLine << endl;
@@ -410,7 +412,6 @@ void Menu::beautifulPrintGeo(Graph graph, GraphBuilder model, list<Graph::Edge> 
 
 
 void Menu::beautifulPrintStops(Graph &graph, GraphBuilder &model, list<Graph::Edge> &path) {
-
     string currentLine;
 
     cout << "Starting at " << model.indexToStop[path.front().origin] << endl;
@@ -429,9 +430,7 @@ void Menu::beautifulPrintStops(Graph &graph, GraphBuilder &model, list<Graph::Ed
     cout << "Arrive at " << model.indexToStop[path.back().dest];
 
     getchar();
-
 }
-
 
 void Menu::beautifulPrintStopsInverse(InverseGraph &graph, GraphInverseBuilder &model, list<InverseGraph::Edge> &path) {
     string currentLine;
