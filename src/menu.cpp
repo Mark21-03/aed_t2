@@ -309,13 +309,13 @@ void Menu::askLocationCords() {
 void Menu::showGeneratedPath(int pathCriteria) const {
 
     GraphBuilder model = GraphBuilder();
-    Graph graph = model.buildGraph(useMLines, footDistance, disabledLines, disabledStops);
+    Graph graph = model.buildGraph(useMLines, stopRadius, disabledLines, disabledStops);
 
     vector<pair<Line, bool>> lines;
     list<Graph::Edge> path;
 
     GraphInverseBuilder graphInverseBuilder = GraphInverseBuilder();
-    InverseGraph graph1 = graphInverseBuilder.buildGraph(useMLines, footDistance, disabledLines, disabledStops);
+    InverseGraph graph1 = graphInverseBuilder.buildGraph(useMLines, stopRadius, disabledLines, disabledStops);
 
 
     int originIndex, destinyIndex;
@@ -450,7 +450,7 @@ void Menu::beautifulPrintStopsInverse(InverseGraph &graph, GraphInverseBuilder &
             cout << "Take " << currentLine << endl;
         }
 
-        cout << setw(8) << p.first << "\t" << model.zones[p.first] << "\t\t"; // TODO: ZONE
+        cout << setw(8) << p.first << "\t" << graph.zones[p.first] << "\t\t"; // TODO: ZONE
 
         cout << endl;
     }

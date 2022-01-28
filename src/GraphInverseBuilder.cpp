@@ -37,14 +37,15 @@ GraphInverseBuilder &GraphInverseBuilder::addNodes() {
             }
         }
     }
-
+    onlyStopsFirstIndex = i;
     for (auto d: StopsReader("../dataset/stops.csv")) {
         if (disabledStopsCodes.count(d.code) > 0) continue;
         string s;
         graph.addNode(i, d.code, s);
         nodeToIndex.insert(pair<pair<string, string>, int>(pair<string, string>(d.code, s), i));
         indexToNode.insert(pair<int, pair<string, string>>(i++, pair<string, string>(d.code, s)));
-        zones.insert(pair<string,string>( d.code ,d.zone));
+        graph.nodeLocation.insert(pair<string,Location>(d.code,d.location));
+        graph.zones.insert(pair<string,string>( d.code ,d.zone));
     }
 
     len = i;
@@ -73,7 +74,27 @@ GraphInverseBuilder &GraphInverseBuilder::addEdges() {
 }
 
 GraphInverseBuilder &GraphInverseBuilder::addWalkingEdges(int radius) {
-    //TODO
+
+    for (int i = onlyStopsFirstIndex; i <= len; i++) {
+        vector<int> v;
+        for (int d = onlyStopsFirstIndex; d <= len; d++) {
+            if (d == 6034 && i == 6033) {
+                cout << (int) distanceCalc(graph.nodeLocation[graph.getNode(d).stop.first],
+                                           graph.nodeLocation[graph.getNode(i).stop.first]) << endl;
+
+            }
+            if ((int) distanceCalc(graph.nodeLocation[graph.getNode(d).stop.first],
+                                   graph.nodeLocation[graph.getNode(i).stop.first]) <= radius) {
+                v.push_back(d);
+            }
+        }
+        for (auto j: v) {
+            if (i == j)
+                continue;
+
+            graph.addEdge(i,j, true,10);
+        }
+    }
     return *this;
 }
 

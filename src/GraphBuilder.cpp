@@ -43,7 +43,8 @@ GraphBuilder &GraphBuilder::addEdges() {
                         auto b = stopToIndex[*s];
                         auto end = stopToIndex[*it];
 
-                        graph.addEdge(b, end, l, direction, INF);
+                        if (disabledStopsCodes.count(*it) == 0)
+                            graph.addEdge(b, end, l, direction, INF);
                     }
                 } else
                     break;

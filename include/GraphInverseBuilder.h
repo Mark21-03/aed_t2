@@ -23,9 +23,8 @@ public:
     InverseGraph graph;
     map<pair<string, string>, int> nodeToIndex;
     map<int, pair<string, string>> indexToNode;
-    map<string, string> zones;
     int len;
-
+    int onlyStopsFirstIndex;
 
     InverseGraph buildGraph(bool includeMLines = true, int footDistance = -1, const set<string> &disabledLines = {},
                             const set<string> &disabledStops = {}) {

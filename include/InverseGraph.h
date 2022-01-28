@@ -24,6 +24,8 @@ public:
     int n;
     bool hasDir;
     vector<Node> nodes;
+    map<string, Location> nodeLocation;
+    map<string, string> zones;
 
 
     InverseGraph() = default;
@@ -39,6 +41,8 @@ public:
     void dijkstra(int s);
 
     list<InverseGraph::Edge> dijkstra_path(int a, int b);
+
+    vector<int> nodesInReach(Location location, int i);
 };
 
 
