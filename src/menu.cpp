@@ -333,7 +333,7 @@ void Menu::showGeneratedPath(int pathCriteria) const {
     }
 
     list<Graph::Edge> aux;
-    list<InverseGraph::Edge> auxInverse;
+    list<InverseGraph::Edge> auxInverse; // TODO: CHANGE THIS
 
     switch (pathCriteria) {
         case 1: // min stops
