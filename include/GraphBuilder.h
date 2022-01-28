@@ -8,7 +8,9 @@
 #include <climits>
 #include<set>
 
-
+/**
+ * Creates a graph meeting certain criteria
+ */
 class GraphBuilder {
 
 private:

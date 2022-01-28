@@ -621,8 +621,7 @@ class MockObjectRegistry {
       if (it->second.leakable)  // The user said it's fine to leak this object.
         continue;
 
-      // FIXME: Print the type of the leaked object.
-      // This can help the user identify the leaked object.
+
       std::cout << "\n";
       const MockObjectState& state = it->second;
       std::cout << internal::FormatFileLocation(state.first_used_file,

@@ -7676,7 +7676,6 @@ TEST(FlatTuple, ConstructorCalls) {
   EXPECT_EQ(ConstructionCounting::move_assignment_calls, 0);
 
   // Copy assignment.
-  // TODO(ofats): it should be testing assignment operator of FlatTuple, not its
   // elements
   ConstructionCounting::Reset();
   {
@@ -7692,7 +7691,6 @@ TEST(FlatTuple, ConstructorCalls) {
   EXPECT_EQ(ConstructionCounting::move_assignment_calls, 0);
 
   // Move assignment.
-  // TODO(ofats): it should be testing assignment operator of FlatTuple, not its
   // elements
   ConstructionCounting::Reset();
   {
