@@ -24,7 +24,9 @@
 
 using namespace std;
 
-
+/**
+ * GUI interface of the program
+ */
 class Menu {
 
 private:
@@ -40,32 +42,90 @@ public:
     int stopRadius = 40;
     bool useMLines = true;
 
-
+    /**
+     * Collection of all possible menu states
+     */
     enum STATE {
         location, criteria, close, settings
     };
 
+
+    /**
+     * Start menu states showing all possible options
+     * @return next state transition
+     */
     STATE locationMenu();
 
+    /**
+     * Settings menu state allowing for
+     * program configurations
+     * @return next state transition
+     */
     STATE settingsMenu();
 
+    /**
+     * Criteria menu state that asks user for the data they want displayed
+     * @return next state transition
+     */
     STATE criteriaMenu() const;
 
+    /**
+     * Main method of the Menu class. Starts the menu states
+     */
     void start();
 
+    /**
+     * Calls the minimum bus stops algorithms and sets the graph values
+     * @param graph graph to use in the algorithms
+     * @param originIndex starting position/node
+     * @param destinyIndex ending position/node
+     * @return path list all edges needed to reach destiny starting at the origin
+     */
     static list<Graph::Edge> minStops(Graph &graph, int originIndex, int destinyIndex);
 
+    /**
+     * Calls the minimum geographic distance algorithms and sets the graph values
+     * @param graph graph to use in the algorithms
+     * @param originIndex starting position/node
+     * @param destinyIndex ending position/node
+     * @return path list all edges needed to reach destiny starting at the origin
+     */
     static list<Graph::Edge> minDistance(Graph &graph, int originIndex, int destinyIndex);
 
+    /**
+     * Calls the minimum different bus zones algorithms and sets the graph values
+     * @param graph graph to use in the algorithms
+     * @param originIndex starting position/node
+     * @param destinyIndex ending position/node
+     * @return path list all edges needed to reach destiny starting at the origin
+     */
     static list<Graph::Edge> minZones(Graph &graph, int originIndex, int destinyIndex);
 
+    /**
+     * Calls the minimum bus line swaps algorithms and sets the graph values
+     * @param graph graph to use in the algorithms
+     * @param originIndex starting position/node
+     * @param destinyIndex ending position/node
+     * @return path list all edges needed to reach destiny starting at the origin
+     */
     static list<InverseGraph::Edge> minSwaps(InverseGraph &graph, int originIndex, int destinyIndex);
 
+    /**
+     * Asks user the start and ending stops of their desired route
+     */
     void askLocationStops();
 
+    /**
+     * Asks user the start and ending geographic location of their desired route
+     */
     void askLocationCords();
 
+    /**
+     * Prints the the edges path (program result) of the graph based on user choice
+     * @param pathCriteria user's menu option
+     */
     void showGeneratedPath(int pathCriteria) const;
+
 
     static void beautifulPrintGeo(Graph graph, GraphBuilder model, list<Graph::Edge> path); // TODO: PASS BY REFERENCE
 
