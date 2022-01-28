@@ -30,7 +30,8 @@ GraphInverseBuilder &GraphInverseBuilder::addNodes() {
                     nodeToIndex.insert(pair<pair<string, string>, int>(pair<string, string>(*s, lineName), i));
                     indexToNode.insert(pair<int, pair<string, string>>(i, pair<string, string>(*s, lineName)));
                 }
-                graph.addEdge(i, i + 1, false, 1);
+                if (disabledStopsCodes.count(*it) == 0)
+                    graph.addEdge(i, i + 1, false, 1);
                 it++;
                 i++;
             }
@@ -60,8 +61,8 @@ GraphInverseBuilder &GraphInverseBuilder::addEdges() {
             if (graph.nodes[i].stop.second.empty() || graph.nodes[j].stop.second.empty()) {
                 if (graph.nodes[i].stop.first == graph.nodes[j].stop.first
                     && graph.nodes[i].stop.second != graph.nodes[j].stop.second) {
-                    graph.addEdge(i, j, false, 2);
-                    graph.addEdge(j, i, false, 2);
+                    graph.addEdge(i, j, false, 4);
+                    graph.addEdge(j, i, false, 4);
                 }
             }
         }

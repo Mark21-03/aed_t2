@@ -434,7 +434,11 @@ void Menu::beautifulPrintStops(Graph &graph, GraphBuilder &model, list<Graph::Ed
 
 void Menu::beautifulPrintStopsInverse(InverseGraph &graph, GraphInverseBuilder &model, list<InverseGraph::Edge> &path) {
     string currentLine;
-
+    if (path.empty()) {
+        cout << "There is not a valid path. Sorry for the inconvenience!" << endl;
+        getchar();
+        return;
+    }
     cout << "Starting at " << model.indexToNode[path.front().origin].first << endl;
     for (const auto &it: path) {
         //string line = lineDirectionName(, it.lineDirection);
