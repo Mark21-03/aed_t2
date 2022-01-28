@@ -74,9 +74,6 @@ public:
 
     vector<int> nodesInReach(Location pos, int radius);
 
-    void removeLines(const set<string>&disabledLinesCodes);
-
-    void removeStops(const set<string> &disabled);
 };
 
 

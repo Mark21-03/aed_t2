@@ -10,6 +10,8 @@ class GraphInverseBuilder {
 private:
 
     bool includeM_lines;
+    set<string> disabledLinesCodes;
+    set<string> disabledStopsCodes;
 
     GraphInverseBuilder &addNodes();
 
@@ -23,9 +25,12 @@ public:
     map<int, pair<string, string>> indexToNode;
     int len;
 
-    InverseGraph buildGraph(bool includeMLines = true, int footDistance = -1) {
+    InverseGraph buildGraph(bool includeMLines = true, int footDistance = -1, const set<string> &disabledLines = {},
+                            const set<string> &disabledStops = {}) {
         graph = InverseGraph(9000, true);
         this->includeM_lines = includeMLines;
+        this->disabledLinesCodes = disabledLines;
+        this->disabledStopsCodes = disabledStops;
         addNodes();
         addEdges();
         if (footDistance != -1)

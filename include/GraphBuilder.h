@@ -15,6 +15,9 @@ private:
 
     bool includeM_lines;
 
+    set<string> disabledLinesCodes;
+    set<string> disabledStopsCodes;
+
     GraphBuilder &addNodes();
 
     GraphBuilder &addEdges();
@@ -27,9 +30,12 @@ public:
     map<string, int> stopToIndex;
     map<int, string> indexToStop;
 
-    Graph buildGraph(bool includeMLines = true, int footDistance = -1) {
+    Graph buildGraph(bool includeMLines = true, int footDistance = -1, const set<string> &disabledLines = {},
+                     const set<string> &disabledStops = {}) {
         graph = Graph(2487 + 2, true);
         this->includeM_lines = includeMLines;
+        this->disabledLinesCodes = disabledLines;
+        this->disabledStopsCodes = disabledStops;
         addNodes();
         addEdges();
         if (footDistance != -1)

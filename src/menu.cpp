@@ -309,16 +309,14 @@ void Menu::askLocationCords() {
 void Menu::showGeneratedPath(int pathCriteria) const {
 
     GraphBuilder model = GraphBuilder();
-    Graph graph = model.buildGraph(useMLines, footDistance);
+    Graph graph = model.buildGraph(useMLines, footDistance, disabledLines, disabledStops);
 
     vector<pair<Line, bool>> lines;
     list<Graph::Edge> path;
 
     GraphInverseBuilder graphInverseBuilder = GraphInverseBuilder();
-    InverseGraph graph1 = graphInverseBuilder.buildGraph(useMLines, footDistance);
+    InverseGraph graph1 = graphInverseBuilder.buildGraph(useMLines, footDistance, disabledLines, disabledStops);
 
-    graph.removeLines(disabledLines);
-    graph.removeStops(disabledStops);
 
     int originIndex, destinyIndex;
 

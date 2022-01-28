@@ -5,6 +5,7 @@ GraphInverseBuilder &GraphInverseBuilder::addNodes() {
 
     int i = 1;
     for (const auto &l: lines) {
+        if (disabledLinesCodes.count(l.code) > 0)continue;
         auto aL = availableLines(l.code, includeM_lines);
 
         while (!aL.empty()) {
@@ -23,6 +24,12 @@ GraphInverseBuilder &GraphInverseBuilder::addNodes() {
 
             auto it = ++list.stops.begin();
             for (auto s = list.stops.begin(); s != list.stops.end(); s++) {
+                if (disabledStopsCodes.count(*s) > 0) {
+                    //TODO verificar os iteradores Ricardo
+                    i++;
+                    it++;
+                    continue;
+                }
                 string lineName = l.code;
                 graph.addNode(i, *s, lineName);
                 nodeToIndex.insert(pair<pair<string, string>, int>(pair<string, string>(*s, lineName), i));
@@ -38,6 +45,7 @@ GraphInverseBuilder &GraphInverseBuilder::addNodes() {
     }
 
     for (auto d: StopsReader("../dataset/stops.csv")) {
+        if (disabledStopsCodes.count(d.code) > 0) continue;
         string s;
         graph.addNode(i, d.code, s);
         nodeToIndex.insert(pair<pair<string, string>, int>(pair<string, string>(d.code, s), i));
@@ -57,7 +65,7 @@ GraphInverseBuilder &GraphInverseBuilder::addEdges() {
         for (int j = 1; j <= len; ++j) {
             if (graph.nodes[i].stop.second.empty() || graph.nodes[j].stop.second.empty()) {
                 if (graph.nodes[i].stop.first == graph.nodes[j].stop.first
-                && graph.nodes[i].stop.second != graph.nodes[j].stop.second) {
+                    && graph.nodes[i].stop.second != graph.nodes[j].stop.second) {
                     graph.addEdge(i, j, false, 2);
                     graph.addEdge(j, i, false, 2);
                 }
