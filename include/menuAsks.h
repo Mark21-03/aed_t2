@@ -275,7 +275,6 @@ int binarySearch(vector<Sortable> v, Sortable val) {
  */
 bool validStop(const vector<string> &stopsCode, const set<string> &disabledStops, const string &stop) {
 
-    if (disabledStops.count(stop) > 0) return false;
     int index = binarySearch(stopsCode, stop);
 
     return index != -1;
