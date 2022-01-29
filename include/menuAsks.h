@@ -294,8 +294,13 @@ void askDisableStop(const vector<string> &stopsCode, set<string> &disabledStops)
     cin >> stopCode;
 
     if (validStop(stopsCode, disabledStops, stopCode)) {
-        disabledStops.insert(stopCode);
-        cout << "Stop disabled\n";
+        if (disabledStops.count(stopCode) > 0) {
+            disabledStops.erase(stopCode);
+            cout << "Stop enabled\n";
+        } else {
+            disabledStops.insert(stopCode);
+            cout << "Stop disabled\n";
+        }
     } else
         cout << "Canceled...\n";
 
@@ -318,8 +323,13 @@ void askDisableLine(set<string> &v) {
     cin >> lineCode;
 
     if (validLine(lineCode)) {
-        v.insert(lineCode);
-        cout << "Line disabled\n";
+        if (v.count(lineCode) > 0) {
+            v.erase(lineCode);
+            cout << "Line enabled\n";
+        } else {
+            v.insert(lineCode);
+            cout << "Line disabled\n";
+        }
     } else
         cout << "Canceled...\n";
 
