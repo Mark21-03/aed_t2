@@ -57,16 +57,32 @@ public:
     void addEdge(int src, int dest, bool lineDirection, int weight);
 
     /**
-     *
+     * gets the node in the index
      * @param index
      * @return
      */
     Node &getNode(int index);
 
+    /**
+     * Creates and adds a node to the position
+     * @param index
+     * @param stop
+     * @param line
+     */
     void addNode(int index, string &stop, string &line);
 
+    /**
+     * Time complexity of {\displaystyle O(E+V\log(V))}.
+     * @param s
+     */
     void dijkstra(int s);
 
+    /**
+     * Time complexity of O(n). n being the size of the path
+     * @param a
+     * @param b
+     * @return
+     */
     list<InverseGraph::Edge> dijkstra_path(int a, int b);
 
 };

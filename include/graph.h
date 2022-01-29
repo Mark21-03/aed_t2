@@ -84,16 +84,7 @@ public:
     void addNode(int index, Stop &stop);
 
     /**
-     * Calculates the distance between two nodes A and B
-     * based on the edge's weight
-     * @param a starting node
-     * @param b end node
-     * @return distance between nodes
-     */
-    int dijkstra_distance(int a, int b);
-
-    /**
-     * Creates a edge path between the nodes A and B
+     * Creates a edge path between the nodes A and B. O(n) n being the size.
      * @param a start node
      * @param b end node
      * @return edge path to be taken to reach B starting at A
@@ -106,20 +97,6 @@ public:
      * @param v start node to consider as dist = 0
      */
     void bfsDist(int v);
-
-    /**
-     * Returns the distance between two nodes using nodal distance of BFS
-     * @param a node to use as dist = 0
-     * @param b node we want to know the distance from A
-     * @return how many nodes are between A and B
-     */
-    int bfsDistance(int a, int b);
-
-    /**
-     * Prints the entire graph using BFS
-     * @param v node where to start printing
-     */
-    void bfsPrint(int v);
 
     /**
      * Sets the nodes weight and dist values to the geographic distance
@@ -136,15 +113,9 @@ public:
     void dijkstra_zones(int a);
 
     /**
-     * Sets the nodes weight and dist values based on the weights of the edges
-     * which, in this case, have weight >0 if edges connect different bus lines
-     * @param a node where to start dijkstra algorithm
-     */
-    void dijkstra_lineSwaps(int a);
-
-    /**
      * Dijkstra algorithm finds shortest paths and sets the nodes dist based on the
-     * distance they are from the starting node taking into account edge weight
+     * distance they are from the starting node taking into account edge weight. Time complexity equals to
+     * the dijkstra algorithm, functor is O(1).{\displaystyle O(E+V\log(V))}
      * @tparam Functor weight function calculator
      * @param s node where to start dijkstra algorithm
      * @param functor function that calculates dijkstra's edge and node cost distance
@@ -179,7 +150,7 @@ public:
     void addGeoStartEndNode(Location start, Location end, int radius);
 
     /**
-     * Returns all nodes inside a certain radius from a position
+     * Returns all nodes inside a certain radius from a position. O(n), n being the number of nodes
      * @param pos position center where to search
      * @param radius radius of the circle to create and boundary search
      * @return vector with all nodes' indexes that are inside the radius

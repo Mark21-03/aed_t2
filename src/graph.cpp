@@ -91,44 +91,6 @@ void Graph::dijkstra_zones(int a) {
 
 }
 
-//min line changes criteria
-void Graph::dijkstra_lineSwaps(int a) {
-
-
-    Graph graph1 = Graph();
-    graph1.nodes = nodes;
-    graph1.bfsDist(a);
-
-
-    static set<string> avLines;
-    for (const auto &e: nodes[a].adj) {
-        avLines.insert(e.line.code);
-    }
-    auto lambda = [this, graph1](int x, Edge &y) {
-
-        int penalty = 0;
-        if (y.line.code == "__FOOT__")
-            penalty += 10000;
-        if (avLines.find(y.line.code) != avLines.end() && y.line.code == nodes[x].pred.line.code) {
-            return 0 + penalty + graph1.nodes[x].dist;
-        }
-        return 100000 + penalty + graph1.nodes[x].dist;
-
-    };
-
-    dijkstra(a, lambda);
-
-    avLines.clear();
-
-}
-
-
-int Graph::dijkstra_distance(int a, int b) {
-    dijkstra_distance(a);
-    if (nodes[b].dist != INF)
-        return nodes[b].dist;
-    return -1;
-}
 
 
 list<Graph::Edge> Graph::dijkstra_path(int a, int b) {
@@ -181,14 +143,6 @@ list<Graph::Edge> Graph::bfs_path(int a, int b) {
     return path;
 }
 
-//distancia entre dois nós (sem pesos)
-int Graph::bfsDistance(int a, int b) {
-    if (a == b) return 0;
-    for (int i = 1; i <= n; i++)
-        nodes[i].dist = -1;
-    bfsDist(a);
-    return nodes[b].dist;
-}
 
 // V será o no de origem e calcula a distancia deste a todos os nós
 void Graph::bfsDist(int v) {
@@ -218,27 +172,6 @@ void Graph::bfsDist(int v) {
 
 }
 
-
-// Depth-First Search
-void Graph::bfsPrint(int v) {
-    for (int i = 1; i <= n; i++) nodes[i].visited = false;
-    queue<int> q; // queue of unvisited nodes
-    q.push(v);
-    nodes[v].visited = true;
-    while (!q.empty()) { // while there are still unvisited nodes
-        int u = q.front();
-        q.pop();
-        cout << nodes[u].stop << endl; // show nodes
-        for (const auto &e: nodes[u].adj) {
-            int w = e.dest;
-            //cout<<e.line<<endl; //show edges
-            if (!nodes[w].visited) {
-                q.push(w);
-                nodes[w].visited = true;
-            }
-        }
-    }
-}
 
 //esta funcao procura uma edge entre dois nós tentando manter a mesma linha se possivel
 void Graph::findLinePath(Line &currentLine, Edge &edge) {
