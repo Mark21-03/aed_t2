@@ -60,6 +60,7 @@ public:
     InverseGraph graph;
     map<pair<string, string>, int> nodeToIndex;
     map<int, pair<string, string>> indexToNode;
+    map<string , string> stopNames;
     int len;
     int onlyStopsFirstIndex;
 

@@ -17,23 +17,31 @@ GraphInverseBuilder &GraphInverseBuilder::addNodes() {
             ifstream f(first);
             f >> list;
 
+            bool direction = first.find("_0.csv") != string::npos;
+
             if (list.stops.empty())
                 continue;
 
-            auto it = list.stops.begin();
+            auto it = ++list.stops.begin();
             for (auto s = list.stops.begin(); s != list.stops.end() && it != list.stops.end(); s++) {
-                if (disabledStopsCodes.count(*s) == 0) {
-                    string lineName = l.code;
-                    graph.addNode(i, *s, lineName);
-                    nodeToIndex.insert(pair<pair<string, string>, int>(pair<string, string>(*s, lineName), i));
-                    indexToNode.insert(pair<int, pair<string, string>>(i, pair<string, string>(*s, lineName)));
-                }
-                it++;
-                if (it != list.stops.end() && disabledStopsCodes.count(*it) == 0) {
-                    graph.addEdge(i, i + 1, false, 1);
-                }
+                if (it != list.stops.end()) {
+                    if (disabledStopsCodes.count(*s) <= 0) {
+                        string lineName = l.code;
+                        graph.addNode(i, *s, lineName);
+                        nodeToIndex.insert(pair<pair<string, string>, int>(pair<string, string>(*s, lineName), i));
+                        indexToNode.insert(pair<int, pair<string, string>>(i, pair<string, string>(*s, lineName)));
+
+                        if (disabledStopsCodes.count(*it) <= 0) {
+                            graph.addEdge(i, i + 1, direction, 1);
+                        }
+                    }
+                } else
+                    break;
                 i++;
+                it++;
             }
+
+            stopNames.insert(pair<string,string>(l.code,l.name));
         }
     }
     onlyStopsFirstIndex = i;

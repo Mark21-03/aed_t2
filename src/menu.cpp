@@ -406,9 +406,8 @@ void Menu::beautifulPrintStopsInverse(InverseGraph &graph, list<InverseGraph::Ed
 
     cout << "Starting at " << graphInverseBuilder.indexToNode[path.front().origin].first << endl;
     for (const auto &it: path) {
-        //string line = lineDirectionName(, it.lineDirection);
         auto p = graphInverseBuilder.indexToNode[it.origin];
-        string line = p.second;
+        string line = lineDirectionName(graphInverseBuilder.stopNames[p.second], it.lineDirection);
 
         if (currentLine != line) {
             currentLine = line;
