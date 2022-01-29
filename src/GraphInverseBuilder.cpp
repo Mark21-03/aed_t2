@@ -13,8 +13,6 @@ GraphInverseBuilder &GraphInverseBuilder::addNodes() {
             auto first = aL.front();
             aL.pop_front();
 
-            //bool direction = first.find("_0.csv") != string::npos;
-
             LineStops list;
             ifstream f(first);
             f >> list;
@@ -50,6 +48,7 @@ GraphInverseBuilder &GraphInverseBuilder::addNodes() {
     }
 
     len = i;
+
     return *this;
 
 }
@@ -76,15 +75,17 @@ GraphInverseBuilder &GraphInverseBuilder::addEdges() {
 
 GraphInverseBuilder &GraphInverseBuilder::addWalkingEdges(int radius) {
 
-    for (int i = onlyStopsFirstIndex; i <= len; i++) {
+    for (int i = onlyStopsFirstIndex; i <= len/2 + 1; i++) {
         vector<int> v = nodesInReach(i, radius);
         for (auto j: v) {
             if (i == j)
                 continue;
 
             graph.addEdge(i, j, true, 201);
+            graph.addEdge(j, i, true, 201);
         }
     }
+
     return *this;
 }
 

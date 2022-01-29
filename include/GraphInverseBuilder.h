@@ -43,7 +43,7 @@ public:
 
     InverseGraph &buildGraph(bool includeMLines = true, int footDistance = -1, const set<string> &disabledLines = {},
                              const set<string> &disabledStops = {}) {
-        graph = InverseGraph(9000, true); //TODO RICARDO VER O NUMERO DE NOS DE MODO A NAO TER MUITOS EXTRA DESNECESSARIOS
+        graph = InverseGraph(8000, true);
         this->includeM_lines = includeMLines;
         this->disabledLinesCodes = disabledLines;
         this->disabledStopsCodes = disabledStops;

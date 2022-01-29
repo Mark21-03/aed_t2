@@ -2,7 +2,7 @@
 #include "../include/menuAsks.h"
 
 
-Menu::STATE Menu::criteriaMenu() const {
+Menu::STATE Menu::criteriaMenu() {
     char userInput;
     string inputError;
 
@@ -114,6 +114,9 @@ Menu::STATE Menu::settingsMenu() {
                     askDisableLine(disabledLines);
                     return settings;
                 case '6':
+                    cout << "\nSaving changes..." << endl;
+                    model.buildGraph(useMLines, stopRadius, disabledLines, disabledStops);
+                    graphInverseBuilder.buildGraph(useMLines, stopRadius, disabledLines, disabledStops);
                     return location;
                 default:
                     cout << "Invalid Input!\n";
@@ -309,21 +312,19 @@ void Menu::askLocationCords() {
 //
 
 
-void Menu::showGeneratedPath(int pathCriteria) const {
+void Menu::showGeneratedPath(int pathCriteria) {
 
     vector<pair<Line, bool>> lines;
     list<Graph::Edge> path;
 
-    GraphBuilder model = GraphBuilder();
-    GraphInverseBuilder graphInverseBuilder = GraphInverseBuilder();
 
-    Graph graph;
-    InverseGraph graph1;
+    static Graph& graph = model.buildGraph(useMLines, stopRadius, disabledLines, disabledStops);
+    static InverseGraph& graph1 = graphInverseBuilder.buildGraph(useMLines, stopRadius, disabledLines, disabledStops);
 
     int originIndex, destinyIndex;
 
     if (pathCriteria != 4) {
-        graph = model.buildGraph(useMLines, stopRadius, disabledLines, disabledStops);
+        //graph = model.buildGraph(useMLines, stopRadius, disabledLines, disabledStops);
         if (!codeStart.empty()) {
             originIndex = model.stopToIndex[codeStart];
             destinyIndex = model.stopToIndex[codeEnd];
@@ -333,14 +334,13 @@ void Menu::showGeneratedPath(int pathCriteria) const {
             graph.addGeoStartEndNode(localStart, localEnd, footDistance);
         }
     } else {
-        graph1 = graphInverseBuilder.buildGraph(useMLines, stopRadius, disabledLines, disabledStops);
+        //graph1 = graphInverseBuilder.buildGraph(useMLines, stopRadius, disabledLines, disabledStops);
         if (!codeStart.empty()) {
             originIndex = graphInverseBuilder.nodeToIndex[pair<string, string>(codeStart, "")];
             destinyIndex = graphInverseBuilder.nodeToIndex[pair<string, string>(codeEnd, "")];
         } else {
             originIndex = graphInverseBuilder.len + 1;
             destinyIndex = graphInverseBuilder.len + 2;
-            //TODO Why is this on the builder after the graph being made? Some walking doest work maybe due to this
             graphInverseBuilder.addGeoStartEndNode(localStart, localEnd, footDistance);
         }
     }
@@ -351,19 +351,19 @@ void Menu::showGeneratedPath(int pathCriteria) const {
     switch (pathCriteria) {
         case 1: // min stops
             aux = minStops(graph, originIndex, destinyIndex);
-            beautifulPrintStops(graph, model, aux);
+            beautifulPrintStops(graph, aux);
             break;
         case 2: // min distance
             aux = minDistance(graph, originIndex, destinyIndex);
-            beautifulPrintStops(graph, model, aux);
+            beautifulPrintStops(graph,  aux);
             break;
         case 3: // min zones
             aux = minZones(graph, originIndex, destinyIndex);
-            beautifulPrintStops(graph, model, aux);
+            beautifulPrintStops(graph, aux);
             break;
         case 4: // min lines swaps
             auxInverse = minSwaps(graph1, originIndex, destinyIndex);
-            beautifulPrintStopsInverse(graph1, graphInverseBuilder, auxInverse);
+            beautifulPrintStopsInverse(graph1, auxInverse);
             break;
         default:
             break;
@@ -372,7 +372,7 @@ void Menu::showGeneratedPath(int pathCriteria) const {
 
 
 
-void Menu::beautifulPrintStops(Graph &graph, GraphBuilder &model, list<Graph::Edge> &path) {
+void Menu::beautifulPrintStops(Graph &graph,list<Graph::Edge> &path) {
     string currentLine;
 
     cout << "Starting at " << model.indexToStop[path.front().origin] << endl;
@@ -393,7 +393,7 @@ void Menu::beautifulPrintStops(Graph &graph, GraphBuilder &model, list<Graph::Ed
     getchar();
 }
 
-void Menu::beautifulPrintStopsInverse(InverseGraph &graph, GraphInverseBuilder &model, list<InverseGraph::Edge> &path) {
+void Menu::beautifulPrintStopsInverse(InverseGraph &graph,  list<InverseGraph::Edge> &path) {
     string currentLine;
     if (path.empty()) {
         cout << "There is not a valid path. Sorry for the inconvenience!" << endl;
@@ -401,10 +401,10 @@ void Menu::beautifulPrintStopsInverse(InverseGraph &graph, GraphInverseBuilder &
         return;
     }
 
-    cout << "Starting at " << model.indexToNode[path.front().origin].first << endl;
+    cout << "Starting at " << graphInverseBuilder.indexToNode[path.front().origin].first << endl;
     for (const auto &it: path) {
         //string line = lineDirectionName(, it.lineDirection);
-        auto p = model.indexToNode[it.origin];
+        auto p = graphInverseBuilder.indexToNode[it.origin];
         string line = p.second;
 
         if (currentLine != line) {
@@ -416,7 +416,7 @@ void Menu::beautifulPrintStopsInverse(InverseGraph &graph, GraphInverseBuilder &
 
         cout << endl;
     }
-    cout << "Arrive at " << model.indexToNode[path.back().dest].first;
+    cout << "Arrive at " << graphInverseBuilder.indexToNode[path.back().dest].first;
 
     getchar();
 }

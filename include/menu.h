@@ -33,6 +33,8 @@ private:
     vector<string> stopsCode = StopsCodesReader("../dataset/stops.csv");
     set<string> disabledLines;
     set<string> disabledStops;
+    GraphBuilder model = GraphBuilder();
+    GraphInverseBuilder graphInverseBuilder = GraphInverseBuilder();
 
 public:
 
@@ -67,7 +69,7 @@ public:
      * Criteria menu state that asks user for the data they want displayed
      * @return next state transition
      */
-    STATE criteriaMenu() const;
+    STATE criteriaMenu();
 
     /**
      * Main method of the Menu class. Starts the menu states
@@ -124,12 +126,11 @@ public:
      * Prints the the edges path (program result) of the graph based on user choice
      * @param pathCriteria user's menu option
      */
-    void showGeneratedPath(int pathCriteria) const;
+    void showGeneratedPath(int pathCriteria);
 
-    static void beautifulPrintStops(Graph &graph, GraphBuilder &model, list<Graph::Edge> &path);
+    void beautifulPrintStops(Graph &graph, list<Graph::Edge> &path);
 
-    static void
-    beautifulPrintStopsInverse(InverseGraph &graph, GraphInverseBuilder &model, list<InverseGraph::Edge> &path);
+    void beautifulPrintStopsInverse(InverseGraph &graph, list<InverseGraph::Edge> &path);
 
 };
 
