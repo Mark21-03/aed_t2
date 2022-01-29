@@ -74,9 +74,9 @@ void Graph::dijkstra_zones(int a) {
     }
     auto lambda = [this](int x, Edge &y) {
 
-        int penalty = 0;
+        int penalty = 1;
         if (avLines.find(y.line.code) == avLines.end()) {
-            penalty = 1;
+            penalty += 1;
         }
 
         if (y.line.code == "__FOOT__")
@@ -84,7 +84,7 @@ void Graph::dijkstra_zones(int a) {
 
 
         return (nodes[x].stop.zone == nodes[y.dest].stop.zone ? 0 : 1) +
-               penalty; // TODO: THE PENALTY WILL MESS WITH INFORMATION OF NUMBER OD ZONES
+               penalty;
     };
 
     dijkstra(a, lambda);

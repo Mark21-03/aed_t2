@@ -1,0 +1,54 @@
+\hypertarget{_inverse_graph_8h_source}{}\doxysection{Inverse\+Graph.\+h}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef AED\_T2\_INVERSEGRAPH\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define AED\_T2\_INVERSEGRAPH\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 }
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include "{}GraphBuilder.h"{}}}
+\DoxyCodeLine{6 }
+\DoxyCodeLine{7 \textcolor{keyword}{class }\mbox{\hyperlink{class_inverse_graph}{InverseGraph}} \{}
+\DoxyCodeLine{8 \textcolor{keyword}{public}:}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{13     \textcolor{keyword}{struct }\mbox{\hyperlink{struct_inverse_graph_1_1_edge}{Edge}} \{}
+\DoxyCodeLine{14         \textcolor{keywordtype}{int} dest;}
+\DoxyCodeLine{15         \textcolor{keywordtype}{int} weight;}
+\DoxyCodeLine{16         \textcolor{keywordtype}{bool} lineDirection;}
+\DoxyCodeLine{17         \textcolor{keywordtype}{int} origin;}
+\DoxyCodeLine{18     \};}
+\DoxyCodeLine{19 }
+\DoxyCodeLine{23     \textcolor{keyword}{struct }\mbox{\hyperlink{struct_inverse_graph_1_1_node}{Node}} \{}
+\DoxyCodeLine{24         list<Edge> adj;}
+\DoxyCodeLine{25         \textcolor{keywordtype}{int} dist;}
+\DoxyCodeLine{26         \mbox{\hyperlink{struct_inverse_graph_1_1_edge}{Edge}} pred;}
+\DoxyCodeLine{27         \textcolor{keywordtype}{bool} visited;}
+\DoxyCodeLine{28         pair<string, string> stop;}
+\DoxyCodeLine{29     \};}
+\DoxyCodeLine{30 }
+\DoxyCodeLine{31     \textcolor{keywordtype}{int} n;}
+\DoxyCodeLine{32     \textcolor{keywordtype}{bool} hasDir;}
+\DoxyCodeLine{33     vector<Node> nodes;}
+\DoxyCodeLine{34     map<string, Location> nodeLocation;}
+\DoxyCodeLine{35     map<string, string> zones;}
+\DoxyCodeLine{36 }
+\DoxyCodeLine{37 }
+\DoxyCodeLine{41     \mbox{\hyperlink{class_inverse_graph_a9a3b323e21ee2f3fcd75d1fcbf097e79}{InverseGraph}}() = \textcolor{keywordflow}{default};}
+\DoxyCodeLine{42 }
+\DoxyCodeLine{48     \textcolor{keyword}{explicit} \mbox{\hyperlink{class_inverse_graph_a77aa4d55b8d7ccdebad587ed22b08e16}{InverseGraph}}(\textcolor{keywordtype}{int} nodes, \textcolor{keywordtype}{bool} dir = \textcolor{keyword}{false});}
+\DoxyCodeLine{49 }
+\DoxyCodeLine{57     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_inverse_graph_a9d47f0cb364c684ac4f8a0362f485258}{addEdge}}(\textcolor{keywordtype}{int} src, \textcolor{keywordtype}{int} dest, \textcolor{keywordtype}{bool} lineDirection, \textcolor{keywordtype}{int} weight);}
+\DoxyCodeLine{58 }
+\DoxyCodeLine{64     \mbox{\hyperlink{struct_inverse_graph_1_1_node}{Node}} \&\mbox{\hyperlink{class_inverse_graph_a4de0d0022f1cd307de1a1dc5d756bdd9}{getNode}}(\textcolor{keywordtype}{int} index);}
+\DoxyCodeLine{65 }
+\DoxyCodeLine{72     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_inverse_graph_a45c3865ccb30a9567feca10bae59b281}{addNode}}(\textcolor{keywordtype}{int} index, \textcolor{keywordtype}{string} \&stop, \textcolor{keywordtype}{string} \&line);}
+\DoxyCodeLine{73 }
+\DoxyCodeLine{78     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_inverse_graph_a029f65f58979b7a1a56897e856abf6e3}{dijkstra}}(\textcolor{keywordtype}{int} s);}
+\DoxyCodeLine{79 }
+\DoxyCodeLine{86     list<InverseGraph::Edge> \mbox{\hyperlink{class_inverse_graph_a8b7b23b5c8032bc36cd371593b0d8147}{dijkstra\_path}}(\textcolor{keywordtype}{int} a, \textcolor{keywordtype}{int} b);}
+\DoxyCodeLine{87 }
+\DoxyCodeLine{88 \};}
+\DoxyCodeLine{89 }
+\DoxyCodeLine{90 }
+\DoxyCodeLine{91 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//AED\_T2\_INVERSEGRAPH\_H}}
+
+\end{DoxyCode}

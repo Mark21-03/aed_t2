@@ -1,0 +1,263 @@
+\hypertarget{class_graph}{}\doxysection{Graph Class Reference}
+\label{class_graph}\index{Graph@{Graph}}
+
+
+{\ttfamily \#include $<$graph.\+h$>$}
+
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_graph_1_1_edge}{Edge}}
+\item 
+struct \mbox{\hyperlink{struct_graph_1_1_node}{Node}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_graph_a90961be426ad80001cbc103b6385df31}{Graph}} ()=default
+\item 
+\mbox{\hyperlink{class_graph_a18b4f6dec368300991b68dd75e39a5e9}{Graph}} (int nodes, bool dir=false)
+\item 
+void \mbox{\hyperlink{class_graph_a03925cc9ddf22fe4a35d4b17b19376c3}{add\+Edge}} (int src, int dest, \mbox{\hyperlink{struct_line}{Line}} line, bool line\+Direction, int weight)
+\item 
+\mbox{\hyperlink{struct_graph_1_1_node}{Node}} \& \mbox{\hyperlink{class_graph_a976e274acb7b585e3ca868276a5b59a4}{get\+Node}} (int index)
+\item 
+void \mbox{\hyperlink{class_graph_a4236d34420bd8de99385b504c126084e}{add\+Node}} (int index, \mbox{\hyperlink{struct_stop}{Stop}} \&stop)
+\item 
+list$<$ \mbox{\hyperlink{struct_graph_1_1_edge}{Edge}} $>$ \mbox{\hyperlink{class_graph_aa95f8e89fed5083645613ae58288a3c8}{dijkstra\+\_\+path}} (int a, int b)
+\item 
+void \mbox{\hyperlink{class_graph_a0a75a704f5bebdc893cc94e04b78d410}{bfs\+Dist}} (int v)
+\item 
+void \mbox{\hyperlink{class_graph_a98d5ce48a79023ec01e7c5f499ee0a47}{dijkstra\+\_\+distance}} (int a)
+\item 
+void \mbox{\hyperlink{class_graph_aa9d6ac40bc09c63bdf0adb0e312ebc8e}{dijkstra\+\_\+zones}} (int a)
+\item 
+{\footnotesize template$<$typename Functor $>$ }\\void \mbox{\hyperlink{class_graph_ac04e1fea673dbaffcb38f72f9d8d75d9}{dijkstra}} (int s, Functor \&functor)
+\item 
+list$<$ \mbox{\hyperlink{struct_graph_1_1_edge}{Edge}} $>$ \mbox{\hyperlink{class_graph_a00142af6bf0fe8a79258e9c3c958bf7c}{bfs\+\_\+path}} (int a, int b)
+\item 
+void \mbox{\hyperlink{class_graph_ab75919a65847d850bbe8d5899fc80efc}{find\+Line\+Path}} (\mbox{\hyperlink{struct_line}{Line}} \&current\+Line, \mbox{\hyperlink{struct_graph_1_1_edge}{Edge}} \&edge)
+\item 
+void \mbox{\hyperlink{class_graph_ab6106304a6e40b60f39efd481f49f06f}{add\+Geo\+Start\+End\+Node}} (\mbox{\hyperlink{struct_location}{Location}} start, \mbox{\hyperlink{struct_location}{Location}} end, int radius)
+\item 
+vector$<$ int $>$ \mbox{\hyperlink{class_graph_a6514d5f7b5a5bb156c179e9d7c0c565b}{nodes\+In\+Reach}} (\mbox{\hyperlink{struct_location}{Location}} pos, int radius)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_graph_a81a76a428e630453ef019a15b9092967}\label{class_graph_a81a76a428e630453ef019a15b9092967}} 
+int {\bfseries n}
+\item 
+\mbox{\Hypertarget{class_graph_a60baa846929049c84b7e50ffb5f401e8}\label{class_graph_a60baa846929049c84b7e50ffb5f401e8}} 
+bool {\bfseries has\+Dir}
+\item 
+\mbox{\Hypertarget{class_graph_a71b5e16eb9e0670fea3ecee3526abb41}\label{class_graph_a71b5e16eb9e0670fea3ecee3526abb41}} 
+vector$<$ \mbox{\hyperlink{struct_graph_1_1_node}{Node}} $>$ {\bfseries nodes}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\mbox{\hyperlink{class_graph}{Graph}} structure\+: composed of nodes linked by edges 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_graph_a90961be426ad80001cbc103b6385df31}\label{class_graph_a90961be426ad80001cbc103b6385df31}} 
+\index{Graph@{Graph}!Graph@{Graph}}
+\index{Graph@{Graph}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{Graph()}{Graph()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Graph\+::\+Graph (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+
+Default constructor \mbox{\Hypertarget{class_graph_a18b4f6dec368300991b68dd75e39a5e9}\label{class_graph_a18b4f6dec368300991b68dd75e39a5e9}} 
+\index{Graph@{Graph}!Graph@{Graph}}
+\index{Graph@{Graph}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{Graph()}{Graph()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Graph\+::\+Graph (\begin{DoxyParamCaption}\item[{int}]{nodes,  }\item[{bool}]{dir = {\ttfamily false} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+Creates a graph with N nodes and if there is a direction to their edges 
+\begin{DoxyParams}{Parameters}
+{\em nodes} & number of nodes to be built \\
+\hline
+{\em dir} & boolean if edge direction exists \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_graph_a03925cc9ddf22fe4a35d4b17b19376c3}\label{class_graph_a03925cc9ddf22fe4a35d4b17b19376c3}} 
+\index{Graph@{Graph}!addEdge@{addEdge}}
+\index{addEdge@{addEdge}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{addEdge()}{addEdge()}}
+{\footnotesize\ttfamily void Graph\+::add\+Edge (\begin{DoxyParamCaption}\item[{int}]{src,  }\item[{int}]{dest,  }\item[{\mbox{\hyperlink{struct_line}{Line}}}]{line,  }\item[{bool}]{line\+Direction,  }\item[{int}]{weight }\end{DoxyParamCaption})}
+
+Adds an edge between two nodes 
+\begin{DoxyParams}{Parameters}
+{\em src} & start node to be linked \\
+\hline
+{\em dest} & end node to be linked \\
+\hline
+{\em line} & bus line that makes the edge \\
+\hline
+{\em line\+Direction} & edge direction \\
+\hline
+{\em weight} & weight of the edge (it can represent multiple things) \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_graph_ab6106304a6e40b60f39efd481f49f06f}\label{class_graph_ab6106304a6e40b60f39efd481f49f06f}} 
+\index{Graph@{Graph}!addGeoStartEndNode@{addGeoStartEndNode}}
+\index{addGeoStartEndNode@{addGeoStartEndNode}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{addGeoStartEndNode()}{addGeoStartEndNode()}}
+{\footnotesize\ttfamily void Graph\+::add\+Geo\+Start\+End\+Node (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_location}{Location}}}]{start,  }\item[{\mbox{\hyperlink{struct_location}{Location}}}]{end,  }\item[{int}]{radius }\end{DoxyParamCaption})}
+
+Adds a start and end nodes position and links them to the bus stops inside a certain geographic radius from them 
+\begin{DoxyParams}{Parameters}
+{\em start} & location of the start node/position \\
+\hline
+{\em end} & location of the end node/position \\
+\hline
+{\em radius} & radius where to search from the start/end node for bus stops to add new walking edges \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_graph_a4236d34420bd8de99385b504c126084e}\label{class_graph_a4236d34420bd8de99385b504c126084e}} 
+\index{Graph@{Graph}!addNode@{addNode}}
+\index{addNode@{addNode}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{addNode()}{addNode()}}
+{\footnotesize\ttfamily void Graph\+::add\+Node (\begin{DoxyParamCaption}\item[{int}]{index,  }\item[{\mbox{\hyperlink{struct_stop}{Stop}} \&}]{stop }\end{DoxyParamCaption})}
+
+Adds a node to an index 
+\begin{DoxyParams}{Parameters}
+{\em index} & index where to add the node in the graph \\
+\hline
+{\em stop} & main value of a node is the bus stop it represents \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_graph_a00142af6bf0fe8a79258e9c3c958bf7c}\label{class_graph_a00142af6bf0fe8a79258e9c3c958bf7c}} 
+\index{Graph@{Graph}!bfs\_path@{bfs\_path}}
+\index{bfs\_path@{bfs\_path}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{bfs\_path()}{bfs\_path()}}
+{\footnotesize\ttfamily list$<$ \mbox{\hyperlink{struct_graph_1_1_edge}{Edge}} $>$ Graph\+::bfs\+\_\+path (\begin{DoxyParamCaption}\item[{int}]{a,  }\item[{int}]{b }\end{DoxyParamCaption})}
+
+Returns the path that BFS algorithm follows to traverse from node A to B with minimum nodal distance 
+\begin{DoxyParams}{Parameters}
+{\em a} & \\
+\hline
+{\em b} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_graph_a0a75a704f5bebdc893cc94e04b78d410}\label{class_graph_a0a75a704f5bebdc893cc94e04b78d410}} 
+\index{Graph@{Graph}!bfsDist@{bfsDist}}
+\index{bfsDist@{bfsDist}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{bfsDist()}{bfsDist()}}
+{\footnotesize\ttfamily void Graph\+::bfs\+Dist (\begin{DoxyParamCaption}\item[{int}]{v }\end{DoxyParamCaption})}
+
+Sets the nodes dist attribute to their relative nodal distance to the start node (dist = 0) 
+\begin{DoxyParams}{Parameters}
+{\em v} & start node to consider as dist = 0 \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_graph_ac04e1fea673dbaffcb38f72f9d8d75d9}\label{class_graph_ac04e1fea673dbaffcb38f72f9d8d75d9}} 
+\index{Graph@{Graph}!dijkstra@{dijkstra}}
+\index{dijkstra@{dijkstra}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{dijkstra()}{dijkstra()}}
+{\footnotesize\ttfamily template$<$typename Functor $>$ \\
+void Graph\+::dijkstra (\begin{DoxyParamCaption}\item[{int}]{s,  }\item[{Functor \&}]{functor }\end{DoxyParamCaption})}
+
+Dijkstra algorithm finds shortest paths and sets the nodes dist based on the distance they are from the starting node taking into account edge weight. Time complexity equals to the dijkstra algorithm, functor is O(1).\{\textbackslash{}displaystyle O(E+V\textbackslash{}log(V))\} 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Functor} & weight function calculator \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em s} & node where to start dijkstra algorithm \\
+\hline
+{\em functor} & function that calculates dijkstra\textquotesingle{}s edge and node cost distance \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_graph_a98d5ce48a79023ec01e7c5f499ee0a47}\label{class_graph_a98d5ce48a79023ec01e7c5f499ee0a47}} 
+\index{Graph@{Graph}!dijkstra\_distance@{dijkstra\_distance}}
+\index{dijkstra\_distance@{dijkstra\_distance}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{dijkstra\_distance()}{dijkstra\_distance()}}
+{\footnotesize\ttfamily void Graph\+::dijkstra\+\_\+distance (\begin{DoxyParamCaption}\item[{int}]{a }\end{DoxyParamCaption})}
+
+Sets the nodes weight and dist values to the geographic distance they are from the node A, based on the edges weights 
+\begin{DoxyParams}{Parameters}
+{\em a} & dijkstra algorithm \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_graph_aa95f8e89fed5083645613ae58288a3c8}\label{class_graph_aa95f8e89fed5083645613ae58288a3c8}} 
+\index{Graph@{Graph}!dijkstra\_path@{dijkstra\_path}}
+\index{dijkstra\_path@{dijkstra\_path}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{dijkstra\_path()}{dijkstra\_path()}}
+{\footnotesize\ttfamily list$<$ \mbox{\hyperlink{struct_graph_1_1_edge}{Edge}} $>$ Graph\+::dijkstra\+\_\+path (\begin{DoxyParamCaption}\item[{int}]{a,  }\item[{int}]{b }\end{DoxyParamCaption})}
+
+Creates a edge path between the nodes A and B. O(n) n being the size. 
+\begin{DoxyParams}{Parameters}
+{\em a} & start node \\
+\hline
+{\em b} & end node \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+edge path to be taken to reach B starting at A 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_graph_aa9d6ac40bc09c63bdf0adb0e312ebc8e}\label{class_graph_aa9d6ac40bc09c63bdf0adb0e312ebc8e}} 
+\index{Graph@{Graph}!dijkstra\_zones@{dijkstra\_zones}}
+\index{dijkstra\_zones@{dijkstra\_zones}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{dijkstra\_zones()}{dijkstra\_zones()}}
+{\footnotesize\ttfamily void Graph\+::dijkstra\+\_\+zones (\begin{DoxyParamCaption}\item[{int}]{a }\end{DoxyParamCaption})}
+
+Sets the nodes weight and dist values based on the weights of the edges which, in this case, have weight \texorpdfstring{$>$}{>}0 if they connect 2 different bus zones 
+\begin{DoxyParams}{Parameters}
+{\em a} & node where to start the dijkstra algorithm \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_graph_ab75919a65847d850bbe8d5899fc80efc}\label{class_graph_ab75919a65847d850bbe8d5899fc80efc}} 
+\index{Graph@{Graph}!findLinePath@{findLinePath}}
+\index{findLinePath@{findLinePath}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{findLinePath()}{findLinePath()}}
+{\footnotesize\ttfamily void Graph\+::find\+Line\+Path (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_line}{Line}} \&}]{current\+Line,  }\item[{\mbox{\hyperlink{struct_graph_1_1_edge}{Edge}} \&}]{edge }\end{DoxyParamCaption})}
+
+Given a current bus line and an edge, it attempts to find an edge connecting the same nodes but maintaining the same bus line 
+\begin{DoxyParams}{Parameters}
+{\em current\+Line} & current bus line being used \\
+\hline
+{\em edge} & edge connecting two bus stops \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_graph_a976e274acb7b585e3ca868276a5b59a4}\label{class_graph_a976e274acb7b585e3ca868276a5b59a4}} 
+\index{Graph@{Graph}!getNode@{getNode}}
+\index{getNode@{getNode}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{getNode()}{getNode()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_graph_1_1_node}{Node}} \& Graph\+::get\+Node (\begin{DoxyParamCaption}\item[{int}]{index }\end{DoxyParamCaption})}
+
+Returns a reference to a graph node 
+\begin{DoxyParams}{Parameters}
+{\em index} & index of the node to be returned \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+reference to the node stored with the given index 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_graph_a6514d5f7b5a5bb156c179e9d7c0c565b}\label{class_graph_a6514d5f7b5a5bb156c179e9d7c0c565b}} 
+\index{Graph@{Graph}!nodesInReach@{nodesInReach}}
+\index{nodesInReach@{nodesInReach}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{nodesInReach()}{nodesInReach()}}
+{\footnotesize\ttfamily vector$<$ int $>$ Graph\+::nodes\+In\+Reach (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_location}{Location}}}]{pos,  }\item[{int}]{radius }\end{DoxyParamCaption})}
+
+Returns all nodes inside a certain radius from a position. O(n), n being the number of nodes 
+\begin{DoxyParams}{Parameters}
+{\em pos} & position center where to search \\
+\hline
+{\em radius} & radius of the circle to create and boundary search \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+vector with all nodes\textquotesingle{} indexes that are inside the radius 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+graph.\+h\end{DoxyCompactItemize}

@@ -1,0 +1,147 @@
+\hypertarget{class_inverse_graph}{}\doxysection{Inverse\+Graph Class Reference}
+\label{class_inverse_graph}\index{InverseGraph@{InverseGraph}}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_inverse_graph_1_1_edge}{Edge}}
+\item 
+struct \mbox{\hyperlink{struct_inverse_graph_1_1_node}{Node}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_inverse_graph_a9a3b323e21ee2f3fcd75d1fcbf097e79}{Inverse\+Graph}} ()=default
+\item 
+\mbox{\hyperlink{class_inverse_graph_a77aa4d55b8d7ccdebad587ed22b08e16}{Inverse\+Graph}} (int nodes, bool dir=false)
+\item 
+void \mbox{\hyperlink{class_inverse_graph_a9d47f0cb364c684ac4f8a0362f485258}{add\+Edge}} (int src, int dest, bool line\+Direction, int weight)
+\item 
+\mbox{\hyperlink{struct_inverse_graph_1_1_node}{Node}} \& \mbox{\hyperlink{class_inverse_graph_a4de0d0022f1cd307de1a1dc5d756bdd9}{get\+Node}} (int index)
+\item 
+void \mbox{\hyperlink{class_inverse_graph_a45c3865ccb30a9567feca10bae59b281}{add\+Node}} (int index, string \&stop, string \&line)
+\item 
+void \mbox{\hyperlink{class_inverse_graph_a029f65f58979b7a1a56897e856abf6e3}{dijkstra}} (int s)
+\item 
+list$<$ \mbox{\hyperlink{struct_inverse_graph_1_1_edge}{Inverse\+Graph\+::\+Edge}} $>$ \mbox{\hyperlink{class_inverse_graph_a8b7b23b5c8032bc36cd371593b0d8147}{dijkstra\+\_\+path}} (int a, int b)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_inverse_graph_a4856b703c921585a8bfcca0f3c6b1b27}\label{class_inverse_graph_a4856b703c921585a8bfcca0f3c6b1b27}} 
+int {\bfseries n}
+\item 
+\mbox{\Hypertarget{class_inverse_graph_aa176f87e100af801f674f8ee0fc4b20b}\label{class_inverse_graph_aa176f87e100af801f674f8ee0fc4b20b}} 
+bool {\bfseries has\+Dir}
+\item 
+\mbox{\Hypertarget{class_inverse_graph_aded822b9f8cbca9e4b6b37de6bba2f51}\label{class_inverse_graph_aded822b9f8cbca9e4b6b37de6bba2f51}} 
+vector$<$ \mbox{\hyperlink{struct_inverse_graph_1_1_node}{Node}} $>$ {\bfseries nodes}
+\item 
+\mbox{\Hypertarget{class_inverse_graph_a2d873dd519d57413ef3588199a98771f}\label{class_inverse_graph_a2d873dd519d57413ef3588199a98771f}} 
+map$<$ string, \mbox{\hyperlink{struct_location}{Location}} $>$ {\bfseries node\+Location}
+\item 
+\mbox{\Hypertarget{class_inverse_graph_aa54108b6eee17515902199ec06365fbb}\label{class_inverse_graph_aa54108b6eee17515902199ec06365fbb}} 
+map$<$ string, string $>$ {\bfseries zones}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_inverse_graph_a9a3b323e21ee2f3fcd75d1fcbf097e79}\label{class_inverse_graph_a9a3b323e21ee2f3fcd75d1fcbf097e79}} 
+\index{InverseGraph@{InverseGraph}!InverseGraph@{InverseGraph}}
+\index{InverseGraph@{InverseGraph}!InverseGraph@{InverseGraph}}
+\doxysubsubsection{\texorpdfstring{InverseGraph()}{InverseGraph()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Inverse\+Graph\+::\+Inverse\+Graph (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+
+Default empty constructor \mbox{\Hypertarget{class_inverse_graph_a77aa4d55b8d7ccdebad587ed22b08e16}\label{class_inverse_graph_a77aa4d55b8d7ccdebad587ed22b08e16}} 
+\index{InverseGraph@{InverseGraph}!InverseGraph@{InverseGraph}}
+\index{InverseGraph@{InverseGraph}!InverseGraph@{InverseGraph}}
+\doxysubsubsection{\texorpdfstring{InverseGraph()}{InverseGraph()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Inverse\+Graph\+::\+Inverse\+Graph (\begin{DoxyParamCaption}\item[{int}]{nodes,  }\item[{bool}]{dir = {\ttfamily false} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+Creates a graph with N given nodes and if their edges have a direction 
+\begin{DoxyParams}{Parameters}
+{\em nodes} & number of nodes to consider \\
+\hline
+{\em dir} & boolean if nodes\textquotesingle{} edges should have a direction \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_inverse_graph_a9d47f0cb364c684ac4f8a0362f485258}\label{class_inverse_graph_a9d47f0cb364c684ac4f8a0362f485258}} 
+\index{InverseGraph@{InverseGraph}!addEdge@{addEdge}}
+\index{addEdge@{addEdge}!InverseGraph@{InverseGraph}}
+\doxysubsubsection{\texorpdfstring{addEdge()}{addEdge()}}
+{\footnotesize\ttfamily void Inverse\+Graph\+::add\+Edge (\begin{DoxyParamCaption}\item[{int}]{src,  }\item[{int}]{dest,  }\item[{bool}]{line\+Direction,  }\item[{int}]{weight }\end{DoxyParamCaption})}
+
+Adds an edge between two nodes 
+\begin{DoxyParams}{Parameters}
+{\em src} & starting node to be linked \\
+\hline
+{\em dest} & ending node to be linked \\
+\hline
+{\em line\+Direction} & boolean if edge has a direction \\
+\hline
+{\em weight} & edge weight \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_inverse_graph_a45c3865ccb30a9567feca10bae59b281}\label{class_inverse_graph_a45c3865ccb30a9567feca10bae59b281}} 
+\index{InverseGraph@{InverseGraph}!addNode@{addNode}}
+\index{addNode@{addNode}!InverseGraph@{InverseGraph}}
+\doxysubsubsection{\texorpdfstring{addNode()}{addNode()}}
+{\footnotesize\ttfamily void Inverse\+Graph\+::add\+Node (\begin{DoxyParamCaption}\item[{int}]{index,  }\item[{string \&}]{stop,  }\item[{string \&}]{line }\end{DoxyParamCaption})}
+
+Creates and adds a node to the position 
+\begin{DoxyParams}{Parameters}
+{\em index} & \\
+\hline
+{\em stop} & \\
+\hline
+{\em line} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_inverse_graph_a029f65f58979b7a1a56897e856abf6e3}\label{class_inverse_graph_a029f65f58979b7a1a56897e856abf6e3}} 
+\index{InverseGraph@{InverseGraph}!dijkstra@{dijkstra}}
+\index{dijkstra@{dijkstra}!InverseGraph@{InverseGraph}}
+\doxysubsubsection{\texorpdfstring{dijkstra()}{dijkstra()}}
+{\footnotesize\ttfamily void Inverse\+Graph\+::dijkstra (\begin{DoxyParamCaption}\item[{int}]{s }\end{DoxyParamCaption})}
+
+Time complexity of \{\textbackslash{}displaystyle O(E+V\textbackslash{}log(V))\}. 
+\begin{DoxyParams}{Parameters}
+{\em s} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_inverse_graph_a8b7b23b5c8032bc36cd371593b0d8147}\label{class_inverse_graph_a8b7b23b5c8032bc36cd371593b0d8147}} 
+\index{InverseGraph@{InverseGraph}!dijkstra\_path@{dijkstra\_path}}
+\index{dijkstra\_path@{dijkstra\_path}!InverseGraph@{InverseGraph}}
+\doxysubsubsection{\texorpdfstring{dijkstra\_path()}{dijkstra\_path()}}
+{\footnotesize\ttfamily list$<$ \mbox{\hyperlink{struct_inverse_graph_1_1_edge}{Inverse\+Graph\+::\+Edge}} $>$ Inverse\+Graph\+::dijkstra\+\_\+path (\begin{DoxyParamCaption}\item[{int}]{a,  }\item[{int}]{b }\end{DoxyParamCaption})}
+
+Time complexity of O(n). n being the size of the path 
+\begin{DoxyParams}{Parameters}
+{\em a} & \\
+\hline
+{\em b} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_inverse_graph_a4de0d0022f1cd307de1a1dc5d756bdd9}\label{class_inverse_graph_a4de0d0022f1cd307de1a1dc5d756bdd9}} 
+\index{InverseGraph@{InverseGraph}!getNode@{getNode}}
+\index{getNode@{getNode}!InverseGraph@{InverseGraph}}
+\doxysubsubsection{\texorpdfstring{getNode()}{getNode()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_inverse_graph_1_1_node}{Node}} \& Inverse\+Graph\+::get\+Node (\begin{DoxyParamCaption}\item[{int}]{index }\end{DoxyParamCaption})}
+
+gets the node in the index 
+\begin{DoxyParams}{Parameters}
+{\em index} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Inverse\+Graph.\+h\end{DoxyCompactItemize}

@@ -1,0 +1,53 @@
+\hypertarget{_graph_builder_8h_source}{}\doxysection{Graph\+Builder.\+h}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef AED\_T2\_GRAPHBUILDER\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define AED\_T2\_GRAPHBUILDER\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include "{}graph.h"{}}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include "{}files\_reader.h"{}}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include "{}map"{}}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include "{}Utils.h"{}}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include <climits>}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include<set>}}
+\DoxyCodeLine{10 }
+\DoxyCodeLine{14 \textcolor{keyword}{class }\mbox{\hyperlink{class_graph_builder}{GraphBuilder}} \{}
+\DoxyCodeLine{15 }
+\DoxyCodeLine{16 \textcolor{keyword}{private}:}
+\DoxyCodeLine{17 }
+\DoxyCodeLine{18     \textcolor{keywordtype}{bool} includeM\_lines;}
+\DoxyCodeLine{19     set<string> disabledLinesCodes;}
+\DoxyCodeLine{20     set<string> disabledStopsCodes;}
+\DoxyCodeLine{21 }
+\DoxyCodeLine{26     \mbox{\hyperlink{class_graph_builder}{GraphBuilder}} \&addNodes();}
+\DoxyCodeLine{27 }
+\DoxyCodeLine{32     \mbox{\hyperlink{class_graph_builder}{GraphBuilder}} \&addEdges();}
+\DoxyCodeLine{33 }
+\DoxyCodeLine{34 }
+\DoxyCodeLine{35 \textcolor{keyword}{public}:}
+\DoxyCodeLine{42     \mbox{\hyperlink{class_graph_builder}{GraphBuilder}} \&\mbox{\hyperlink{class_graph_builder_a373ade772584f3d8b862d7348ef3201d}{addWalkingEdges}}(\textcolor{keywordtype}{int} radius);}
+\DoxyCodeLine{43 }
+\DoxyCodeLine{44     \mbox{\hyperlink{class_graph}{Graph}} graph;}
+\DoxyCodeLine{45     map<string, int> stopToIndex;}
+\DoxyCodeLine{46     map<int, string> indexToStop;}
+\DoxyCodeLine{47 }
+\DoxyCodeLine{56     \mbox{\hyperlink{class_graph}{Graph}} \&\mbox{\hyperlink{class_graph_builder_a86c62c95c31b07de833f23868e93f15d}{buildGraph}}(\textcolor{keywordtype}{bool} includeMLines = \textcolor{keyword}{true}, \textcolor{keywordtype}{int} footDistance = -\/1, \textcolor{keyword}{const} set<string> \&disabledLines = \{\},}
+\DoxyCodeLine{57                       \textcolor{keyword}{const} set<string> \&disabledStops = \{\}) \{}
+\DoxyCodeLine{58         graph = \mbox{\hyperlink{class_graph}{Graph}}(2487 + 2, \textcolor{keyword}{true});}
+\DoxyCodeLine{59         this-\/>includeM\_lines = includeMLines;}
+\DoxyCodeLine{60         this-\/>disabledLinesCodes = disabledLines;}
+\DoxyCodeLine{61         this-\/>disabledStopsCodes = disabledStops;}
+\DoxyCodeLine{62         addNodes();}
+\DoxyCodeLine{63         addEdges();}
+\DoxyCodeLine{64         \textcolor{keywordflow}{if} (footDistance != -\/1)}
+\DoxyCodeLine{65             \mbox{\hyperlink{class_graph_builder_a373ade772584f3d8b862d7348ef3201d}{addWalkingEdges}}(footDistance);}
+\DoxyCodeLine{66         \textcolor{keywordflow}{return} graph;}
+\DoxyCodeLine{67     \}}
+\DoxyCodeLine{68 }
+\DoxyCodeLine{69 }
+\DoxyCodeLine{70 \};}
+\DoxyCodeLine{71 }
+\DoxyCodeLine{72 }
+\DoxyCodeLine{73 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//AED\_T2\_GRAPHBUILDER\_H}}
+
+\end{DoxyCode}

@@ -1,0 +1,83 @@
+\hypertarget{menu_8h_source}{}\doxysection{menu.\+h}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef AED\_T2\_MENU\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define AED\_T2\_MENU\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 }
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include <iomanip>}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include<set>}}
+\DoxyCodeLine{10 }
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include "{}files\_reader.h"{}}}
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#include "{}graph.h"{}}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#include "{}GraphBuilder.h"{}}}
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#include "{}InverseGraph.h"{}}}
+\DoxyCodeLine{15 \textcolor{preprocessor}{\#include "{}GraphInverseBuilder.h"{}}}
+\DoxyCodeLine{16 }
+\DoxyCodeLine{17 }
+\DoxyCodeLine{18 \textcolor{preprocessor}{\#ifdef \_WIN32}}
+\DoxyCodeLine{19 \textcolor{preprocessor}{\#define CLEAR "{}cls"{}}}
+\DoxyCodeLine{20 \textcolor{preprocessor}{\#else }\textcolor{comment}{//In any other OS}}
+\DoxyCodeLine{21 \textcolor{preprocessor}{\#define CLEAR "{}clear"{}}}
+\DoxyCodeLine{22 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{23 }
+\DoxyCodeLine{24 }
+\DoxyCodeLine{25 \textcolor{keyword}{using namespace }std;}
+\DoxyCodeLine{26 }
+\DoxyCodeLine{30 \textcolor{keyword}{class }\mbox{\hyperlink{class_menu}{Menu}} \{}
+\DoxyCodeLine{31 }
+\DoxyCodeLine{32 \textcolor{keyword}{private}:}
+\DoxyCodeLine{33     vector<string> stopsCode = StopsCodesReader(\textcolor{stringliteral}{"{}../dataset/stops.csv"{}});}
+\DoxyCodeLine{34     set<string> disabledLines;}
+\DoxyCodeLine{35     set<string> disabledStops;}
+\DoxyCodeLine{36     \mbox{\hyperlink{class_graph_builder}{GraphBuilder}} model = \mbox{\hyperlink{class_graph_builder}{GraphBuilder}}();}
+\DoxyCodeLine{37     \mbox{\hyperlink{class_graph_inverse_builder}{GraphInverseBuilder}} graphInverseBuilder = \mbox{\hyperlink{class_graph_inverse_builder}{GraphInverseBuilder}}();}
+\DoxyCodeLine{38 }
+\DoxyCodeLine{39 \textcolor{keyword}{public}:}
+\DoxyCodeLine{40 }
+\DoxyCodeLine{41     \mbox{\hyperlink{struct_location}{Location}} localStart, localEnd;}
+\DoxyCodeLine{42     \textcolor{keywordtype}{string} codeStart, codeEnd;}
+\DoxyCodeLine{43     \textcolor{keywordtype}{int} footDistance = 200;}
+\DoxyCodeLine{44     \textcolor{keywordtype}{int} stopRadius = 40;}
+\DoxyCodeLine{45     \textcolor{keywordtype}{bool} useMLines = \textcolor{keyword}{true};}
+\DoxyCodeLine{46 }
+\DoxyCodeLine{50     \textcolor{keyword}{enum} \mbox{\hyperlink{class_menu_aad5ca3dd6d0d93975efa1f77710f716e}{STATE}} \{}
+\DoxyCodeLine{51         location, criteria, close, settings}
+\DoxyCodeLine{52     \};}
+\DoxyCodeLine{53 }
+\DoxyCodeLine{54 }
+\DoxyCodeLine{59     \mbox{\hyperlink{class_menu_aad5ca3dd6d0d93975efa1f77710f716e}{STATE}} \mbox{\hyperlink{class_menu_a8248dc2132c008e0410a42eab7487047}{locationMenu}}();}
+\DoxyCodeLine{60 }
+\DoxyCodeLine{66     \mbox{\hyperlink{class_menu_aad5ca3dd6d0d93975efa1f77710f716e}{STATE}} \mbox{\hyperlink{class_menu_afc5f83a72602bb17e3d031b2c5451dea}{settingsMenu}}();}
+\DoxyCodeLine{67 }
+\DoxyCodeLine{72     \mbox{\hyperlink{class_menu_aad5ca3dd6d0d93975efa1f77710f716e}{STATE}} \mbox{\hyperlink{class_menu_a133192dcca88cf724419c6334910b12a}{criteriaMenu}}();}
+\DoxyCodeLine{73 }
+\DoxyCodeLine{77     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_menu_ae1ec62e738dda7faaaec850bd0b58ffe}{start}}();}
+\DoxyCodeLine{78 }
+\DoxyCodeLine{86     \textcolor{keyword}{static} list<Graph::Edge> \mbox{\hyperlink{class_menu_aff9e4d23571545829bd05b691c4c3d4a}{minStops}}(\mbox{\hyperlink{class_graph}{Graph}} \&graph, \textcolor{keywordtype}{int} originIndex, \textcolor{keywordtype}{int} destinyIndex);}
+\DoxyCodeLine{87 }
+\DoxyCodeLine{95     \textcolor{keyword}{static} list<Graph::Edge> \mbox{\hyperlink{class_menu_ad9a626aa6033cf123f8a2991bd989c99}{minDistance}}(\mbox{\hyperlink{class_graph}{Graph}} \&graph, \textcolor{keywordtype}{int} originIndex, \textcolor{keywordtype}{int} destinyIndex);}
+\DoxyCodeLine{96 }
+\DoxyCodeLine{104     \textcolor{keyword}{static} list<Graph::Edge> \mbox{\hyperlink{class_menu_aa96f138370a3f690ae238e65a2fe49c6}{minZones}}(\mbox{\hyperlink{class_graph}{Graph}} \&graph, \textcolor{keywordtype}{int} originIndex, \textcolor{keywordtype}{int} destinyIndex);}
+\DoxyCodeLine{105 }
+\DoxyCodeLine{113     \textcolor{keyword}{static} list<InverseGraph::Edge> \mbox{\hyperlink{class_menu_ad99b0bb3b9fb55660e85ca77c5c2abc0}{minSwaps}}(\mbox{\hyperlink{class_inverse_graph}{InverseGraph}} \&graph, \textcolor{keywordtype}{int} originIndex, \textcolor{keywordtype}{int} destinyIndex);}
+\DoxyCodeLine{114 }
+\DoxyCodeLine{118     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_menu_ac72a2b3493f27a12605bed259e18afed}{askLocationStops}}();}
+\DoxyCodeLine{119 }
+\DoxyCodeLine{123     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_menu_a6934b1385729f673dd2476072e5d6e62}{askLocationCords}}();}
+\DoxyCodeLine{124 }
+\DoxyCodeLine{129     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_menu_a113cdcafd4c909e84e98d187e4a16b9b}{showGeneratedPath}}(\textcolor{keywordtype}{int} pathCriteria);}
+\DoxyCodeLine{130 }
+\DoxyCodeLine{136     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_menu_a2873149b9875a0dd27ee1643fd08ee4e}{beautifulPrintStops}}(\mbox{\hyperlink{class_graph}{Graph}} \&graph, list<Graph::Edge> \&path);}
+\DoxyCodeLine{137 }
+\DoxyCodeLine{143     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_menu_afce73539045df6bc13fd47f5da8512e4}{beautifulPrintStopsInverse}}(\mbox{\hyperlink{class_inverse_graph}{InverseGraph}} \&graph, list<InverseGraph::Edge> \&path);}
+\DoxyCodeLine{144 }
+\DoxyCodeLine{145 \};}
+\DoxyCodeLine{146 }
+\DoxyCodeLine{147 }
+\DoxyCodeLine{148 \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}
