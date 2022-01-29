@@ -41,7 +41,7 @@ GraphInverseBuilder &GraphInverseBuilder::addNodes() {
                 it++;
             }
 
-            stopNames.insert(pair<string,string>(l.code,l.name));
+            stopNames.insert(pair<string, string>(l.code, l.name));
         }
     }
     onlyStopsFirstIndex = i;
@@ -83,7 +83,7 @@ GraphInverseBuilder &GraphInverseBuilder::addEdges() {
 
 GraphInverseBuilder &GraphInverseBuilder::addWalkingEdges(int radius) {
 
-    for (int i = onlyStopsFirstIndex; i <= len ; i++) {
+    for (int i = onlyStopsFirstIndex; i <= len; i++) {
         vector<int> v = nodesInReach(i, radius);
         for (auto j: v) {
             if (i == j)

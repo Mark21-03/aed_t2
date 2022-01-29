@@ -92,7 +92,6 @@ void Graph::dijkstra_zones(int a) {
 }
 
 
-
 list<Graph::Edge> Graph::dijkstra_path(int a, int b) {
     list<Edge> path;
     Edge parent = nodes[b].pred;
