@@ -47,9 +47,20 @@ public:
      */
     explicit InverseGraph(int nodes, bool dir = false);
 
-
+    /**
+     * Adds an edge between two nodes
+     * @param src starting node to be linked
+     * @param dest ending node to be linked
+     * @param lineDirection boolean if edge has a direction
+     * @param weight edge weight
+     */
     void addEdge(int src, int dest, bool lineDirection, int weight);
 
+    /**
+     *
+     * @param index
+     * @return
+     */
     Node &getNode(int index);
 
     void addNode(int index, string &stop, string &line);
