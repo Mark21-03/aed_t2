@@ -241,7 +241,6 @@ list<Graph::Edge> Menu::minDistance(Graph &graph, int originIndex, int destinyIn
 
     graph.dijkstra_distance(originIndex);
     list<Graph::Edge> path = graph.dijkstra_path(originIndex, destinyIndex);
-    cout << "\nDistance: " << graph.getNode(destinyIndex).dist << endl << endl;
     return path;
 
 }
@@ -251,7 +250,6 @@ list<Graph::Edge> Menu::minZones(Graph &graph, int originIndex, int destinyIndex
 
     graph.dijkstra_zones(originIndex);
     list<Graph::Edge> path = graph.dijkstra_path(originIndex, destinyIndex);
-    cout << "\nNumber of Zones: " << graph.getNode(destinyIndex).dist + 1 << endl << endl;
     return path;
 
 }
@@ -261,7 +259,6 @@ list<InverseGraph::Edge> Menu::minSwaps(InverseGraph &graph, int originIndex, in
 
     graph.dijkstra(originIndex);
     list<InverseGraph::Edge> path = graph.dijkstra_path(originIndex, destinyIndex);
-    cout << "\nNumber of minimum line swaps: " << graph.getNode(destinyIndex).dist << endl << endl;
     return path;
 
 }
@@ -408,7 +405,8 @@ void Menu::beautifulPrintStopsInverse(InverseGraph &graph, list<InverseGraph::Ed
     for (const auto &it: path) {
         auto p = graphInverseBuilder.indexToNode[it.origin];
         string line = lineDirectionName(graphInverseBuilder.stopNames[p.second], it.lineDirection);
-
+        if (p.second == "")
+            line = "__WALK__";
         if (currentLine != line) {
             currentLine = line;
             cout << "Take " << currentLine << endl;
