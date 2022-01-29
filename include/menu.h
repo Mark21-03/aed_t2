@@ -40,8 +40,8 @@ public:
 
     Location localStart, localEnd;
     string codeStart, codeEnd;
-    int footDistance = 200;
-    int stopRadius = 40;
+    int footDistance = 500;
+    int stopRadius = 50;
     bool useMLines = true;
 
     /**
