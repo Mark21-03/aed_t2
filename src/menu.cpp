@@ -370,56 +370,6 @@ void Menu::showGeneratedPath(int pathCriteria) const {
 }
 
 
-void Menu::fullLinePrint(Graph graph, GraphBuilder model, vector<pair<Line, bool>> lines, const list<int> &path) {
-
-    int i = 0;
-    for (int it: path) {
-        cout << setw(8) << model.indexToStop[it] << "\t";
-        if (i == lines.size()) break;
-        cout << lines[i].first.lineDirectionName(lines[i].second) << " ; " << graph.getNode(it).stop.zone << endl;
-        i++;
-    }
-    getchar();
-
-}
-
-
-void Menu::beautifulPrintGeo(Graph graph, GraphBuilder model, list<Graph::Edge> path) {
-
-    if (path.front().line.name == "__FOOT__") {
-        auto it = path.begin();
-        advance(it, 1);
-        cout << "Walk to " << model.indexToStop[it->dest] << "\n\n";
-        path.pop_front();
-    }
-
-    string currentLine;
-
-    for (const auto &it: path) {
-
-        string line = lineDirectionName(it.line.name, it.lineDirection);
-
-        if (it.line.name == "__FOOT__") {
-
-            cout << "\nLeave on " << model.indexToStop[it.origin]
-                 << " and walk to your destination\n";
-            break;
-        }
-
-        if (currentLine != line) {
-            currentLine = line;
-            cout << "Take " << currentLine << endl;
-        }
-
-        cout << setw(8) << model.indexToStop[it.origin] << "\t" << graph.getNode(it.origin).stop.zone << "\t\t";
-
-        cout << endl;
-    }
-
-    getchar();
-
-}
-
 
 void Menu::beautifulPrintStops(Graph &graph, GraphBuilder &model, list<Graph::Edge> &path) {
     string currentLine;
@@ -449,6 +399,7 @@ void Menu::beautifulPrintStopsInverse(InverseGraph &graph, GraphInverseBuilder &
         getchar();
         return;
     }
+    
     cout << "Starting at " << model.indexToNode[path.front().origin].first << endl;
     for (const auto &it: path) {
         //string line = lineDirectionName(, it.lineDirection);

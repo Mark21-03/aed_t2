@@ -126,11 +126,6 @@ public:
      */
     void showGeneratedPath(int pathCriteria) const;
 
-
-    static void beautifulPrintGeo(Graph graph, GraphBuilder model, list<Graph::Edge> path); // TODO: PASS BY REFERENCE
-
-    static void fullLinePrint(Graph graph, GraphBuilder model, vector<pair<Line, bool>> lines, const list<int> &path);
-
     static void beautifulPrintStops(Graph &graph, GraphBuilder &model, list<Graph::Edge> &path);
 
     static void

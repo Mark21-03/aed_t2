@@ -161,7 +161,6 @@ void Graph::addNode(int index, Stop &stop) {
 
 list<Graph::Edge> Graph::bfs_path(int a, int b) {
 
-    cout << "\nNodes size : " << nodes.size() << endl;
     Line currentLine;
     bfsDist(a);
     list<Edge> path;
