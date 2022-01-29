@@ -375,6 +375,12 @@ void Menu::showGeneratedPath(int pathCriteria) {
 void Menu::beautifulPrintStops(Graph &graph, list<Graph::Edge> &path) {
     string currentLine;
 
+    if (path.empty()) {
+        cout << "There is not a valid path. Sorry for the inconvenience!" << endl;
+        getchar();
+        return;
+    }
+
     cout << "Starting at " << model.indexToStop[path.front().origin] << endl;
     for (const auto &it: path) {
         string line = lineDirectionName(it.line.name, it.lineDirection);
