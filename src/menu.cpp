@@ -321,6 +321,9 @@ void Menu::showGeneratedPath(int pathCriteria) {
     static Graph& graph = model.buildGraph(useMLines, stopRadius, disabledLines, disabledStops);
     static InverseGraph& graph1 = graphInverseBuilder.buildGraph(useMLines, stopRadius, disabledLines, disabledStops);
 
+    graph = model.graph;
+    graph1 = graphInverseBuilder.graph;
+
     int originIndex, destinyIndex;
 
     if (pathCriteria != 4) {

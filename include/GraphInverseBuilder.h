@@ -61,9 +61,17 @@ public:
         string startStop = "CURRENT POINT";
         string endStop = "END POINT";
         graph.addNode(len + 1, startStop, s);
-        graph.nodeLocation.insert(pair<string, Location>(startStop, start));
+        auto it = graph.nodeLocation.insert(pair<string, Location>(startStop, start));
+        if (!it.second) {
+            it.first->second = start;
+            graph.nodes[len+1].adj = list<InverseGraph::Edge>();
+        }
         graph.addNode(len + 2, endStop, s);
-        graph.nodeLocation.insert(pair<string, Location>(endStop, end));
+        it = graph.nodeLocation.insert(pair<string, Location>(endStop, end));
+        if (!it.second) {
+            it.first->second = end;
+            graph.nodes[len+2].adj = list<InverseGraph::Edge>();
+        }
 
 
         vector<int> nodesStart = nodesInReach(len + 1, radius);

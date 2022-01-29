@@ -75,14 +75,14 @@ GraphInverseBuilder &GraphInverseBuilder::addEdges() {
 
 GraphInverseBuilder &GraphInverseBuilder::addWalkingEdges(int radius) {
 
-    for (int i = onlyStopsFirstIndex; i <= len/2 + 1; i++) {
+    for (int i = onlyStopsFirstIndex; i <= (len - onlyStopsFirstIndex)/2 + onlyStopsFirstIndex ; i++) {
         vector<int> v = nodesInReach(i, radius);
         for (auto j: v) {
             if (i == j)
                 continue;
 
-            graph.addEdge(i, j, true, 201);
-            graph.addEdge(j, i, true, 201);
+            graph.addEdge(i, j, true, 1); // it costs 100 + 100 to change lines, +1 if it takes steps
+            graph.addEdge(j, i, true, 1);
         }
     }
 
