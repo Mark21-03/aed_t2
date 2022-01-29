@@ -64,7 +64,7 @@ GraphBuilder &GraphBuilder::addWalkingEdges(int radius) {
                 continue;
 
             graph.addEdge(stopToIndex[s.stop.code], i, Line{"__FOOT__", "__FOOT__"}, true,
-                          INF); // TODO: CHECK LINE DIRECTION and name
+                          INF);
         }
     }
     return *this;

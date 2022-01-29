@@ -317,23 +317,23 @@ void Menu::showGeneratedPath(int pathCriteria) const {
     GraphBuilder model = GraphBuilder();
     GraphInverseBuilder graphInverseBuilder = GraphInverseBuilder();
 
-    Graph &graph = model.buildGraph(useMLines, stopRadius, disabledLines, disabledStops);
-    InverseGraph &graph1 = graphInverseBuilder.buildGraph(useMLines, stopRadius, disabledLines, disabledStops);
-
+    Graph graph;
+    InverseGraph graph1;
 
     int originIndex, destinyIndex;
 
-    if (!codeStart.empty()) {
-        originIndex = model.stopToIndex[codeStart];
-        destinyIndex = model.stopToIndex[codeEnd];
+    if (pathCriteria != 4) {
+        graph = model.buildGraph(useMLines, stopRadius, disabledLines, disabledStops);
+        if (!codeStart.empty()) {
+            originIndex = model.stopToIndex[codeStart];
+            destinyIndex = model.stopToIndex[codeEnd];
+        } else {
+            originIndex = geoStartNode;
+            destinyIndex = geoEndNode;
+            graph.addGeoStartEndNode(localStart, localEnd, footDistance);
+        }
     } else {
-        originIndex = geoStartNode;
-        destinyIndex = geoEndNode;
-        graph.addGeoStartEndNode(localStart, localEnd, footDistance);
-    }
-
-
-    if (pathCriteria == 4) {
+        graph1 = graphInverseBuilder.buildGraph(useMLines, stopRadius, disabledLines, disabledStops);
         if (!codeStart.empty()) {
             originIndex = graphInverseBuilder.nodeToIndex[pair<string, string>(codeStart, "")];
             destinyIndex = graphInverseBuilder.nodeToIndex[pair<string, string>(codeEnd, "")];
