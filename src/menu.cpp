@@ -139,6 +139,9 @@ Menu::STATE Menu::settingsMenu() {
 
 Menu::STATE Menu::locationMenu() {
 
+    codeStart = "", codeEnd = "";
+    localStart = {}, localEnd = {};
+
     char userInput;
     string inputError;
 
@@ -308,14 +311,14 @@ void Menu::askLocationCords() {
 
 void Menu::showGeneratedPath(int pathCriteria) const {
 
-    GraphBuilder model = GraphBuilder();
-    Graph& graph = model.buildGraph(useMLines, stopRadius, disabledLines, disabledStops);
-
     vector<pair<Line, bool>> lines;
     list<Graph::Edge> path;
 
+    GraphBuilder model = GraphBuilder();
     GraphInverseBuilder graphInverseBuilder = GraphInverseBuilder();
-    InverseGraph& graph1 = graphInverseBuilder.buildGraph(useMLines, stopRadius, disabledLines, disabledStops);
+
+    Graph &graph = model.buildGraph(useMLines, stopRadius, disabledLines, disabledStops);
+    InverseGraph &graph1 = graphInverseBuilder.buildGraph(useMLines, stopRadius, disabledLines, disabledStops);
 
 
     int originIndex, destinyIndex;
@@ -329,11 +332,12 @@ void Menu::showGeneratedPath(int pathCriteria) const {
         graph.addGeoStartEndNode(localStart, localEnd, footDistance);
     }
 
+
     if (pathCriteria == 4) {
         if (!codeStart.empty()) {
             originIndex = graphInverseBuilder.nodeToIndex[pair<string, string>(codeStart, "")];
             destinyIndex = graphInverseBuilder.nodeToIndex[pair<string, string>(codeEnd, "")];
-        }else {
+        } else {
             originIndex = graphInverseBuilder.len + 1;
             destinyIndex = graphInverseBuilder.len + 2;
             graphInverseBuilder.addGeoStartEndNode(localStart, localEnd, footDistance);
@@ -341,7 +345,7 @@ void Menu::showGeneratedPath(int pathCriteria) const {
     }
 
     list<Graph::Edge> aux;
-    list<InverseGraph::Edge> auxInverse; // TODO: CHANGE THIS
+    list<InverseGraph::Edge> auxInverse;
 
     switch (pathCriteria) {
         case 1: // min stops
@@ -398,7 +402,7 @@ void Menu::beautifulPrintGeo(Graph graph, GraphBuilder model, list<Graph::Edge> 
         if (it.line.name == "__FOOT__") {
 
             cout << "\nLeave on " << model.indexToStop[it.origin]
-                 << " and walk to your destination\n"; // TODO: IS IT RIGHT ?
+                 << " and walk to your destination\n";
             break;
         }
 
@@ -456,7 +460,7 @@ void Menu::beautifulPrintStopsInverse(InverseGraph &graph, GraphInverseBuilder &
             cout << "Take " << currentLine << endl;
         }
 
-        cout << setw(8) << p.first << "\t" << graph.zones[p.first] << "\t\t"; // TODO: ZONE
+        cout << setw(8) << p.first << "\t" << graph.zones[p.first] << "\t\t"; // TODO: BUS LINE DIRECTION NAME
 
         cout << endl;
     }

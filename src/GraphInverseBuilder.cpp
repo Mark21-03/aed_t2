@@ -31,7 +31,7 @@ GraphInverseBuilder &GraphInverseBuilder::addNodes() {
                     indexToNode.insert(pair<int, pair<string, string>>(i, pair<string, string>(*s, lineName)));
                 }
                 it++;
-                if (it != list.stops.end() && disabledStopsCodes.count(*it) == 0 ) {
+                if (it != list.stops.end() && disabledStopsCodes.count(*it) == 0) {
                     graph.addEdge(i, i + 1, false, 1);
                 }
                 i++;
@@ -45,8 +45,8 @@ GraphInverseBuilder &GraphInverseBuilder::addNodes() {
         graph.addNode(i, d.code, s);
         nodeToIndex.insert(pair<pair<string, string>, int>(pair<string, string>(d.code, s), i));
         indexToNode.insert(pair<int, pair<string, string>>(i++, pair<string, string>(d.code, s)));
-        graph.nodeLocation.insert(pair<string,Location>(d.code,d.location));
-        graph.zones.insert(pair<string,string>( d.code ,d.zone));
+        graph.nodeLocation.insert(pair<string, Location>(d.code, d.location));
+        graph.zones.insert(pair<string, string>(d.code, d.zone));
     }
 
     len = i;
@@ -82,7 +82,7 @@ GraphInverseBuilder &GraphInverseBuilder::addWalkingEdges(int radius) {
             if (i == j)
                 continue;
 
-            graph.addEdge(i,j, true,201);
+            graph.addEdge(i, j, true, 201);
         }
     }
     return *this;

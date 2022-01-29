@@ -42,7 +42,7 @@ public:
     int onlyStopsFirstIndex;
 
     InverseGraph &buildGraph(bool includeMLines = true, int footDistance = -1, const set<string> &disabledLines = {},
-                            const set<string> &disabledStops = {}) {
+                             const set<string> &disabledStops = {}) {
         graph = InverseGraph(9000, true);
         this->includeM_lines = includeMLines;
         this->disabledLinesCodes = disabledLines;
@@ -61,15 +61,15 @@ public:
         string startStop = "CURRENT POINT";
         string endStop = "END POINT";
         graph.addNode(len + 1, startStop, s);
-        graph.nodeLocation.insert(pair<string,Location>(startStop, start));
+        graph.nodeLocation.insert(pair<string, Location>(startStop, start));
         graph.addNode(len + 2, endStop, s);
-        graph.nodeLocation.insert(pair<string,Location>(endStop, end));
+        graph.nodeLocation.insert(pair<string, Location>(endStop, end));
 
 
         vector<int> nodesStart = nodesInReach(len + 1, radius);
         vector<int> nodesEnd = nodesInReach(len + 2, radius);
 
-        for (int i : nodesStart) {
+        for (int i: nodesStart) {
             graph.addEdge(len + 1, i, false, 1);
         }
 

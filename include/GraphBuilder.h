@@ -53,8 +53,8 @@ public:
      * @param disabledStops set of all disabled bus stops that shouldn't be in the graph
      * @return
      */
-    Graph& buildGraph(bool includeMLines = true, int footDistance = -1, const set<string> &disabledLines = {},
-                     const set<string> &disabledStops = {}) {
+    Graph &buildGraph(bool includeMLines = true, int footDistance = -1, const set<string> &disabledLines = {},
+                      const set<string> &disabledStops = {}) {
         graph = Graph(2487 + 2, true);
         this->includeM_lines = includeMLines;
         this->disabledLinesCodes = disabledLines;
