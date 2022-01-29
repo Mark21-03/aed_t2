@@ -340,6 +340,7 @@ void Menu::showGeneratedPath(int pathCriteria) const {
         } else {
             originIndex = graphInverseBuilder.len + 1;
             destinyIndex = graphInverseBuilder.len + 2;
+            //TODO Why is this on the builder after the graph being made? Some walking doest work maybe due to this
             graphInverseBuilder.addGeoStartEndNode(localStart, localEnd, footDistance);
         }
     }
@@ -399,7 +400,7 @@ void Menu::beautifulPrintStopsInverse(InverseGraph &graph, GraphInverseBuilder &
         getchar();
         return;
     }
-    
+
     cout << "Starting at " << model.indexToNode[path.front().origin].first << endl;
     for (const auto &it: path) {
         //string line = lineDirectionName(, it.lineDirection);
