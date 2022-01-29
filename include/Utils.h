@@ -18,15 +18,13 @@ using namespace std;
  */
 static double distanceCalc(Location l1, Location l2) {
 
-    static const double radians =  M_PI / 180.0;
-    double lat1 = l1.latitude, lon1 = l1.longitude;
-    double lat2 = l2.latitude, lon2 = l2.longitude;
+    static const double radians = M_PI / 180.0;
 
-    double dLat = (lat2 - lat1) * radians ;
-    double dLon = (lon2 - lon1) * radians ;
+    double dLat = (l2.latitude - l1.latitude) * radians;
+    double dLon = (l2.longitude - l1.longitude) * radians;
 
-    lat1 = (lat1) * radians;
-    lat2 = (lat2) * radians;
+    double lat1 = (l1.latitude) * radians;
+    double lat2 = (l2.latitude) * radians;
 
     double a = pow(sin(dLat / 2), 2) + pow(sin(dLon / 2), 2) * cos(lat1) * cos(lat2);
 

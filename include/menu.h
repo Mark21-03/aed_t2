@@ -128,8 +128,18 @@ public:
      */
     void showGeneratedPath(int pathCriteria);
 
+    /**
+     * Prints the graph's path in a organized and legible way
+     * @param graph graph where the path is
+     * @param path path to be printed
+     */
     void beautifulPrintStops(Graph &graph, list<Graph::Edge> &path);
 
+    /**
+     * Prints the graph's path in a organized and legible way
+     * @param graph graph where the path is
+     * @param path path to be printed
+     */
     void beautifulPrintStopsInverse(InverseGraph &graph, list<InverseGraph::Edge> &path);
 
 };

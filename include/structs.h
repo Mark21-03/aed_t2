@@ -29,6 +29,11 @@ struct Stop {
 struct Line {
     string code, name;
 
+    /**
+     * Gives the name of the line based on the direction the bus is moving
+     * @param dir boolean representing forward or backwards
+     * @return returns the correct bus line name direction
+     */
     string lineDirectionName(bool dir) const {
 
         //18 - PASSEIO ALEGRE - CARMO

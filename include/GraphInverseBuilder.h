@@ -13,14 +13,33 @@ private:
     set<string> disabledLinesCodes;
     set<string> disabledStopsCodes;
 
+    /**
+     * Adds the nodes to the graph being built
+     * @return reference to the self object
+     */
     GraphInverseBuilder &addNodes();
 
+    /**
+     * Adds the edges to the graph being built
+     * @return reference to the self object
+     */
     GraphInverseBuilder &addEdges();
 
 public:
+
+    /**
+     * Adds the edges of type walking for the nodes closer than a given radius
+     * @param radius distance between nodes to consider
+     * @return reference to the self object
+     */
     GraphInverseBuilder &addWalkingEdges(int radius);
 
-
+    /**
+     * Returns a list of the nodes' indexes in reach of a given node's radius
+     * @param i node index to search neighbors in radius reach
+     * @param radius distance to search for neighbors
+     * @return
+     */
     vector<int> nodesInReach(int i, int radius) {
 
         vector<int> v;
@@ -41,6 +60,14 @@ public:
     int len;
     int onlyStopsFirstIndex;
 
+    /**
+     * Builds the graph with given criteria
+     * @param includeMLines boolean if M bus lines should be in the graph
+     * @param footDistance distance the user wants to walk to the first stop and to reach the destiny
+     * @param disabledLines set of bus lines that shouldn't be in the graph
+     * @param disabledStops set of bus stops that shouldn't be in the graph
+     * @return
+     */
     InverseGraph &buildGraph(bool includeMLines = true, int footDistance = -1, const set<string> &disabledLines = {},
                              const set<string> &disabledStops = {}) {
         graph = InverseGraph(8000, true);
@@ -54,6 +81,12 @@ public:
         return graph;
     }
 
+    /**
+     * Adds the first and end nodes that represent th geo location of the start end end positions
+     * @param start starting geo position
+     * @param end ending geo position
+     * @param radius max walking distance from the nodes being added to the bus network
+     */
     void addGeoStartEndNode(Location start, Location end, int radius) {
 
         Stop stop = {};

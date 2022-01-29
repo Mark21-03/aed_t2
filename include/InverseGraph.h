@@ -6,6 +6,10 @@
 
 class InverseGraph {
 public:
+
+    /**
+     * An edge links two nodes and can have a direction and weight
+     */
     struct Edge {
         int dest;
         int weight;
@@ -13,6 +17,9 @@ public:
         int origin;
     };
 
+    /**
+     * A node is a bus stop, holding additional tributes
+     */
     struct Node {
         list<Edge> adj;
         int dist;
@@ -28,9 +35,18 @@ public:
     map<string, string> zones;
 
 
+    /**
+     * Default empty constructor
+     */
     InverseGraph() = default;
 
+    /**
+     * Creates a graph with N given nodes and if their edges have a direction
+     * @param nodes number of nodes to consider
+     * @param dir boolean if nodes' edges should have a direction
+     */
     explicit InverseGraph(int nodes, bool dir = false);
+
 
     void addEdge(int src, int dest, bool lineDirection, int weight);
 

@@ -142,13 +142,14 @@ Menu::STATE Menu::settingsMenu() {
 
 Menu::STATE Menu::locationMenu() {
 
-    codeStart = "", codeEnd = "";
-    localStart = {}, localEnd = {};
-
     char userInput;
     string inputError;
 
     while (true) {
+
+        codeStart = "", codeEnd = "";
+        localStart = {}, localEnd = {};
+
         (void) system(CLEAR);
 
         if (!inputError.empty())
@@ -318,8 +319,8 @@ void Menu::showGeneratedPath(int pathCriteria) {
     list<Graph::Edge> path;
 
 
-    static Graph& graph = model.buildGraph(useMLines, stopRadius, disabledLines, disabledStops);
-    static InverseGraph& graph1 = graphInverseBuilder.buildGraph(useMLines, stopRadius, disabledLines, disabledStops);
+    static Graph &graph = model.buildGraph(useMLines, stopRadius, disabledLines, disabledStops);
+    static InverseGraph &graph1 = graphInverseBuilder.buildGraph(useMLines, stopRadius, disabledLines, disabledStops);
 
     graph = model.graph;
     graph1 = graphInverseBuilder.graph;
@@ -358,7 +359,7 @@ void Menu::showGeneratedPath(int pathCriteria) {
             break;
         case 2: // min distance
             aux = minDistance(graph, originIndex, destinyIndex);
-            beautifulPrintStops(graph,  aux);
+            beautifulPrintStops(graph, aux);
             break;
         case 3: // min zones
             aux = minZones(graph, originIndex, destinyIndex);
@@ -374,8 +375,7 @@ void Menu::showGeneratedPath(int pathCriteria) {
 }
 
 
-
-void Menu::beautifulPrintStops(Graph &graph,list<Graph::Edge> &path) {
+void Menu::beautifulPrintStops(Graph &graph, list<Graph::Edge> &path) {
     string currentLine;
 
     cout << "Starting at " << model.indexToStop[path.front().origin] << endl;
@@ -396,7 +396,7 @@ void Menu::beautifulPrintStops(Graph &graph,list<Graph::Edge> &path) {
     getchar();
 }
 
-void Menu::beautifulPrintStopsInverse(InverseGraph &graph,  list<InverseGraph::Edge> &path) {
+void Menu::beautifulPrintStopsInverse(InverseGraph &graph, list<InverseGraph::Edge> &path) {
     string currentLine;
     if (path.empty()) {
         cout << "There is not a valid path. Sorry for the inconvenience!" << endl;
