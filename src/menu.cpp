@@ -418,7 +418,7 @@ void Menu::beautifulPrintStopsInverse(InverseGraph &graph, list<InverseGraph::Ed
             cout << "Take " << currentLine << endl;
         }
 
-        cout << setw(8) << p.first << "\t" << graph.zones[p.first] << "\t\t"; // TODO: BUS LINE DIRECTION NAME
+        cout << setw(8) << p.first << "\t" << graph.zones[p.first] << "\t\t";
 
         cout << endl;
     }

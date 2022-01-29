@@ -21,7 +21,7 @@ void Graph::addEdge(int src, int dest, Line line, bool lineDirection, int weight
 vector<int> Graph::nodesInReach(Location pos, int radius) {
 
     vector<int> v;
-    for (int i = 1; i <= n; i++) // TODO: WHAT IF THE LOCATION IS THE SAME ?
+    for (int i = 1; i <= n; i++)
         if ((int) distanceCalc(nodes[i].stop.location, pos) <= radius) {
             v.push_back(i);
         }
