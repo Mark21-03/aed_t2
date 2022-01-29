@@ -34,18 +34,21 @@ public:
      */
     GraphInverseBuilder &addWalkingEdges(int radius);
 
+
     /**
      * Returns a list of the nodes' indexes in reach of a given node's radius
      * @param i node index to search neighbors in radius reach
      * @param radius distance to search for neighbors
      * @return
      */
-    vector<int> nodesInReach(int i, int radius) {
+    inline vector<int> nodesInReach(int i, int radius) {
+
 
         vector<int> v;
+        auto l = graph.nodeLocation[graph.getNode(i).stop.first];
         for (int d = onlyStopsFirstIndex; d <= len; d++) {
             if ((int) distanceCalc(graph.nodeLocation[graph.getNode(d).stop.first],
-                                   graph.nodeLocation[graph.getNode(i).stop.first]) <= radius) {
+                                   l) <= radius) {
                 v.push_back(d);
             }
 
@@ -97,13 +100,16 @@ public:
         auto it = graph.nodeLocation.insert(pair<string, Location>(startStop, start));
         if (!it.second) {
             it.first->second = start;
-            graph.nodes[len+1].adj = list<InverseGraph::Edge>();
+            graph.nodes[len + 1].adj = list<InverseGraph::Edge>();
         }
         graph.addNode(len + 2, endStop, s);
         it = graph.nodeLocation.insert(pair<string, Location>(endStop, end));
         if (!it.second) {
             it.first->second = end;
-            graph.nodes[len+2].adj = list<InverseGraph::Edge>();
+            for (int d = onlyStopsFirstIndex; d <= len; d++) {
+                if (!graph.nodes[d].adj.empty() && graph.nodes[d].adj.back().dest == len + 2)
+                    graph.nodes[d].adj.pop_back();
+            }
         }
 
 
