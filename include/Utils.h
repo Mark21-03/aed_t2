@@ -16,7 +16,7 @@ using namespace std;
  * @param l2 second location
  * @return distance between first and second location
  */
-static double distanceCalc(Location l1, Location l2) {
+static inline double distanceCalc(Location l1, Location l2) {
 
     static const double radians =  M_PI / 180.0;
     double lat1 = l1.latitude, lon1 = l1.longitude;

@@ -21,12 +21,13 @@ public:
     GraphInverseBuilder &addWalkingEdges(int radius);
 
 
-    vector<int> nodesInReach(int i, int radius) {
+    inline vector<int> nodesInReach(int i, int radius) {
 
         vector<int> v;
+        auto l = graph.nodeLocation[graph.getNode(i).stop.first];
         for (int d = onlyStopsFirstIndex; d <= len; d++) {
             if ((int) distanceCalc(graph.nodeLocation[graph.getNode(d).stop.first],
-                                   graph.nodeLocation[graph.getNode(i).stop.first]) <= radius) {
+                                   l) <= radius) {
                 v.push_back(d);
             }
 
@@ -70,7 +71,10 @@ public:
         it = graph.nodeLocation.insert(pair<string, Location>(endStop, end));
         if (!it.second) {
             it.first->second = end;
-            graph.nodes[len+2].adj = list<InverseGraph::Edge>();
+            for (int d = onlyStopsFirstIndex; d <= len; d++) {
+                if (!graph.nodes[d].adj.empty() && graph.nodes[d].adj.back().dest == len + 2)
+                    graph.nodes[d].adj.pop_back();
+            }
         }
 
 
