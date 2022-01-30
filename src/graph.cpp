@@ -35,6 +35,12 @@ void Graph::addGeoStartEndNode(Location start, Location end, int radius) {
     addNode(2488, stop);
     addNode(2489, stop);
 
+    nodes[2488].adj = list<Graph::Edge>();
+    for (auto& n: nodes) {
+        if (!n.adj.empty() && n.adj.back().dest == 2489)
+            n.adj.pop_back();
+    }
+
     vector<int> nodesStart = nodesInReach(start, radius);
     vector<int> nodesEnd = nodesInReach(end, radius);
 
